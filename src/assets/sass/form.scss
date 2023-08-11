@@ -1,0 +1,87 @@
+.form-fadder {
+    height: 100vh;
+    display: flex;
+
+    .form-container {
+        width: 80%;
+        padding: 30px;
+        border-radius: 12px;
+        margin: auto;
+        display: grid;
+        grid-template-columns: 30% 70%;
+
+        header {
+            color: white;
+            background-color: var(--accent);
+            padding: 30px;
+            border-radius: 15px 0 0 15px;
+
+            h1 {
+                font-family: var(--font-poppins);
+                line-height: normal;
+            }
+        }
+
+        .form-wrapper {
+            display: flex;
+            gap: 30px;
+            background-color: white;
+            padding: 30px;
+            border-radius: 0 15px 15px 0;
+
+            .form-file {
+                label {
+                    fill: var(--accent);
+                    color: var(--accent);
+                    cursor: pointer;
+                    transition: .2s opacity;
+                }
+                label:hover {
+                    opacity: .8;
+                }
+                input[type=file] {
+                    display: none;
+                }
+            }
+
+            .form-control {
+                display: flex;
+                flex-direction: column;
+                gap: 18px;
+                width: 100%;
+
+                .form-item {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 6px;
+
+                    label {
+                        font-size: 14px;
+                        display: block;
+                    }
+                    input {
+                        background-color: #55818121;
+                        color: var(--accent);
+                    }
+                    input, button {
+                        border: none;
+                        border-radius: 6px;
+                        font-size: 16px;
+                        padding: 15px;
+                    }
+                    button {
+                        background-color: var(--primary);
+                        padding: 20px;
+                        font-family: var(--font-montserrat);
+                        font-weight: bold;
+                        color: white;
+                        transition: .2s background-color;
+                    }
+                    button:hover {
+                        background-color: var(--accent);
+                    }
+                }
+            }
+        }
+    }
+}

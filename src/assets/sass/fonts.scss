@@ -1,0 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Noto+Sans:wght@400;600;700&family=Poppins:wght@400;600;700&display=swap');
+
+:root {
+    --font-noto-sans: 'Noto Sans', sans-serif;
+    --font-montserrat: 'Montserrat', sans-serif;
+    --font-poppins: 'Poppins', sans-serif;
+}
+
+.font-noto-sans { font-family: var(--font-noto-sans); }
+.font-montserrat { font-family: var(--font-montserrat); }
+.font-poppins { font-family: var(--font-poppins); }
