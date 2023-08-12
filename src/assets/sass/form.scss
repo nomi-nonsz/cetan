@@ -3,7 +3,6 @@
     display: flex;
 
     .form-container {
-        width: 1080px;
         padding: 30px;
         border-radius: 12px;
         margin: auto;
@@ -109,6 +108,18 @@
                     }
                 }
             }
+        }
+
+        &__w-auto {
+            width: 1080px;
+
+            &-smol { width: 800px; }
+        }
+        &__h-auto {
+            height: 580px;
+        }
+        &__grid-slice-dope {
+            grid-template-columns: 40% 60%;
         }
     }
 }
