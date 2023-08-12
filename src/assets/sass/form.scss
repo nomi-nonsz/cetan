@@ -3,7 +3,7 @@
     display: flex;
 
     .form-container {
-        width: 80%;
+        width: 1080px;
         padding: 30px;
         border-radius: 12px;
         margin: auto;
@@ -15,73 +15,135 @@
             background-color: var(--accent);
             padding: 30px;
             border-radius: 15px 0 0 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            position: relative;
 
             h1 {
                 font-family: var(--font-poppins);
                 line-height: normal;
             }
+
+            .form-auths {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
         }
 
         .form-wrapper {
-            display: flex;
-            gap: 30px;
             background-color: white;
-            padding: 30px;
+            padding: 40px;
             border-radius: 0 15px 15px 0;
-
-            .form-file {
-                label {
-                    fill: var(--accent);
-                    color: var(--accent);
-                    cursor: pointer;
-                    transition: .2s opacity;
-                }
-                label:hover {
-                    opacity: .8;
-                }
-                input[type=file] {
-                    display: none;
-                }
-            }
-
-            .form-control {
+            
+            form {
                 display: flex;
-                flex-direction: column;
-                gap: 18px;
-                width: 100%;
+                gap: 30px;
+                margin: 0 auto;
 
-                .form-item {
+                .form-file {
+                    label {
+                        fill: var(--accent);
+                        color: var(--accent);
+                        cursor: pointer;
+                        transition: .2s opacity;
+    
+                        &:hover {
+                            opacity: .8;
+                        }
+                    }
+                    input[type=file] {
+                        display: none;
+                    }
+                }
+    
+                .form-control {
                     display: flex;
                     flex-direction: column;
-                    gap: 6px;
+                    gap: 18px;
+                    width: 100%;
+    
+                    .form-item {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 8px;
+    
+                        label {
+                            font-size: 14px;
+                            display: block;
+                        }
+                        input {
+                            background-color: #55818121;
+                            font-family: var(--font-noto-sans);
+    
+                            &::placeholder {
+                                font-size: 14px;
+                            }
+                        }
+                        input, button {
+                            border: none;
+                            border-radius: 6px;
+                            font-size: 16px;
+                            padding: 15px;
+                        }
+                        button {
+                            background-color: var(--primary);
+                            padding: 20px;
+                            font-family: var(--font-montserrat);
+                            font-weight: bold;
+                            color: white;
+                            transition: .2s background-color;
+    
+                            &:hover {
+                                background-color: var(--accent);
+                            }
+                        }
 
-                    label {
-                        font-size: 14px;
-                        display: block;
-                    }
-                    input {
-                        background-color: #55818121;
-                        color: var(--accent);
-                    }
-                    input, button {
-                        border: none;
-                        border-radius: 6px;
-                        font-size: 16px;
-                        padding: 15px;
-                    }
-                    button {
-                        background-color: var(--primary);
-                        padding: 20px;
-                        font-family: var(--font-montserrat);
-                        font-weight: bold;
-                        color: white;
-                        transition: .2s background-color;
-                    }
-                    button:hover {
-                        background-color: var(--accent);
+                        &[aria-required] {
+                            label::after {
+                                content: " *";
+                                color: red;
+                            }
+                        }
                     }
                 }
             }
         }
+    }
+}
+
+.btn-auth-another {
+    background-color: white;
+    border-radius: 6px;
+    padding: 12px;
+    border: none;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--accent);
+    font-weight: bold;
+    transition: .2s;
+
+    svg, img {
+        width: 23px;
+        height: auto;
+    }
+
+    &:hover {
+        background-color: #ffffffe3;
+    }
+}
+
+.static__svg-flies {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+
+    svg {
+        position: absolute;
+        bottom: 20px;
+        left: 0;
     }
 }
