@@ -35,6 +35,7 @@
             background-color: white;
             padding: 40px;
             border-radius: 0 15px 15px 0;
+            background-color: var(--secondary);
             
             form {
                 display: flex;
@@ -43,8 +44,8 @@
 
                 .form-file {
                     label {
-                        fill: var(--accent);
-                        color: var(--accent);
+                        fill: var(--primary);
+                        color: var(--primary);
                         cursor: pointer;
                         transition: .2s opacity;
     
@@ -73,20 +74,22 @@
                             display: block;
                         }
                         input {
-                            background-color: #55818121;
+                            background-color: var(--secondary-darken);
                             font-family: var(--font-noto-sans);
+                            border: 1px solid var(--primary-doomer);
+                            color: white;
     
                             &::placeholder {
                                 font-size: 14px;
                             }
                         }
                         input, button {
-                            border: none;
                             border-radius: 6px;
                             font-size: 16px;
                             padding: 15px;
                         }
                         button {
+                            border: none;
                             background-color: var(--primary);
                             padding: 20px;
                             font-family: var(--font-montserrat);

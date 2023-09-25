@@ -1,6 +1,6 @@
 import React from "react";
 import { ReactComponent as Logout } from "../svg/exit.svg"
-import SamplePf from "../img/facebook.png";
+import SamplePf from "../img/person.png";
 
 function TopBar () {
     return (

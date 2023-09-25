@@ -1,5 +1,5 @@
 import React from "react";
-import SamplePf from "../img/facebook.png";
+import SamplePf from "../img/person.png";
 import UserItem from "./UserItem";
 
 function UserList ({ data }) {

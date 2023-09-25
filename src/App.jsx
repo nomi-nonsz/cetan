@@ -7,8 +7,8 @@ import "./assets/sass/main.scss";
 function App() {
   return (
     <>
-      {/* <RegisterPage /> */}
-      {/* <LoginPage /> */}
+      <RegisterPage />
+      <LoginPage />
       <Chats />
     </>
   )

@@ -6,8 +6,7 @@
 
     .side-chats {
         flex: 1;
-        background-color: white;
-        border-right: 1px solid white;
+        background-color: var(--secondary);
         
         .top-bar {
             display: flex;
@@ -42,16 +41,18 @@
         }
 
         .searchbar, .user-list {
-            padding: 14px;
+            padding: 0 14px;
         }
 
         .searchbar {
+            margin: 20px 0;
             input {
                 padding: 12px 15px;
                 width: 100%;
-                background-color: #f0f0f0;
+                background-color: var(--secondary-darken);
                 border: none;
-                border-radius: 99px;
+                border-radius: 12px;
+                color: white;
             }
         }
         .user-list {
@@ -77,20 +78,89 @@
                     }
                 }
                 &:hover {
-                    background-color: rgba(0, 0, 0, 0.05);
+                    background-color: var(--secondary-darken);
                 }
             }
         }
     }
     .main-chat {
         flex: 3;
-        background-color: white;
+        background-color: var(--secondary-darken);
+        display: flex;
+        flex-direction: column;
 
         .top-chat {
             background-color: var(--accent);
             display: flex;
             color: white;
             padding: 10px;
+        }
+        
+        .chats-body {
+            flex-grow: 1;
+            overflow-y: scroll;
+
+            .chat {
+                margin: 10px;
+                display: flex;
+                gap: 12px;
+                align-items: flex-start;
+                justify-content: flex-end;
+        
+                &-receiver {
+                    flex-direction: row-reverse;
+                }
+
+                .msgbox {
+                    background-color: var(--secondary);
+                    padding: 18px;
+                    border-radius: 8px;
+                    max-width: 80%;
+                    .username {
+                        font-weight: bold;
+                        color: var(--primary);
+                        margin-bottom: 6px;
+                    }
+                    .msg {
+                        font-size: small;
+                    }
+                }
+                
+                &-sender {
+                    .msgbox .username {
+                        color: var(--green);
+                    }
+                }
+            }
+        }
+        .msg-input {
+            background-color: var(--secondary);
+            display: flex;
+            padding: 10px;
+            gap: 10px;
+            input {
+                height: 45px;
+                padding: 0 20px;
+                background-color: var(--secondary-darken);
+                border: 1px solid var(--primary-doomer);
+                border-radius: 99px;
+                flex-grow: 1;
+            }
+            button {
+                height: 45px;
+                width: 45px;
+                background-color: var(--primary);
+                border: none;
+                border-radius: 99px;
+                position: relative;
+                svg {
+                    fill: var(--text);
+                    position: absolute;
+                    left: 50%;
+                    top: 52%;
+                    transform: translate(-50%, -50%);
+                }
+            }
         }
     }
 }

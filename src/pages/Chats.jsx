@@ -3,6 +3,8 @@ import TopBar from "../assets/components/TopBar";
 import SearchBar from "../assets/components/SearchBar";
 import UserList from "../assets/components/UserList";
 import TopChat from "../assets/components/TopChat";
+import ChatsBody from "../assets/components/ChatsBody";
+import MsgInput from "../assets/components/MsgInput";
 
 function Chats () {
     return (
@@ -13,6 +15,8 @@ function Chats () {
                 <UserList />
             </div>
             <div className="main-chat">
+                <ChatsBody />
+                <MsgInput />
             </div>
         </div>
     )
