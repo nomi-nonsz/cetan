@@ -1,0 +1,96 @@
+.chats {
+    display: flex;
+    margin: 0 auto;
+    width: 1280px;
+    height: 100vh;
+
+    .side-chats {
+        flex: 1;
+        background-color: white;
+        border-right: 1px solid white;
+        
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            background-color: var(--accent);
+            padding: 10px;
+
+            .user {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+
+                img {
+                    width: 40px;
+                    height: 40px;
+                    object-fit: cover;
+                    background-color: var(--backgound);
+                    border-radius: 999px;
+                }
+            }
+            button {
+                background: none;
+                border: none;
+                svg {
+                    fill: white;
+                    width: 1.3em;
+                    height: auto;
+                }
+            }
+        }
+
+        .searchbar, .user-list {
+            padding: 14px;
+        }
+
+        .searchbar {
+            input {
+                padding: 12px 15px;
+                width: 100%;
+                background-color: #f0f0f0;
+                border: none;
+                border-radius: 99px;
+            }
+        }
+        .user-list {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+
+            .user-item {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                padding: 10px;
+                border-radius: 12px;
+                cursor: pointer;
+                img {
+                    width: 40px;
+                    height: 40px;
+                    object-fit: cover;
+                }
+                .text {
+                    .chat {
+                        font-size: small;
+                    }
+                }
+                &:hover {
+                    background-color: rgba(0, 0, 0, 0.05);
+                }
+            }
+        }
+    }
+    .main-chat {
+        flex: 3;
+        background-color: white;
+
+        .top-chat {
+            background-color: var(--accent);
+            display: flex;
+            color: white;
+            padding: 10px;
+        }
+    }
+}
