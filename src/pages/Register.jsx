@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import {
     ref,
@@ -13,9 +14,12 @@ import { ReactComponent as ImageIcon } from "../assets/svg/image.svg";
 import { ReactComponent as GoogleIcon } from "../assets/svg/google.svg";
 import { ReactComponent as Flies } from "../assets/svg/flies.svg";
 import FacebookIcon from "../assets/img/facebook.png";
+import Submit from "../assets/components/button/Submit";
 
 function RegisterPage() {
+    const navigate = useNavigate();
     const [errormsg, setError] = useState("");
+    const [btnState, setBtnState] = useState("idle");
 
     const username = useRef(null);
     const email = useRef(null);
@@ -40,15 +44,16 @@ function RegisterPage() {
             return;
         }
 
+        setBtnState("loading");
 
-        // Nested? i don't care
+        // Nested? well i don't care
         createUserWithEmailAndPassword(auth, emailval, passwordval)
-            .then((userCredential) => {
+            .then(async (userCredential) => {
                 // Signed in
                 const { user } = userCredential;
                 if (user) {
-                    const storageRef = ref(storage, `images/${user.uid}.jpg`);
-                    const uploadTask = uploadBytesResumable(storageRef, fileimg);
+                    const storageRef = ref(storage, `images/user-${user.uid}.jpg`);
+                    const uploadTask = await uploadBytesResumable(storageRef, fileimg);
 
                     uploadTask.on(
                         (error) => {
@@ -58,17 +63,27 @@ function RegisterPage() {
                         () => {
                             getDownloadURL(uploadTask.snapshot.ref).then(
                                 async (downloadURL) => {
-                                    await updateProfile(user, {
-                                        displayName: usernameval,
-                                        photoURL: downloadURL
-                                    })
-                                    await setDoc(doc(db, "users", user.uid), {
-                                        uid: user.uid,
-                                        username: user.displayName,
-                                        email: user.email,
-                                        photoURL: downloadURL
-                                    })
-                                    await setDoc(doc(db, "userChats", user.uid), {});
+                                    setBtnState("loading")
+                                    try {
+                                        await updateProfile(user, {
+                                            displayName: usernameval,
+                                            photoURL: downloadURL
+                                        })
+                                        await setDoc(doc(db, "users", user.uid), {
+                                            uid: user.uid,
+                                            username: user.displayName,
+                                            email: user.email,
+                                            photoURL: downloadURL
+                                        })
+                                        await setDoc(doc(db, "userChats", user.uid), {});
+
+                                        setBtnState("idle");
+                                        navigate("/login?successCreatingAccount");
+                                    }
+                                    catch (error) {
+                                        console.error(error);
+                                        setError("Something went wrong");
+                                    }
                                 }
                             );
                         }
@@ -87,6 +102,9 @@ function RegisterPage() {
                     default:
                         setError(errorMessage);
                 }
+            })
+            .finally(() => {
+                setBtnState("idle");
             });
     };
 
@@ -147,9 +165,9 @@ function RegisterPage() {
                             </div>
                             <div className="form-error">{errormsg}</div>
                             <div className="form-item" aria-required>
-                                <button type="submit" onClick={handleSubmit}>
+                                <Submit onClick={handleSubmit} state={btnState}>
                                     Create Account
-                                </button>
+                                </Submit>
                             </div>
                         </div>
                     </form>

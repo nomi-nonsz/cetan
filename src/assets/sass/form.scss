@@ -88,19 +88,6 @@
                             font-size: 16px;
                             padding: 15px;
                         }
-                        button {
-                            border: none;
-                            background-color: var(--primary);
-                            padding: 20px;
-                            font-family: var(--font-montserrat);
-                            font-weight: bold;
-                            color: white;
-                            transition: .2s background-color;
-    
-                            &:hover {
-                                background-color: var(--accent);
-                            }
-                        }
 
                         &[aria-required] {
                             label::after {
@@ -127,6 +114,26 @@
         &__grid-slice-dope {
             grid-template-columns: 40% 60%;
         }
+    }
+}
+
+.btn-submit {
+    border-radius: 6px;
+    padding: 20px !important;
+    border: none;
+    background-color: var(--primary);
+    padding: 20px;
+    font-family: var(--font-montserrat);
+    font-weight: bold;
+    color: white;
+    height: 80px;
+    transition: .2s background-color;
+
+    &:hover {
+        background-color: var(--accent);
+    }
+    &[disabled] {
+        background-color: var(--primary-doomer);
     }
 }
 
