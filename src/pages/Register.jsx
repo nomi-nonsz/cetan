@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
     createUserWithEmailAndPassword,
     signOut,
@@ -178,6 +178,9 @@ function RegisterPage() {
                                 <Submit onClick={handleSubmit} state={btnState}>
                                     Create Account
                                 </Submit>
+                            </div>
+                            <div className="form-footer">
+                                already have an account? <Link to="/login">Login</Link>
                             </div>
                         </div>
                     </form>

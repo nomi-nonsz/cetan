@@ -26,7 +26,7 @@ function App() {
     <AuthContextProvider onWake={setUser}>
       <Router>
         <Routes>
-          <Route path='/signin' element={ <RegisterPage /> } />
+          <Route path='/signup' element={ <RegisterPage /> } />
           <Route path='/login' element={ <LoginPage /> } />
           <Route path='/chats' element={
             <ProtectedRoute>
