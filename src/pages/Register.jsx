@@ -15,6 +15,7 @@ import { ReactComponent as GoogleIcon } from "../assets/svg/google.svg";
 import { ReactComponent as Flies } from "../assets/svg/flies.svg";
 import FacebookIcon from "../assets/img/facebook.png";
 import Submit from "../assets/components/button/Submit";
+import { async } from "@firebase/util";
 
 function RegisterPage() {
     const navigate = useNavigate();
@@ -48,47 +49,51 @@ function RegisterPage() {
 
         // Nested? well i don't care
         createUserWithEmailAndPassword(auth, emailval, passwordval)
-            .then(async (userCredential) => {
-                // Signed in
-                const { user } = userCredential;
-                if (user) {
-                    const storageRef = ref(storage, `images/user-${user.uid}.jpg`);
-                    const uploadTask = await uploadBytesResumable(storageRef, fileimg);
-
-                    uploadTask.on(
-                        (error) => {
-                            console.error(error);
-                            setError("Something went wrong when uploading image");
-                        },
-                        () => {
-                            getDownloadURL(uploadTask.snapshot.ref).then(
-                                async (downloadURL) => {
-                                    setBtnState("loading")
-                                    try {
-                                        await updateProfile(user, {
-                                            displayName: usernameval,
-                                            photoURL: downloadURL
-                                        })
-                                        await setDoc(doc(db, "users", user.uid), {
-                                            uid: user.uid,
-                                            username: user.displayName,
-                                            email: user.email,
-                                            photoURL: downloadURL
-                                        })
-                                        await setDoc(doc(db, "userChats", user.uid), {});
-
-                                        setBtnState("idle");
-                                        navigate("/login?creatingAccount=success");
+            .then((userCredential) => {
+                return new Promise((resolve, reject) => {
+                    // Signed in
+                    const { user } = userCredential;
+                    if (user) {
+                        const storageRef = ref(storage, `profiles/user-${user.uid}.jpg`);
+                        const uploadTask = uploadBytesResumable(storageRef, fileimg);
+    
+                        uploadTask.on(
+                            (error) => {
+                                setError("Something went wrong when uploading image");
+                                reject(error);
+                            },
+                            () => {
+                                getDownloadURL(uploadTask.snapshot.ref).then(
+                                    async (downloadURL) => {
+                                        try {
+                                            await updateProfile(user, {
+                                                displayName: usernameval,
+                                                photoURL: downloadURL
+                                            })
+                                            await setDoc(doc(db, "users", user.uid), {
+                                                uid: user.uid,
+                                                username: user.displayName,
+                                                email: user.email,
+                                                photoURL: downloadURL
+                                            })
+                                            await setDoc(doc(db, "userChats", user.uid), {});
+    
+                                            setBtnState("idle");
+                                            resolve(navigate("/login?creatingAccount=success"));
+                                        }
+                                        catch (error) {
+                                            setError("Something went wrong");
+                                            reject(error);
+                                        }
                                     }
-                                    catch (error) {
-                                        console.error(error);
-                                        setError("Something went wrong");
-                                    }
-                                }
-                            );
-                        }
-                    );
-                }
+                                );
+                            }
+                        );
+                    }
+                    else {
+                        reject(new Error("User is not found"));
+                    }
+                })
             })
             .catch((error) => {
                 const errorCode = error.code;

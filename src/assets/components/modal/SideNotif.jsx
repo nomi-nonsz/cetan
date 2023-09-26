@@ -1,20 +1,21 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 function SideNotif ({ lifetime, children }) {
-    const thatleft = useRef(null);
+    const [thatleft, setLeft] = useState({ left: "-50%" });
 
     useEffect(() => {
-        thatleft.current.style = { left: "20px" };
-
-        setTimeout(() => {
-            thatleft.current.style = { left: "-50%" };
-            console.log(thatleft.current.style.left);
-        }, 2000);
+        return () => {
+            setLeft({ left: "20px" });
+    
+            setTimeout(() => {
+                setLeft({ left: "-50%" });
+            }, 6000);
+        }
     }, []);
     
     return (
-        <div className="modal-side-notif" style={{ left: "-50%" }} ref={thatleft}>
-            <h2>Information</h2>
+        <div className="modal-side-notif" style={thatleft}>
+            <h3>Information</h3>
             <div className="msg">{ children }</div>
         </div>
     );

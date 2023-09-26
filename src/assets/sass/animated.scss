@@ -6,6 +6,7 @@
 .loading-component {
     svg {
         width: 1.8em;
-        animation: 1s loading-anim infinite linear;
+        height: 1.8em;
+        animation: .5s loading-anim infinite ease-in-out;
     }
 }
