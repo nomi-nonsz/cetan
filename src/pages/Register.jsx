@@ -1,6 +1,10 @@
 import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import {
+    createUserWithEmailAndPassword,
+    signOut,
+    updateProfile
+} from "firebase/auth";
 import {
     ref,
     uploadBytesResumable,
@@ -15,7 +19,6 @@ import { ReactComponent as GoogleIcon } from "../assets/svg/google.svg";
 import { ReactComponent as Flies } from "../assets/svg/flies.svg";
 import FacebookIcon from "../assets/img/facebook.png";
 import Submit from "../assets/components/button/Submit";
-import { async } from "@firebase/util";
 
 function RegisterPage() {
     const navigate = useNavigate();
@@ -79,6 +82,8 @@ function RegisterPage() {
                                             await setDoc(doc(db, "userChats", user.uid), {});
     
                                             setBtnState("idle");
+                                            signOut(auth);
+
                                             resolve(navigate("/login?creatingAccount=success"));
                                         }
                                         catch (error) {

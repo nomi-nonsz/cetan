@@ -1,8 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useLocation } from "react-router-dom";
 
 import AuthWith from "../assets/components/AuthWith";
-import { ReactComponent as ImageIcon } from "../assets/svg/image.svg";
 import { ReactComponent as GoogleIcon } from "../assets/svg/google.svg";
 import { ReactComponent as Flies } from "../assets/svg/flies.svg";
 import FacebookIcon from "../assets/img/facebook.png";
