@@ -1,16 +1,28 @@
 import React from "react";
+import { useLocation } from "react-router-dom";
+
 import AuthWith from "../assets/components/AuthWith";
 import { ReactComponent as ImageIcon } from "../assets/svg/image.svg";
 import { ReactComponent as GoogleIcon } from "../assets/svg/google.svg";
 import { ReactComponent as Flies } from "../assets/svg/flies.svg";
 import FacebookIcon from "../assets/img/facebook.png";
+import SideNotif from "../assets/components/modal/SideNotif";
 
 function LoginPage () {
+    const location = useLocation().search;
+    const search = new URLSearchParams(location);
+    const registerSuccess = search.get("creatingAccount");
+
     const handleSubmit = (e) => {
         e.preventDefault();
     }
 
-    return (
+    return (<>
+        {registerSuccess && (
+            <SideNotif >
+                Successful creating a new account, now login
+            </SideNotif>
+        )}
         <div className="form-fadder">
             <div className="form-container form-container__h-auto form-container__w-auto-smol form-container__grid-slice-dope">
                 <header>
@@ -43,7 +55,7 @@ function LoginPage () {
                 </div>
             </div>
         </div>
-    )
+    </>)
 }
 
 export default LoginPage;

@@ -1,0 +1,15 @@
+.modal-side-notif {
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    background-color: var(--secondary);
+    padding: 20px;
+    border: 1px solid var(--primary-doomer);
+    border-radius: 8px;
+    transition: .5s left;
+
+    h2 {
+        color: var(--primary);
+        margin-bottom: 8px;
+    }
+}

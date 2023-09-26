@@ -78,7 +78,7 @@ function RegisterPage() {
                                         await setDoc(doc(db, "userChats", user.uid), {});
 
                                         setBtnState("idle");
-                                        navigate("/login?successCreatingAccount");
+                                        navigate("/login?creatingAccount=success");
                                     }
                                     catch (error) {
                                         console.error(error);
