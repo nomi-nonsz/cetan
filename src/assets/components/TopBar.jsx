@@ -5,7 +5,7 @@ import { signOut } from "@firebase/auth";
 import { auth } from "../../firebase/firebase";
 import { useNavigate } from "react-router";
 
-function TopBar () {
+function TopBar ({ img, username }) {
     const navigate = useNavigate();
 
     const logout = () => {
@@ -16,8 +16,8 @@ function TopBar () {
     return (
         <div className="top-bar">
             <div className="user">
-                <img src={SamplePf} alt="a user" />
-                <div className="username">Andreq</div>
+                <img src={img} alt="a user" />
+                <div className="username">{username}</div>
             </div>
             <button className="btn-logout" onClick={logout}>
                 <Logout />

@@ -14,13 +14,6 @@ import "./assets/sass/main.scss";
 
 function App() {
   const [user, setUser] = useState({});
-
-  function ProtectedRoute ({ children }) {
-    if (!user) {
-      return <Navigate to="/login" />
-    }
-    return children;
-  }
   
   return (
     <AuthContextProvider onWake={setUser}>
@@ -29,9 +22,7 @@ function App() {
           <Route path='/signup' element={ <RegisterPage /> } />
           <Route path='/login' element={ <LoginPage /> } />
           <Route path='/chats' element={
-            <ProtectedRoute>
               <Chats />
-            </ProtectedRoute>
           } />
         </Routes>
       </Router>

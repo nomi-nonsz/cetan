@@ -82,6 +82,10 @@
                 }
             }
         }
+        .no-user {
+            margin-top: 120px;
+            text-align: center;
+        }
     }
     .main-chat {
         flex: 3;
@@ -160,6 +164,19 @@
                     top: 52%;
                     transform: translate(-50%, -50%);
                 }
+            }
+        }
+
+        .no-user {
+            margin: auto;
+            text-align: center;
+            button {
+                margin-top: 14px;
+                color: white;
+                border: none;
+                border-radius: 8px;
+                background-color: var(--primary);
+                padding: 12px 30px;
             }
         }
     }
