@@ -69,6 +69,7 @@
     .main-chat {
         flex: 3;
         background-color: var(--secondary-darken);
+        border: 1px solid var(--primary-doomer);
         display: flex;
         flex-direction: column;
 
@@ -161,24 +162,57 @@
     }
 }
 
-.user-item {
+button.user-item {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 10px;
     padding: 10px;
     border-radius: 12px;
-    cursor: pointer;
-    img {
-        width: 40px;
-        height: 40px;
-        object-fit: cover;
-        border-radius: 99px;
-    }
-    .text {
-        .chat {
-            font-size: small;
+    background-color: transparent;
+    border: none;
+    color: white;
+    text-align: left;
+    font-family: var(--font-noto-sans);
+    width: 100%;
+    
+    .info {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        img {
+            width: 40px;
+            height: 40px;
+            object-fit: cover;
+            border-radius: 99px;
+        }
+        .text {
+            .username {
+                font-weight: bold;
+            }
+            .chat {
+                font-size: small;
+            }
         }
     }
+    .btn {
+        .btn-add {
+            border: none;
+            background-color: var(--primary);
+            padding: 8px;
+            border-radius: 6px;
+            transition: .2s;
+            svg {
+                fill: white;
+                width: 1.8em;
+                height: auto;
+            }
+            &:hover {
+                background-color: var(--primary-darken);
+            }
+        }
+    }
+    cursor: pointer;
     &:hover {
         background-color: var(--secondary-darken);
     }

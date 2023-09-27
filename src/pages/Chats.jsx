@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, onSnapshot, query, where } from "firebase/firestore";
 import { db } from "../firebase/firebase";
 
 import { AuthContext } from "../contexts/AuthContext";
@@ -17,45 +17,81 @@ import SideAdd from "../assets/components/button/SideAdd";
 function Chats() {
     const navigate = useNavigate();
     const { currentUser } = useContext(AuthContext);
+
+    const [contacts, setContacts] = useState([]);
     const [users, setUsers] = useState([]);
 
     const [countdown, setCount] = useState(10);
 
     const [showAdd, setShowAdd] = useState(false);
 
+    const getContacts = () => {
+        const docRef = doc(db, "userChats", currentUser.uid);
+        return onSnapshot(docRef, (ds) => {
+            const data = ds.data();
+            const objted = Object.values(data);
+
+            const convertedDate = objted
+                .map(contact => {
+                    contact.date = contact.date.toDate()
+                    return contact;
+                })
+                .sort((a, b) => {
+                    return b.date - a.date;
+                })
+
+            setContacts(convertedDate);
+        })
+    }
+
+    const getAllUsers = () => {
+        const result = query(
+            collection(db, "users"),
+            where("username", "!=", currentUser.displayName)
+        );
+    
+        return getDocs(result).then((qs) => {
+            const usrs = [];
+            qs.forEach(doc => {
+                const data = doc.data()
+                if (!contacts.some(c => c.uid === data.uid)) {
+                    usrs.push(data)
+                }
+            });
+            setUsers(usrs);
+            console.log(usrs);
+        });
+    }
+
+    
     useEffect(() => {
         if (currentUser.uid) {
-            const result = query(
-                collection(db, "users"),
-                where("username", "!=", currentUser.displayName)
-            );
-        
-            getDocs(result).then((qs) => {
-                const usrs = [];
-                qs.forEach((doc) => {
-                    usrs.push(doc.data());
-                });
-                setUsers(usrs);
-                console.log(usrs);
-            });
+            const unsub = getContacts();
+            return () => {
+                unsub();
+            }
         }
-    }, [currentUser])
+    }, [currentUser.uid]);
+    
+    useEffect(() => {
+        currentUser.uid && getAllUsers()
+    }, [currentUser.uid, contacts]);
 
     useEffect(() => {
-        if (currentUser) return;
-
-        const down = setInterval(() => {
-            if (countdown < 1) {
-                navigate("/login");
-                return;
-            }
-            setCount(countdown - 1);
-        }, 1000);
-
-        return () => {
-            clearInterval(down);
-        };
-    }, [countdown]);
+        if (!currentUser) {
+            const down = setInterval(() => {
+                if (countdown < 1) {
+                    navigate("/login");
+                    return;
+                }
+                setCount(countdown - 1);
+            }, 1000);
+    
+            return () => {
+                clearInterval(down);
+            };
+        }
+    }, [currentUser, countdown]);
 
     return (
         <>
@@ -71,16 +107,16 @@ function Chats() {
                                 username={currentUser.displayName}
                             />
                             <SearchBar />
-                            <UserList />
+                            <UserList contacts={contacts}/>
+                            <SideAdd
+                                onClick={() => {
+                                    setShowAdd(true);
+                                }}
+                            />
                         </>
                     ) : (
                         <div className="no-user">No Signed yet</div>
                     )}
-                    <SideAdd
-                        onClick={() => {
-                            setShowAdd(true);
-                        }}
-                    />
                 </div>
                 <div className="main-chat">
                     {currentUser ? (

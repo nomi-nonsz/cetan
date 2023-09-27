@@ -1,13 +1,21 @@
 import React from "react";
-import SamplePf from "../img/person.png";
 import UserItem from "./UserItem";
 
-function UserList ({ data }) {
+function UserList ({ contacts }) {
     return (
         <div className="user-list">
-            <UserItem img={SamplePf} username="Drea" chat="Aight bet" />
-            <UserItem img={SamplePf} username="Fina" chat="Hello" />
-            <UserItem img={SamplePf} username="Rawr" chat="Dang" />
+            {contacts && contacts.length > 0 ? contacts.map(({ photoURL, username }, key) => (
+                <UserItem
+                    img={photoURL}
+                    username={username}
+                    chat={"example"}
+                    key={key}
+                />
+            )) : (
+                <div className="no-user">
+                    You didn't have any contact yet<br />
+                </div>
+            )}
         </div>
     )
 }
