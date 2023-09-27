@@ -1,3 +1,13 @@
+.cover-bg {
+    position: absolute;
+    left: 0;
+    right: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 10;
+}
+
 .modal-side-notif {
     position: absolute;
     left: 20px;
@@ -6,10 +16,51 @@
     padding: 20px;
     border: 1px solid var(--primary-doomer);
     border-radius: 8px;
-    transition: .5s left;
+    transition: 0.5s left;
 
     h3 {
         color: var(--primary);
         margin-bottom: 8px;
+    }
+}
+
+.modal-add-contact {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    padding: 20px;
+    background-color: var(--secondary);
+    width: 420px;
+    height: fit-content;
+    border-radius: 12px;
+
+    h2 { margin-bottom: 18px; }
+
+    .search-bar {
+        margin-bottom: 20px;
+        input {
+            background-color: var(--secondary-darken);
+            border: 1px solid var(--primary-doomer);
+            padding: 16px;
+            width: 100%;
+            border-radius: 8px;
+            color: white;
+        }
+    }
+    .result-field {
+        height: 220px;
+        overflow-y: scroll;
+    }
+}
+
+.btn-close {
+    background: none;
+    border: none;
+    margin-left: auto;
+    display: block;
+
+    svg {
+        width: 2.5em;
+        height: auto;
     }
 }

@@ -7,6 +7,7 @@
     .side-chats {
         flex: 1;
         background-color: var(--secondary);
+        position: relative;
         
         .top-bar {
             display: flex;
@@ -59,28 +60,6 @@
             display: flex;
             flex-direction: column;
             gap: 7px;
-
-            .user-item {
-                display: flex;
-                align-items: center;
-                gap: 10px;
-                padding: 10px;
-                border-radius: 12px;
-                cursor: pointer;
-                img {
-                    width: 40px;
-                    height: 40px;
-                    object-fit: cover;
-                }
-                .text {
-                    .chat {
-                        font-size: small;
-                    }
-                }
-                &:hover {
-                    background-color: var(--secondary-darken);
-                }
-            }
         }
         .no-user {
             margin-top: 120px;
@@ -179,5 +158,28 @@
                 padding: 12px 30px;
             }
         }
+    }
+}
+
+.user-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 12px;
+    cursor: pointer;
+    img {
+        width: 40px;
+        height: 40px;
+        object-fit: cover;
+        border-radius: 99px;
+    }
+    .text {
+        .chat {
+            font-size: small;
+        }
+    }
+    &:hover {
+        background-color: var(--secondary-darken);
     }
 }
