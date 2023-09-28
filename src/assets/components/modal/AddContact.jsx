@@ -13,30 +13,39 @@ function AddContact ({ setVisible, users }) {
 
     const watchSearch = () => {
         const q = queryRef.current.value;
-        const filtered = users.filter(({ username }) => username.includes(q))
+        const filtered = users.filter(({ username }) => username.toLowerCase().includes(q.toLowerCase()))
         
         setFilter(filtered)
     }
 
-    const handleAddContact = async (uid) => {
+    const handleAddContact = async (uid, setState) => {
+        setState("loading")
+
         const docRef = doc(db, "userChats", currentUser.uid);
         const targetUser = doc(db, "users", uid)
 
-        const docp = await getDoc(docRef);
-        const user = await getDoc(targetUser);
-
-        if (!docp.data()[uid]) {
-            await updateDoc(docRef, {
-                [uid]: {
-                    ...user.data(),
-                    date: serverTimestamp(),
-                    lastMessage: ""
-                }
-            });
-                
-            const filteredUs = filterUser.filter((usr) => usr.uid !== uid);
-            setFilter(filteredUs);
+        try {
+            const docp = await getDoc(docRef);
+            const user = await getDoc(targetUser);
+    
+            if (!docp.data()[uid]) {
+                await updateDoc(docRef, {
+                    [uid]: {
+                        ...user.data(),
+                        date: serverTimestamp(),
+                        lastMessage: ""
+                    }
+                });
+                    
+                const filteredUs = filterUser.filter((usr) => usr.uid !== uid);
+                setFilter(filteredUs);
+            }
         }
+        catch (error) {
+            console.error(error);
+        }
+
+        setState("idle");
     }
 
     return (

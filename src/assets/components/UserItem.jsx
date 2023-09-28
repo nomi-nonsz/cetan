@@ -1,7 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
+import LoadingAnim from "./LoadingAnim";
 import { ReactComponent as PlusIcon } from "../svg/plus.svg";
 
 function UserItem ({ img, username, chat, onClick, addBtnClick, uid }) {
+    const [addBtnState, setBtnState] = useState(false);
+    
+    const handleAdd = () => {
+        addBtnClick(uid, setBtnState);
+    }
+
     return (
         <button className="user-item" onClick={onClick}>
             <div className="info">
@@ -12,8 +19,12 @@ function UserItem ({ img, username, chat, onClick, addBtnClick, uid }) {
                 </div>
             </div>
             <div className="btn">
-                {addBtnClick && <button className="btn-add" onClick={() => { addBtnClick(uid) }}>
-                    <PlusIcon />
+                {addBtnClick && <button className="btn-add" onClick={handleAdd} disabled={addBtnState ? addBtnState === "loading" : false}>
+                    {addBtnState ? (
+                        addBtnState === "loading" ?
+                        <LoadingAnim /> :
+                        <PlusIcon />
+                    ) : <PlusIcon />}
                 </button>}
             </div>
         </button>

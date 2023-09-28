@@ -210,6 +210,9 @@ button.user-item {
             &:hover {
                 background-color: var(--primary-darken);
             }
+            &[disabled] {
+                background-color: var(--primary-doomer);
+            }
         }
     }
     cursor: pointer;
