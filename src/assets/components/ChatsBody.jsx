@@ -56,6 +56,56 @@ function ChatsBody () {
                 username={"You"}
                 msg={"Shut yo bicth ass bullshit nigga"}
             />
+            <ChatReceiver
+                img={DummyPfp}
+                username={"Frea"}
+                msg={">:("}
+            />
+            <ChatSender
+                img={DummyPfp}
+                username={"You"}
+                msg={"🤨😏"}
+            />
+            <ChatReceiver
+                img={DummyPfp}
+                username={"Frea"}
+                msg={"Fuck you nigga"}
+            />
+            <ChatSender
+                img={DummyPfp}
+                username={"You"}
+                msg={"Yo"}
+            />
+            <ChatSender
+                img={DummyPfp}
+                username={"You"}
+                msg={"Do you have a brother named Joe?"}
+            />
+            <ChatReceiver
+                img={DummyPfp}
+                username={"Frea"}
+                msg={"Who the fuck is Joe?"}
+            />
+            <ChatSender
+                img={DummyPfp}
+                username={"You"}
+                msg={"Joe mama🤣🤣🤣🤣"}
+            />
+            <ChatReceiver
+                img={DummyPfp}
+                username={"Frea"}
+                msg={"What?"}
+            />
+            <ChatReceiver
+                img={DummyPfp}
+                username={"Frea"}
+                msg={"Wait What the fuck?!"}
+            />
+            <ChatReceiver
+                img={DummyPfp}
+                username={"Frea"}
+                msg={"Eyo fuck you bitch you mama is so fat until she can even drive in ohio with yo family even they are have a bodyguard"}
+            />
         </div>
     )
 }
