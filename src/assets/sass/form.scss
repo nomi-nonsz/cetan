@@ -77,10 +77,22 @@
                 .form-file {
                     label {
                         fill: var(--primary);
-                        color: var(--primary);
                         cursor: pointer;
                         transition: .2s opacity;
+                        text-align: center;
     
+                        svg, img { width: 200px; }
+                        svg { height: auto; }
+                        img {
+                            height: 200px;
+                            object-fit: cover;
+                            border-radius: 999px;
+                        }
+
+                        .desc {
+                            margin-top: 16px;
+                        }
+
                         &:hover {
                             opacity: .8;
                         }

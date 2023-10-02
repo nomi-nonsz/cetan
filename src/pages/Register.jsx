@@ -14,11 +14,11 @@ import { doc, setDoc } from "firebase/firestore";
 import { auth, storage, db } from "../firebase/firebase";
 
 import AuthWith from "../assets/components/AuthWith";
-import { ReactComponent as ImageIcon } from "../assets/svg/image.svg";
 import { ReactComponent as GoogleIcon } from "../assets/svg/google.svg";
 import { ReactComponent as Flies } from "../assets/svg/flies.svg";
 import FacebookIcon from "../assets/img/facebook.png";
 import Submit from "../assets/components/button/Submit";
+import FileImage from "../assets/components/form/FileImage";
 
 function RegisterPage() {
     const navigate = useNavigate();
@@ -140,13 +140,9 @@ function RegisterPage() {
                 </header>
                 <div className="form-wrapper">
                     <form>
-                        <div className="form-file">
-                            <label htmlFor="uplod">
-                                <ImageIcon />
-                                <div>Profile image</div>
-                            </label>
-                            <input type="file" ref={file} id="uplod" accept="image/*"  />
-                        </div>
+                        <FileImage
+                            refFile={file}
+                        />
                         <div className="form-control">
                             <div className="form-item" aria-required>
                                 <label htmlFor="name">Your Name</label>
