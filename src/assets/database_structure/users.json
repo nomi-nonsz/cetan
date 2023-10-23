@@ -1,0 +1,8 @@
+{
+    "userid": {
+        "uid": "string",
+        "username": "string",
+        "email": "string",
+        "photoURL": "string"
+    }
+}

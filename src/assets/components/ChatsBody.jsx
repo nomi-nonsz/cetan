@@ -126,21 +126,16 @@ function ChatsBody () {
     const { state } = useContext(ChatContext);
 
     useEffect(() => {
-        const isSelected = state.sender && state.replier;
+        const isSelected = state.sender && state.replier && state.chatId;
 
         if (isSelected) {
             setReplier(state.replier);
             setSender(state.sender);
 
-            const chatRef = doc(db, "chats", state.sender.uid);
+            const chatRef = doc(db, "chats", state.chatId);
             const unSubrek = onSnapshot(chatRef, (data) => {
-                const chats = data.data();
-                const targetChat = chats[state.replier.uid];
-
-                if (targetChat) {
-                    // ChatConsole(targetChat);
-                    setMessages(targetChat);
-                }
+                const chats = data.data().conversation;
+                setMessages(chats);
             })
     
             return () => {
@@ -151,22 +146,32 @@ function ChatsBody () {
 
     return (
         <div className="chats-body">
-            {messages.map(({ message, role }) => {
-                switch (role) {
-                    case "SENDER":
+            {messages.map(({ message, uid }, key) => {
+                const isSelected = state.sender && state.replier && state.chatId;
+
+                if (!isSelected) {
+                    return (
+                        <></>
+                    )
+                }
+
+                switch (uid) {
+                    case state.sender.uid:
                         return (
                             <ChatSender
                                 img={sender.photoURL}
                                 username={"You"}
                                 msg={message}
+                                key={key}
                             />
                         );
-                    case "REPLIER":
+                    case state.replier.uid:
                         return (
                             <ChatReceiver
                                 img={replier.photoURL}
                                 username={replier.username}
                                 msg={message}
+                                key={key}
                             />
                         )
                 }

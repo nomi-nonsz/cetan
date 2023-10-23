@@ -15,7 +15,7 @@ function UserItem ({ img, username, chat, onClick, addBtnClick, uid }) {
     }
 
     return (
-        <button className="user-item" onClick={handleClick}>
+        <button className="user-item" onClick={handleClick || null}>
             <div className="info">
                 <img src={img} alt="" />
                 <div className="text">

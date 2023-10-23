@@ -10,21 +10,22 @@ function UserList ({ contacts }) {
     const chatCtx = useContext(ChatContext);
 
     const handleClickChat = async (e) => {
-        const contactUid = e.uid;
-
         try {
-            const chatRef = doc(db, "chats", currentUser.uid);
-            const chat = await getDoc(chatRef);
+            // const chatRef = doc(db, "chats", currentUser.uid);
+            // const chat = await getDoc(chatRef);
             
-            if (!chat.data()[contactUid]) {
-                await updateDoc(chatRef, {
-                    [contactUid]: []
-                })
-                console.log(`Updated chats from contacts: ${contactUid}`);
-            }
+            // if (!chat.data()[contactUid]) {
+            //     await updateDoc(chatRef, {
+            //         [contactUid]: []
+            //     })
+            //     console.log(`Updated chats from contacts: ${contactUid}`);
+            // }
 
             const replierRef = doc(db, "users", e.uid);
             const replier = await getDoc(replierRef);
+            
+            const chatRef = doc(db, "userChats", currentUser.uid);
+            const userChat = await getDoc(chatRef);
 
             if (!replier.exists())
                 throw new Error("Replier user not found");
@@ -32,8 +33,14 @@ function UserList ({ contacts }) {
             chatCtx.dispatch({
                 type: "CHANGE_USER",
                 payload: {
-                    sender: currentUser,
-                    replier: replier.data()
+                    sender: {
+                        uid: currentUser.uid,
+                        username: currentUser.displayName,
+                        email: currentUser.email,
+                        photoURL: currentUser.photoURL
+                    },
+                    replier: replier.data(),
+                    chatId: userChat.data()[replier.id].chatId
                 }
             });
         }

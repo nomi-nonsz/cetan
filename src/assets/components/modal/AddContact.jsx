@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { arrayUnion, collection, doc, getDoc, query, serverTimestamp, updateDoc, where } from "firebase/firestore";
+import { addDoc, arrayUnion, collection, doc, getDoc, query, serverTimestamp, updateDoc, where } from "firebase/firestore";
 import { AuthContext } from "../../../contexts/AuthContext";
 import { db } from "../../../firebase/firebase";
 
@@ -21,19 +21,26 @@ function AddContact ({ setVisible, users }) {
     const handleAddContact = async (uid, setState) => {
         setState("loading")
 
+        const chatColl = collection(db, "chats");
         const docRef = doc(db, "userChats", currentUser.uid);
         const targetUser = doc(db, "users", uid)
 
         try {
             const docp = await getDoc(docRef);
             const user = await getDoc(targetUser);
-    
+            
             if (!docp.data()[uid]) {
+                const chatRef = await addDoc(chatColl, {
+                    conversation: [],
+                    date: serverTimestamp()
+                });
+
                 await updateDoc(docRef, {
                     [uid]: {
                         ...user.data(),
                         date: serverTimestamp(),
-                        lastMessage: ""
+                        lastMessage: "",
+                        chatId: chatRef.id
                     }
                 });
                     

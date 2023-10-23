@@ -10,7 +10,7 @@ import {
     uploadBytesResumable,
     getDownloadURL
 } from "firebase/storage";
-import { doc, setDoc } from "firebase/firestore";
+import { addDoc, collection, doc, setDoc } from "firebase/firestore";
 import { auth, storage, db } from "../firebase/firebase";
 
 import AuthWith from "../assets/components/AuthWith";
@@ -82,10 +82,6 @@ function RegisterPage() {
                                             await setDoc(doc(db, "userChats", user.uid), {
                                                 contacts: []
                                             });
-                                            await setDoc(doc(db, "chats", user.uid), {
-                                                username: user.displayName,
-                                                email: user.email
-                                            })
     
                                             setBtnState("idle");
                                             signOut(auth);

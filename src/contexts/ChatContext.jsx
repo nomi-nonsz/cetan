@@ -8,7 +8,8 @@ export const ChatContextProvider = ({ children }) => {
 
     const INITIAL_STATE = {
         sender: null,
-        replier: null
+        replier: null,
+        chatId: null
     }
 
     const chatReducer = (state, action) => {
@@ -16,7 +17,8 @@ export const ChatContextProvider = ({ children }) => {
             case "CHANGE_USER":
                 return {
                     sender: currentUser,
-                    replier: action.payload.replier
+                    replier: action.payload.replier,
+                    chatId: action.payload.chatId
                 };
             default:
                 return state;
