@@ -82,6 +82,10 @@ function RegisterPage() {
                                             await setDoc(doc(db, "userChats", user.uid), {
                                                 contacts: []
                                             });
+                                            await setDoc(doc(db, "chats", user.uid), {
+                                                username: user.displayName,
+                                                email: user.email
+                                            })
     
                                             setBtnState("idle");
                                             signOut(auth);

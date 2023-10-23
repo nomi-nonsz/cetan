@@ -16,13 +16,12 @@ import SideAdd from "../assets/components/button/SideAdd";
 
 function Chats() {
     const navigate = useNavigate();
+
     const { currentUser } = useContext(AuthContext);
 
-    const [contacts, setContacts] = useState([]);
+    const [contacts, setContacts] = useState([]); 
     const [users, setUsers] = useState([]);
-
     const [countdown, setCount] = useState(10);
-
     const [showAdd, setShowAdd] = useState(false);
 
     const getContacts = () => {

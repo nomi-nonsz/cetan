@@ -9,8 +9,13 @@ function UserItem ({ img, username, chat, onClick, addBtnClick, uid }) {
         addBtnClick(uid, setBtnState);
     }
 
+    const handleClick = (e) => {
+        const event = { ...e, uid };
+        onClick(event);
+    }
+
     return (
-        <button className="user-item" onClick={onClick}>
+        <button className="user-item" onClick={handleClick}>
             <div className="info">
                 <img src={img} alt="" />
                 <div className="text">
