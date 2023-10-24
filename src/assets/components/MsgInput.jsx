@@ -1,39 +1,75 @@
 import React, { useContext, useRef, useState } from "react";
-import { ReactComponent as SendIcon } from "../svg/send.svg";
 import { ChatContext } from "../../contexts/ChatContext";
 import { arrayUnion, doc, serverTimestamp, updateDoc } from "firebase/firestore";
-import { db } from "../../firebase/firebase";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { db, storage } from "../../firebase/firebase";
 import LoadingAnim from "./LoadingAnim";
+
+import { ReactComponent as SendIcon } from "../svg/send.svg";
+import { ReactComponent as ImgIcon } from "../svg/image2.svg";
 
 function MsgInput () {
     const message = useRef(null);
+    const imgRef = useRef(null);
+
     const [btnState, setBtn] = useState("idle");
+    const [imgUrl, setImg] = useState(null);
 
     const { state } = useContext(ChatContext);
+
+    const sendImage = () => {
+        const file = imgRef.current.files[0];
+        if (!file) return;
+
+        return new Promise((resolve, reject) => {
+            const storageRef = ref(storage, `images/chats/${state.replier.uid}_${file.name}`);
+            const uploadTask = uploadBytesResumable(storageRef, file);
+    
+            uploadTask.on((error) => {
+                reject(new Error(error));
+            }, async () => {
+                const donwloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+                resolve(donwloadURL);
+            });
+        })
+    }
     
     const handleSend = async (e) => {
         e.preventDefault();
 
         const msg = message.current.value;
+        const file = imgRef.current.files[0];
+
         const { replier, sender, chatId } = state;
 
         if (msg.length < 1) return;
         if (!replier && !sender) return;
+        if (btnState == "loading") return;
         
         try {
             setBtn("loading");
 
             const chatRef = doc(db, "chats", chatId);
             const contactRef = doc(db, "userChats", sender.uid);
+
+            const newChat = {
+                uid: sender.uid,
+                message: msg,
+                datetime: new Date(Date.now())
+            };
+
+            const uploadedImageURL = await sendImage();
+
+            if (uploadedImageURL)
+                newChat.imgURL = uploadedImageURL;
             
             await updateDoc(chatRef, {
-                conversation: arrayUnion({
-                    uid: sender.uid,
-                    message: msg,
-                    datetime: new Date(Date.now())
-                })
+                conversation: arrayUnion(newChat),
+                lastMessage: `${sender.username}: ${msg}`
             })
 
+            setBtn("idle");
+            
             await updateDoc(contactRef, {
                 [replier.uid]: {
                     uid: replier.uid,
@@ -46,19 +82,39 @@ function MsgInput () {
                 }
             })
 
+            // reset
             message.current.value = ""
-            setBtn("idle");
+            imgRef.current.files[0] = null;
+            setImg(null);
         }
         catch (error) {
             console.error(error);
         }
     }
 
+    const changeImage = () => {
+        const file = imgRef.current.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = (e) => { return setImg(e.target.result) };
+        reader.readAsDataURL(file);
+    }
+
     return (
-        <form className="msg-input" onSubmit={handleSend}>
-            <input type="text" name="" id="" ref={message} placeholder="Write messages..." />
-            <button type="submit" className={btnState}>{btnState == "loading" ? <LoadingAnim /> : <SendIcon />}</button>
-        </form>
+        <div className="msg-input">
+            {imgUrl && <div className="file-preview"><img src={imgUrl} alt="" /></div>}
+            <form className="msg-wrapper" onSubmit={handleSend}>
+                <div className="file-input">
+                    <label htmlFor="file-img">
+                        <ImgIcon />
+                    </label>
+                    <input type="file" id="file-img" ref={imgRef} accept="image/*" onChange={changeImage} />
+                </div>
+                <input type="text" name="" id="" ref={message} placeholder="Write messages..." />
+                <button type="submit" disabled={btnState == "loading"} className={btnState}>{btnState == "loading" ? <LoadingAnim /> : <SendIcon />}</button>
+            </form>
+        </div>
     )
 }
 

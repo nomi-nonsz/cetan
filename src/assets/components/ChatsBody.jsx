@@ -152,7 +152,7 @@ function ChatsBody () {
                     <LoadingAnim />
                     <p>Please Wait...</p>
                 </div>
-            ) : (messages.map(({ message, uid }, key) => {
+            ) : (messages.map(({ message, uid, imgURL }, key) => {
                 const isSelected = state.sender && state.replier && state.chatId;
 
                 if (!isSelected) {
@@ -165,18 +165,20 @@ function ChatsBody () {
                     case state.sender.uid:
                         return (
                             <ChatSender
-                                img={sender.photoURL}
+                                profile={sender.photoURL}
                                 username={"You"}
                                 msg={message}
+                                img={imgURL}
                                 key={key}
                             />
                         );
                     case state.replier.uid:
                         return (
                             <ChatReceiver
-                                img={replier.photoURL}
+                                profile={replier.photoURL}
                                 username={replier.username}
                                 msg={message}
+                                img={imgURL}
                                 key={key}
                             />
                         )

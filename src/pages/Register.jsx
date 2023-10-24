@@ -57,7 +57,8 @@ function RegisterPage() {
                     // Signed in
                     const { user } = userCredential;
                     if (user) {
-                        const storageRef = ref(storage, `profiles/user-${user.uid}.jpg`);
+                        const extension = fileimg.name.split(".").pop();
+                        const storageRef = ref(storage, `profiles/user-${user.uid}.${extension}`);
                         const uploadTask = uploadBytesResumable(storageRef, fileimg);
     
                         uploadTask.on(

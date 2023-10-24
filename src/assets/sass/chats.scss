@@ -112,87 +112,140 @@
             }
 
             .chat {
-                margin: 10px;
+                margin: 20px;
                 display: flex;
                 gap: 12px;
                 align-items: flex-start;
                 justify-content: flex-end;
-        
+
                 &-receiver {
                     flex-direction: row-reverse;
                 }
 
-                .msgbox {
-                    background-color: var(--secondary);
-                    padding: 18px;
-                    border-radius: 8px;
-                    max-width: 80%;
-                    .username {
-                        font-weight: bold;
-                        color: var(--primary);
-                        margin-bottom: 6px;
+                .chat-wrapper {
+                    max-width: 60%;
+
+                    .msgbox {
+                        background-color: var(--secondary);
+                        padding: 18px;
+                        border-radius: 8px;
+                        width: fit-content;
+                        .username {
+                            font-weight: bold;
+                            color: var(--primary);
+                            margin-bottom: 6px;
+                        }
+                        .msg {
+                            word-wrap: break-word;
+                        }
                     }
-                    .msg {
-                        font-size: small;
+
+                    .image {
+                        margin-top: 10px;
+                        width: 400px;
+
+                        img {
+                            width: 100%;
+                            height: auto;
+                            border-radius: 8px;
+                        }
                     }
                 }
-                
                 &-sender {
-                    .msgbox .username {
-                        color: var(--green);
+                    .chat-wrapper {
+                        .msgbox {
+                            margin-left: auto;
+
+                            .username {
+                                color: var(--green);
+                            }
+                        }
+                    }
+                    .image {
+                        margin-left: auto;
                     }
                 }
-                img {
+                .profile {
                     border-radius: 99px;
                     width: 60px;
                     height: 60px;
                     object-fit: cover;
                 }
+                        
             }
         }
         .msg-input {
             background-color: var(--secondary);
-            display: flex;
             padding: 10px;
-            gap: 10px;
-            input {
-                height: 45px;
-                padding: 0 20px;
-                background-color: var(--secondary-darken);
-                border: 1px solid var(--primary-doomer);
-                border-radius: 99px;
-                flex-grow: 1;
-                color: white;
-                font-size: medium;
+
+            .file-preview {
+                margin: 10px;
+                img {
+                    width: 300px;
+                    border-radius: 8px;
+                }
             }
-            button {
-                height: 45px;
-                width: 45px;
-                background-color: var(--primary);
-                border: none;
-                border-radius: 99px;
-                position: relative;
-
-                &.loading {
-                    background-color: var(--primary-doomer);
+            
+            .msg-wrapper {
+                display: flex;
+                gap: 10px;
+                
+                input[type=text] {
+                    height: 45px;
+                    padding: 0 20px;
+                    background-color: var(--secondary-darken);
+                    border: 1px solid var(--primary-doomer);
+                    border-radius: 99px;
+                    flex-grow: 1;
+                    color: white;
+                    font-size: medium;
                 }
-
-                svg {
-                    fill: var(--text);
-                    position: absolute;
-                    left: 50%;
-                    top: 52%;
-                    transform: translate(-50%, -50%);
+                .file-input {
+                    width: 50px;
+                    label {
+                        cursor: pointer;
+                        svg {
+                            fill: var(--primary);
+                            height: 100%;
+                            padding: 10%;
+                            width: auto;
+                        }
+                    }
+                    input[type=file] {
+                        display: none;
+                    }
                 }
-                .loading-component {
-                    transform: translateX(-50%) translateY(1px);
+    
+                button {
+                    height: 45px;
+                    width: 45px;
+                    background-color: var(--primary);
+                    border: none;
+                    border-radius: 99px;
+                    position: relative;
+    
+                    &.loading {
+                        background-color: var(--primary-doomer);
+                    }
+    
                     svg {
                         fill: var(--text);
-                        position: relative;
-                        transform: translate(0, 0);
+                        position: absolute;
+                        left: 50%;
+                        top: 52%;
+                        transform: translate(-50%, -50%);
+                    }
+                    .loading-component {
+                        transform: translateX(-50%) translateY(1px);
+                        svg {
+                            fill: var(--text);
+                            position: relative;
+                            transform: translate(0, 0);
+                        }
                     }
                 }
             }
+
         }
 
         .no-user {
