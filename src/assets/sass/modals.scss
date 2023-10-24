@@ -53,6 +53,27 @@
     }
 }
 
+.modal-logout {
+    background-color: var(--secondary);
+    padding: 30px;
+    width: fit-content;
+    border-radius: 8px;
+
+    h2 {
+        margin: 20px;
+    }
+
+    .desicion {
+        display: flex;
+        gap: 8px;
+        margin-top: 30px;
+
+        button {
+            flex: 1;
+        }
+    }
+}
+
 .btn-close {
     background: none;
     border: none;

@@ -136,7 +136,6 @@ function ChatsBody () {
             const unSubrek = onSnapshot(chatRef, (data) => {
                 const chats = data.data().conversation;
                 setMessages(chats);
-                console.log(state);
             })
     
             return () => {

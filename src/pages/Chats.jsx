@@ -13,16 +13,23 @@ import ChatsBody from "../assets/components/ChatsBody";
 import MsgInput from "../assets/components/MsgInput";
 import AddContact from "../assets/components/modal/AddContact";
 import SideAdd from "../assets/components/button/SideAdd";
+import ConfLogout from "../assets/components/modal/ConfLogout";
 
 function Chats() {
     const navigate = useNavigate();
 
     const { currentUser } = useContext(AuthContext);
 
+    // the data needed from databases
     const [contacts, setContacts] = useState([]); 
     const [users, setUsers] = useState([]);
+
+    // idk
     const [countdown, setCount] = useState(10);
+
+    // toggle modal
     const [showAdd, setShowAdd] = useState(false);
+    const [showLogout, setLogout] = useState(false);
 
     const getContacts = () => {
         const docRef = doc(db, "userChats", currentUser.uid);
@@ -62,7 +69,7 @@ function Chats() {
         });
     }
 
-    
+    // watch contacts when added
     useEffect(() => {
         if (currentUser.uid) {
             const unsub = getContacts();
@@ -72,10 +79,12 @@ function Chats() {
         }
     }, [currentUser.uid]);
     
+    // get all user then displayed on add contacts
     useEffect(() => {
         currentUser.uid && getAllUsers()
     }, [currentUser.uid, contacts]);
 
+    // anticipate if the user has not logged in
     useEffect(() => {
         if (!currentUser) {
             const down = setInterval(() => {
@@ -104,7 +113,9 @@ function Chats() {
                             <TopBar
                                 img={currentUser.photoURL}
                                 username={currentUser.displayName}
+                                triggerLogout={setLogout}
                             />
+                            {showLogout == true && <ConfLogout setVisible={setLogout} />}
                             <SearchBar />
                             <UserList contacts={contacts}/>
                             <SideAdd

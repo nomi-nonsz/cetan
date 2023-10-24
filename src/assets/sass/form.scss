@@ -235,6 +235,31 @@
     }
 }
 
+.dsc-btn-primary, .dsc-btn-secondary {
+    border: none;
+    padding: 15px;
+    border-radius: 8px;
+    font-size: medium;
+    display: block;
+    transition: .15s;
+}
+
+.dsc-btn-primary {
+    background-color: var(--primary);
+    color: white;
+    &:hover {
+        background-color: var(--primary-darken);
+    }
+}
+
+.dsc-btn-secondary {
+    background-color: var(--secondary);
+    color: var(--primary);
+    &:hover {
+        background-color: var(--secondary-darken);
+    }
+}
+
 .static__svg-flies {
     position: absolute;
     bottom: 0;
