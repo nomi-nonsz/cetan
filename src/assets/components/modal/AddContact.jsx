@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { addDoc, arrayUnion, collection, doc, getDoc, query, serverTimestamp, updateDoc, where } from "firebase/firestore";
+import { addDoc, arrayUnion, collection, doc, getDoc, query, serverTimestamp, setDoc, updateDoc, where } from "firebase/firestore";
 import { AuthContext } from "../../../contexts/AuthContext";
 import { db } from "../../../firebase/firebase";
 
@@ -23,12 +23,15 @@ function AddContact ({ setVisible, users }) {
 
         const chatColl = collection(db, "chats");
         const docRef = doc(db, "userChats", currentUser.uid);
-        const targetUser = doc(db, "users", uid)
+        const targetRef = doc(db, "userChats", uid);
+        const targetUser = doc(db, "users", uid);
 
         try {
             const docp = await getDoc(docRef);
             const user = await getDoc(targetUser);
+            const targetChat = await getDoc(targetRef);
             
+            // Add chats for current user to contact
             if (!docp.data()[uid]) {
                 const chatRef = await addDoc(chatColl, {
                     conversation: [],
@@ -46,7 +49,23 @@ function AddContact ({ setVisible, users }) {
                     
                 const filteredUs = filterUser.filter((usr) => usr.uid !== uid);
                 setFilter(filteredUs);
+
+                // Add chats for contact for current user
+                if (!targetChat.data()[currentUser.uid]) {
+                    await updateDoc(targetRef, {
+                        [currentUser.uid]: {
+                            uid: currentUser.uid,
+                            username: currentUser.displayName,
+                            email: currentUser.email,
+                            photoURL: currentUser.photoURL,
+                            date: serverTimestamp(),
+                            lastMessage: "",
+                            chatId: chatRef.id
+                        }
+                    });
+                }
             }
+            
         }
         catch (error) {
             console.error(error);
