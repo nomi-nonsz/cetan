@@ -4,6 +4,7 @@ import { collection, doc, getDoc, getDocs, onSnapshot, query, where } from "fire
 import { db } from "../firebase/firebase";
 
 import { AuthContext } from "../contexts/AuthContext";
+import { ChatContext } from "../contexts/ChatContext";
 
 import TopBar from "../assets/components/TopBar";
 import SearchBar from "../assets/components/SearchBar";
@@ -14,11 +15,13 @@ import MsgInput from "../assets/components/MsgInput";
 import AddContact from "../assets/components/modal/AddContact";
 import SideAdd from "../assets/components/button/SideAdd";
 import ConfLogout from "../assets/components/modal/ConfLogout";
+import ChatIntro from "../assets/components/ChatIntro";
 
 function Chats() {
     const navigate = useNavigate();
 
     const { currentUser } = useContext(AuthContext);
+    const { state } = useContext(ChatContext);
 
     // the data needed from databases
     const [contacts, setContacts] = useState([]); 
@@ -130,10 +133,14 @@ function Chats() {
                 </div>
                 <div className="main-chat">
                     {currentUser ? (
-                        <>
-                            <ChatsBody />
-                            <MsgInput />
-                        </>
+                        state.chatId && state.replier && state.sender ? (
+                            <>
+                                <ChatsBody />
+                                <MsgInput />
+                            </>
+                        ) : (
+                            <ChatIntro />
+                        )
                     ) : (
                         <div className="no-user">
                             <h3>

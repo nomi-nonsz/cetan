@@ -1,3 +1,10 @@
+.chat-intro {
+    margin: auto;
+    opacity: .8;
+    text-align: center;
+    width: 80%;
+}
+
 .chats {
     display: flex;
     margin: 0 auto;
@@ -88,6 +95,21 @@
         .chats-body {
             flex-grow: 1;
             overflow-y: scroll;
+            position: relative;
+
+            .loading {
+                margin: auto;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translateX(-50%);
+                text-align: center;
+
+                .loading-component > svg {
+                    width: 3em;
+                    height: auto;
+                }
+            }
 
             .chat {
                 margin: 10px;

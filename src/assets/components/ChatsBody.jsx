@@ -6,6 +6,7 @@ import { ChatContext } from "../../contexts/ChatContext";
 import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../../firebase/firebase";
 import { AuthContext } from "../../contexts/AuthContext";
+import LoadingAnim from "./LoadingAnim";
 
 function ExampleChat () {
     return <>
@@ -146,7 +147,12 @@ function ChatsBody () {
 
     return (
         <div className="chats-body">
-            {messages.map(({ message, uid }, key) => {
+            {messages.length < 1 ? (
+                <div className="loading">
+                    <LoadingAnim />
+                    <p>Please Wait...</p>
+                </div>
+            ) : (messages.map(({ message, uid }, key) => {
                 const isSelected = state.sender && state.replier && state.chatId;
 
                 if (!isSelected) {
@@ -175,7 +181,7 @@ function ChatsBody () {
                             />
                         )
                 }
-            })}
+            }))}
         </div>
     )
 }
