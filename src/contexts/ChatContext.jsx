@@ -16,7 +16,12 @@ export const ChatContextProvider = ({ children }) => {
         switch (action.type) {
             case "CHANGE_USER":
                 return {
-                    sender: currentUser,
+                    sender: {
+                        uid: currentUser.uid,
+                        username: currentUser.displayName,
+                        email: currentUser.email,
+                        photoURL: currentUser.photoURL
+                    },
                     replier: action.payload.replier,
                     chatId: action.payload.chatId
                 };

@@ -13,8 +13,8 @@ function TopBar ({ img, username }) {
 
     const logout = () => {
         signOut(auth);
-        chatState.dispatch({ type: "RESET_USER" });
         navigate("/login");
+        chatState.dispatch({ type: "RESET_USER" });
     }
 
     return (

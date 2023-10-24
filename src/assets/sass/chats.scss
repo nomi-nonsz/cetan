@@ -4,6 +4,11 @@
     width: 1280px;
     height: 100vh;
 
+    @include laptop {
+        width: auto;
+        margin: 0 20px;
+    }
+
     .side-chats {
         flex: 1;
         background-color: var(--secondary);
@@ -145,12 +150,25 @@
                 border: none;
                 border-radius: 99px;
                 position: relative;
+
+                &.loading {
+                    background-color: var(--primary-doomer);
+                }
+
                 svg {
                     fill: var(--text);
                     position: absolute;
                     left: 50%;
                     top: 52%;
                     transform: translate(-50%, -50%);
+                }
+                .loading-component {
+                    transform: translateX(-50%) translateY(1px);
+                    svg {
+                        fill: var(--text);
+                        position: relative;
+                        transform: translate(0, 0);
+                    }
                 }
             }
         }

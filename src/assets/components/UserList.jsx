@@ -11,16 +11,6 @@ function UserList ({ contacts }) {
 
     const handleClickChat = async (e) => {
         try {
-            // const chatRef = doc(db, "chats", currentUser.uid);
-            // const chat = await getDoc(chatRef);
-            
-            // if (!chat.data()[contactUid]) {
-            //     await updateDoc(chatRef, {
-            //         [contactUid]: []
-            //     })
-            //     console.log(`Updated chats from contacts: ${contactUid}`);
-            // }
-
             const replierRef = doc(db, "users", e.uid);
             const replier = await getDoc(replierRef);
             
@@ -33,12 +23,6 @@ function UserList ({ contacts }) {
             chatCtx.dispatch({
                 type: "CHANGE_USER",
                 payload: {
-                    sender: {
-                        uid: currentUser.uid,
-                        username: currentUser.displayName,
-                        email: currentUser.email,
-                        photoURL: currentUser.photoURL
-                    },
                     replier: replier.data(),
                     chatId: userChat.data()[replier.id].chatId
                 }
@@ -51,11 +35,11 @@ function UserList ({ contacts }) {
 
     return (
         <div className="user-list">
-            {contacts && contacts.length > 0 ? contacts.map(({ photoURL, username, uid }, key) => (
+            {contacts && contacts.length > 0 ? contacts.map(({ photoURL, username, uid, lastMessage }, key) => (
                 <UserItem
                     img={photoURL}
                     username={username}
-                    chat={"example"}
+                    chat={lastMessage}
                     uid={uid}
                     key={uid}
                     onClick={handleClickChat}
