@@ -1,8 +1,14 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 
 function ChatReceiver({ profile, username, msg, img }) {
+    const chatRef = useRef(null);
+
+    useEffect(() => {
+        chatRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, [msg]);
+
     return (
-        <div className="chat chat-receiver">
+        <div className="chat chat-receiver" ref={chatRef}>
             <div className="chat-wrapper">
                 <div className="msgbox">
                     <div className="username">{username}</div>
