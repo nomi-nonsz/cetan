@@ -6,7 +6,6 @@ export default function AuthWith ({ icon, onClick, children }) {
             alert("third-party authentication not available yet");
             return;
         }
-        
         onClick();
     }
 

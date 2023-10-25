@@ -7,15 +7,13 @@ import { AuthContext } from "../contexts/AuthContext";
 import { ChatContext } from "../contexts/ChatContext";
 
 import TopBar from "../assets/components/TopBar";
-import SearchBar from "../assets/components/SearchBar";
-import UserList from "../assets/components/UserList";
-import TopChat from "../assets/components/TopChat";
 import ChatsBody from "../assets/components/ChatsBody";
 import MsgInput from "../assets/components/MsgInput";
 import AddContact from "../assets/components/modal/AddContact";
 import SideAdd from "../assets/components/button/SideAdd";
 import ConfLogout from "../assets/components/modal/ConfLogout";
 import ChatIntro from "../assets/components/ChatIntro";
+import Contacts from "../assets/components/Contacts";
 
 function Chats() {
     const navigate = useNavigate();
@@ -33,25 +31,6 @@ function Chats() {
     // toggle modal
     const [showAdd, setShowAdd] = useState(false);
     const [showLogout, setLogout] = useState(false);
-
-    const getContacts = () => {
-        const docRef = doc(db, "userChats", currentUser.uid);
-        return onSnapshot(docRef, (ds) => {
-            const data = ds.data();
-            const objted = Object.values(data);
-
-            const convertedDate = objted
-                .map(contact => {
-                    contact.date = contact.date.toDate()
-                    return contact;
-                })
-                .sort((a, b) => {
-                    return b.date - a.date;
-                })
-
-            setContacts(convertedDate);
-        })
-    }
 
     const getAllUsers = () => {
         const result = query(
@@ -71,16 +50,6 @@ function Chats() {
             console.log(usrs);
         });
     }
-
-    // watch contacts when added
-    useEffect(() => {
-        if (currentUser.uid) {
-            const unsub = getContacts();
-            return () => {
-                unsub();
-            }
-        }
-    }, [currentUser.uid]);
     
     // get all user then displayed on add contacts
     useEffect(() => {
@@ -119,8 +88,7 @@ function Chats() {
                                 triggerLogout={setLogout}
                             />
                             {showLogout == true && <ConfLogout setVisible={setLogout} />}
-                            <SearchBar />
-                            <UserList contacts={contacts}/>
+                            <Contacts setParentContacts={setContacts} />
                             <SideAdd
                                 onClick={() => {
                                     setShowAdd(true);
