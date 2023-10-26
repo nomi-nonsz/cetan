@@ -4,6 +4,7 @@ import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase/firebase";
 import { AuthContext } from "../../contexts/AuthContext";
 import { ChatContext } from "../../contexts/ChatContext";
+import LoadingAnim from "./LoadingAnim";
 
 function UserList ({ contacts }) {
     const { currentUser } = useContext(AuthContext);
@@ -35,19 +36,23 @@ function UserList ({ contacts }) {
 
     return (
         <div className="user-list">
-            {contacts && contacts.length > 0 ? contacts.map(({ photoURL, username, uid, lastMessage }, key) => (
-                <UserItem
-                    img={photoURL}
-                    username={username}
-                    chat={lastMessage}
-                    uid={uid}
-                    key={uid}
-                    onClick={handleClickChat}
-                />
-            )) : (
-                <div className="no-user">
-                    You didn't have any contact yet<br />
-                </div>
+            {contacts ? (
+                contacts.length > 0 ? contacts.map(({ photoURL, username, uid, lastMessage }, key) => (
+                    <UserItem
+                        img={photoURL}
+                        username={username}
+                        chat={lastMessage}
+                        uid={uid}
+                        key={uid}
+                        onClick={handleClickChat}
+                    />
+                )) : (
+                    <div className="no-user">
+                        You didn't have any contact yet<br />
+                    </div>
+                )
+            ) : (
+                <LoadingAnim />
             )}
         </div>
     )

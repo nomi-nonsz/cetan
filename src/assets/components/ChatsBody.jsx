@@ -120,7 +120,7 @@ function ChatConsole (chats) {
 }
 
 function ChatsBody () {
-    const [messages, setMessages] = useState([]);
+    const [messages, setMessages] = useState(null);
     const [replier, setReplier] = useState({});
     const [sender, setSender] = useState({});
 
@@ -147,43 +147,47 @@ function ChatsBody () {
 
     return (
         <div className="chats-body">
-            {messages.length < 1 ? (
+            {messages ? (
+                messages.length < 1 ? (
+                    <div className="no-msg">Start the conversation by saying hi to <b>{replier.username}</b></div>
+                ) : (messages.map(({ message, uid, imgURL }, key) => {
+                    const isSelected = state.sender && state.replier && state.chatId;
+    
+                    if (!isSelected) {
+                        return (
+                            <></>
+                        )
+                    }
+    
+                    switch (uid) {
+                        case state.sender.uid:
+                            return (
+                                <ChatSender
+                                    profile={sender.photoURL}
+                                    username={"You"}
+                                    msg={message}
+                                    img={imgURL}
+                                    key={key}
+                                />
+                            );
+                        case state.replier.uid:
+                            return (
+                                <ChatReceiver
+                                    profile={replier.photoURL}
+                                    username={replier.username}
+                                    msg={message}
+                                    img={imgURL}
+                                    key={key}
+                                />
+                            )
+                    }
+                }))
+            ) : (
                 <div className="loading">
                     <LoadingAnim />
                     <p>Please Wait...</p>
                 </div>
-            ) : (messages.map(({ message, uid, imgURL }, key) => {
-                const isSelected = state.sender && state.replier && state.chatId;
-
-                if (!isSelected) {
-                    return (
-                        <></>
-                    )
-                }
-
-                switch (uid) {
-                    case state.sender.uid:
-                        return (
-                            <ChatSender
-                                profile={sender.photoURL}
-                                username={"You"}
-                                msg={message}
-                                img={imgURL}
-                                key={key}
-                            />
-                        );
-                    case state.replier.uid:
-                        return (
-                            <ChatReceiver
-                                profile={replier.photoURL}
-                                username={replier.username}
-                                msg={message}
-                                img={imgURL}
-                                key={key}
-                            />
-                        )
-                }
-            }))}
+            )}
         </div>
     )
 }

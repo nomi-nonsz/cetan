@@ -8,7 +8,7 @@ import { AuthContext } from "../../contexts/AuthContext";
 function Contacts ({ setParentContacts }) {
     const { currentUser } = useContext(AuthContext);
 
-    const [contacts, setContacts] = useState([]);
+    const [contacts, setContacts] = useState(null);
     const [newContacts, setNewContacts] = useState(contacts);
 
     const [thatValue, setValue] = useState("");
