@@ -1,12 +1,15 @@
 import React, { useContext, useEffect, useState } from "react";
+
+import { ReactComponent as LeftArrow } from "../svg/left-arrow.svg";
+
 import DummyPfp from "../img/person.png";
 import ChatSender from "./chat/ChatSender";
 import ChatReceiver from "./chat/ChatReceiver";
+import LoadingAnim from "./LoadingAnim";
+
 import { ChatContext } from "../../contexts/ChatContext";
 import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../../firebase/firebase";
-import { AuthContext } from "../../contexts/AuthContext";
-import LoadingAnim from "./LoadingAnim";
 
 function ExampleChat () {
     return <>
@@ -119,7 +122,7 @@ function ChatConsole (chats) {
     })
 }
 
-function ChatsBody () {
+function ChatsBody ({ triggerChange }) {
     const [messages, setMessages] = useState(null);
     const [replier, setReplier] = useState({});
     const [sender, setSender] = useState({});
@@ -148,6 +151,9 @@ function ChatsBody () {
 
     return (
         <div className="chats-body">
+            <button className="back-btn" onClick={() => { triggerChange(false) }}>
+                <LeftArrow />
+            </button>
             {messages ? (
                 messages.length < 1 ? (
                     <div className="no-msg">Start the conversation by saying hi to <b>{replier.username}</b></div>

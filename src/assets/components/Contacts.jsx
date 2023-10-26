@@ -5,7 +5,7 @@ import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../../firebase/firebase";
 import { AuthContext } from "../../contexts/AuthContext";
 
-function Contacts ({ setParentContacts }) {
+function Contacts ({ setParentContacts, triggerChange }) {
     const { currentUser } = useContext(AuthContext);
 
     const [contacts, setContacts] = useState(null);
@@ -63,7 +63,10 @@ function Contacts ({ setParentContacts }) {
     return (
         <div className="contacts">
             <SearchBar onChange={searchUser} />
-            <UserList contacts={thatValue.length > 0 ? newContacts : contacts} />
+            <UserList
+                contacts={thatValue.length > 0 ? newContacts : contacts}
+                triggerChange={triggerChange}
+            />
         </div>
     )
 }

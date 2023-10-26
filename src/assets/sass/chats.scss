@@ -15,11 +15,24 @@
         width: auto;
         margin: 0 20px;
     }
+    @include mobile {
+        margin: 0;
+    }
+
+    .side-chats, .main-chat {
+        transition-duration: .5s;
+        transition-property: flex;
+    }
 
     .side-chats {
         flex: 1;
         background-color: var(--secondary);
         position: relative;
+
+        @include mobile {
+            flex-grow: 1;
+            overflow-x: hidden;
+        }
         
         .top-bar {
             display: flex;
@@ -88,191 +101,261 @@
         flex: 3;
         background-color: var(--secondary-darken);
         border: 1px solid var(--primary-doomer);
-        display: flex;
-        flex-direction: column;
-
-        .top-chat {
-            background-color: var(--accent);
-            display: flex;
-            color: white;
-            padding: 10px;
+        
+        @include mobile {
+            flex: 3;
+            overflow-x: hidden;
         }
         
-        .chats-body {
-            flex-grow: 1;
-            overflow-y: scroll;
-            position: relative;
+        .chat-wrapper {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
 
-            .no-msg {
-                position: absolute;
-                width: fit-content;
-                bottom: 50px;
-                opacity: .6;
-                left: 50%;
-                transform: translateX(-50%);
+            @include mobile {
+                width: 100vw;
             }
-
-            .loading {
-                margin: auto;
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translateX(-50%);
-                text-align: center;
-
-                .loading-component > svg {
-                    width: 3em;
-                    height: auto;
-                }
-            }
-
-            .chat {
-                margin: 20px;
+            
+            .top-chat {
+                background-color: var(--accent);
                 display: flex;
-                gap: 12px;
-                align-items: flex-start;
-                justify-content: flex-end;
+                color: white;
+                padding: 10px;
+            }
+            
+            .chats-body {
+                flex-grow: 1;
+                position: relative;
+                overflow-y: scroll;
 
-                &-receiver {
-                    flex-direction: row-reverse;
-                }
+                .back-btn {
+                    position: sticky;
+                    left: 10px;
+                    top: 10px;
+                    background-color: var(--primary);
+                    border: none;
+                    width: 40px;
+                    height: 40px;
+                    border-radius: 4px;
 
-                .chat-wrapper {
-                    max-width: 60%;
-
-                    .msgbox {
-                        background-color: var(--secondary);
-                        padding: 18px;
-                        border-radius: 8px;
-                        width: fit-content;
-                        .username {
-                            font-weight: bold;
-                            color: var(--primary);
-                            margin-bottom: 6px;
-                        }
-                        .msg {
-                            word-wrap: break-word;
-                        }
-                    }
-
-                    .image {
-                        margin-top: 10px;
-                        width: 400px;
-
-                        img {
-                            width: 100%;
-                            height: auto;
-                            border-radius: 8px;
-                        }
+                    svg {
+                        width: 1.5rem;
+                        height: auto;
+                        fill: white;
                     }
                 }
-                &-sender {
+    
+                .no-msg {
+                    position: absolute;
+                    width: fit-content;
+                    bottom: 50px;
+                    opacity: .6;
+                    left: 50%;
+                    transform: translateX(-50%);
+                }
+    
+                .loading {
+                    margin: auto;
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    text-align: center;
+    
+                    .loading-component > svg {
+                        width: 3em;
+                        height: auto;
+                    }
+                }
+    
+                .chat {
+                    margin: 20px;
+                    display: flex;
+                    gap: 12px;
+                    align-items: flex-start;
+                    justify-content: flex-end;
+    
+                    &-receiver {
+                        flex-direction: row-reverse;
+                    }
+
+                    @include mobile {
+                        margin: 10px;
+                    }
+    
                     .chat-wrapper {
-                        .msgbox {
-                            margin-left: auto;
+                        max-width: 60%;
 
+                        @include mobile {
+                            max-width: 60vw;
+                        }
+    
+                        .msgbox {
+                            background-color: var(--secondary);
+                            padding: 18px;
+                            border-radius: 8px;
+                            width: fit-content;
+    
+                            @include mobile {
+                                font-size: 10px;
+                                padding: 12px;
+                            }
+    
                             .username {
-                                color: var(--green);
+                                font-weight: bold;
+                                color: var(--primary);
+                                margin-bottom: 6px;
+                            }
+                            .msg {
+                                word-wrap: break-word;
+                            }
+                        }
+    
+                        .image {
+                            margin-top: 10px;
+                            width: 100%;
+
+                            @include mobile {
+                                margin-top: 5px;
+                            }
+    
+                            img {
+                                width: 100%;
+                                height: auto;
+                                border-radius: 8px;
                             }
                         }
                     }
-                    .image {
-                        margin-left: auto;
-                    }
-                }
-                .profile {
-                    border-radius: 99px;
-                    width: 60px;
-                    height: 60px;
-                    object-fit: cover;
-                }
-                        
-            }
-        }
-        .msg-input {
-            background-color: var(--secondary);
-            padding: 10px;
-
-            .file-preview {
-                margin: 10px;
-                img {
-                    width: 300px;
-                    border-radius: 8px;
-                }
-            }
-            
-            .msg-wrapper {
-                display: flex;
-                gap: 10px;
-                
-                input[type=text] {
-                    height: 45px;
-                    padding: 0 20px;
-                    background-color: var(--secondary-darken);
-                    border: 1px solid var(--primary-doomer);
-                    border-radius: 99px;
-                    flex-grow: 1;
-                    color: white;
-                    font-size: medium;
-                }
-                .file-input {
-                    width: 50px;
-                    label {
-                        cursor: pointer;
-                        svg {
-                            fill: var(--primary);
-                            height: 100%;
-                            padding: 10%;
-                            width: auto;
+                    &-sender {
+                        .chat-wrapper {
+                            .msgbox {
+                                margin-left: auto;
+    
+                                .username {
+                                    color: var(--green);
+                                }
+                            }
+                        }
+                        .image {
+                            margin-left: auto;
                         }
                     }
-                    input[type=file] {
-                        display: none;
+                    .profile {
+                        border-radius: 99px;
+                        width: 60px;
+                        height: 60px;
+                        object-fit: cover;
+
+                        @include mobile {
+                            width: 40px;
+                            height: 40px;
+                        }
+                    }
+                            
+                }
+            }
+            .msg-input {
+                background-color: var(--secondary);
+                padding: 5px;
+    
+                .file-preview {
+                    margin: 10px;
+                    img {
+                        width: 300px;
+                        border-radius: 8px;
                     }
                 }
-    
-                button {
-                    height: 45px;
-                    width: 45px;
-                    background-color: var(--primary);
-                    border: none;
-                    border-radius: 99px;
-                    position: relative;
-    
-                    &.loading {
-                        background-color: var(--primary-doomer);
+                
+                .msg-wrapper {
+                    display: flex;
+                    gap: 10px;
+                    
+                    input[type=text] {
+                        height: 45px;
+                        padding: 0 20px;
+                        background-color: var(--secondary-darken);
+                        border: 1px solid var(--primary-doomer);
+                        border-radius: 99px;
+                        flex-grow: 1;
+                        color: white;
+                        font-size: medium;
+
+                        @include mobile {
+                            font-size: small;
+                            height: 40px;
+                        }
                     }
-    
-                    svg {
-                        fill: var(--text);
-                        position: absolute;
-                        left: 50%;
-                        top: 52%;
-                        transform: translate(-50%, -50%);
+                    .file-input {
+                        width: 50px;
+                        display: flex;
+                        @include mobile {
+                            width: 30px;
+                        }
+                        label {
+                            cursor: pointer;
+                            svg {
+                                fill: var(--primary);
+                                height: 100%;
+                                padding: 10%;
+                                width: auto;
+                                @include mobile {
+                                    width: 30px;
+                                }
+                            }
+                        }
+                        input[type=file] {
+                            display: none;
+                        }
                     }
-                    .loading-component {
-                        transform: translateX(-50%) translateY(1px);
+        
+                    button {
+                        height: 45px;
+                        width: 45px;
+                        background-color: var(--primary);
+                        border: none;
+                        border-radius: 99px;
+                        position: relative;
+
+                        @include mobile {
+                            width: 40px;
+                            height: 40px;
+                        }
+        
+                        &.loading {
+                            background-color: var(--primary-doomer);
+                        }
+        
                         svg {
                             fill: var(--text);
-                            position: relative;
-                            transform: translate(0, 0);
+                            position: absolute;
+                            left: 50%;
+                            top: 52%;
+                            transform: translate(-50%, -50%);
+                        }
+                        .loading-component {
+                            transform: translateX(-50%) translateY(1px);
+                            svg {
+                                fill: var(--text);
+                                position: relative;
+                                transform: translate(0, 0);
+                            }
                         }
                     }
                 }
+    
             }
-
-        }
-
-        .no-user {
-            margin: auto;
-            text-align: center;
-            button {
-                margin-top: 14px;
-                color: white;
-                border: none;
-                border-radius: 8px;
-                background-color: var(--primary);
-                padding: 12px 30px;
+    
+            .no-user {
+                margin: auto;
+                text-align: center;
+                button {
+                    margin-top: 14px;
+                    color: white;
+                    border: none;
+                    border-radius: 8px;
+                    background-color: var(--primary);
+                    padding: 12px 30px;
+                }
             }
         }
     }

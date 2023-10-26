@@ -6,7 +6,7 @@ import { AuthContext } from "../../contexts/AuthContext";
 import { ChatContext } from "../../contexts/ChatContext";
 import LoadingAnim from "./LoadingAnim";
 
-function UserList ({ contacts }) {
+function UserList ({ contacts, triggerChange }) {
     const { currentUser } = useContext(AuthContext);
     const chatCtx = useContext(ChatContext);
 
@@ -28,6 +28,8 @@ function UserList ({ contacts }) {
                     chatId: userChat.data()[replier.id].chatId
                 }
             });
+
+            triggerChange(true);
         }
         catch (error) {
             console.error(error);

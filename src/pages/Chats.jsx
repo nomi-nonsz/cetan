@@ -1,8 +1,9 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { collection, doc, getDoc, getDocs, onSnapshot, query, where } from "firebase/firestore";
 import { db } from "../firebase/firebase";
 
+import { ViewportContext } from "../contexts/ViewportContext";
 import { AuthContext } from "../contexts/AuthContext";
 import { ChatContext } from "../contexts/ChatContext";
 
@@ -18,10 +19,15 @@ import Contacts from "../assets/components/Contacts";
 function Chats() {
     const navigate = useNavigate();
 
+    // contexts
     const { currentUser } = useContext(AuthContext);
     const { state } = useContext(ChatContext);
+    const { isMobile } = useContext(ViewportContext);
 
-    // the data needed from databases
+    // toggle chat layout for mobile
+    const [stateChat, setStateChat] = useState(false);
+
+    // the user data from database
     const [contacts, setContacts] = useState([]); 
     const [users, setUsers] = useState([]);
 
@@ -54,7 +60,7 @@ function Chats() {
     // get all user then displayed on add contacts
     useEffect(() => {
         currentUser.uid && getAllUsers()
-    }, [currentUser.uid, contacts]);
+    }, [currentUser.uid]);
 
     // anticipate if the user has not logged in
     useEffect(() => {
@@ -79,7 +85,10 @@ function Chats() {
                 <AddContact setVisible={setShowAdd} users={users} />
             )}
             <div className="chats">
-                <div className="side-chats">
+                <div
+                    className="side-chats"
+                    style={isMobile ? { flex: stateChat ? 0 : 1 } : {}}
+                >
                     {currentUser ? (
                         <>
                             <TopBar
@@ -88,7 +97,10 @@ function Chats() {
                                 triggerLogout={setLogout}
                             />
                             {showLogout == true && <ConfLogout setVisible={setLogout} />}
-                            <Contacts setParentContacts={setContacts} />
+                            <Contacts
+                                setParentContacts={setContacts}
+                                triggerChange={setStateChat}
+                            />
                             <SideAdd
                                 onClick={() => {
                                     setShowAdd(true);
@@ -99,13 +111,16 @@ function Chats() {
                         <div className="no-user">No Signed yet</div>
                     )}
                 </div>
-                <div className="main-chat">
+                <div
+                    className="main-chat"
+                    style={isMobile ? { flex: stateChat ? 1 : 0 } : {}}
+                >
                     {currentUser ? (
                         state.chatId && state.replier && state.sender ? (
-                            <>
-                                <ChatsBody />
+                            <div className="chat-wrapper">
+                                <ChatsBody triggerChange={setStateChat} />
                                 <MsgInput />
-                            </>
+                            </div>
                         ) : (
                             <ChatIntro />
                         )

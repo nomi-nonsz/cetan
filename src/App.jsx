@@ -12,6 +12,7 @@ import LoginPage from './pages/Login';
 import Chats from './pages/Chats';
 import "./assets/sass/main.scss";
 import { ChatContextProvider } from './contexts/ChatContext';
+import { ViewportContextProvider } from './contexts/ViewportContext';
 
 function App() {
   const [user, setUser] = useState({});
@@ -19,6 +20,7 @@ function App() {
   return (
     <AuthContextProvider onWake={setUser}>
     <ChatContextProvider>
+    <ViewportContextProvider>
       <Router>
         <Routes>
           <Route path='/signup' element={ <RegisterPage /> } />
@@ -28,6 +30,7 @@ function App() {
           } />
         </Routes>
       </Router>
+    </ViewportContextProvider>
     </ChatContextProvider>
     </AuthContextProvider>
   )
