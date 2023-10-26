@@ -19,15 +19,11 @@ function Contacts ({ setParentContacts }) {
             const data = ds.data();
             const objted = Object.values(data);
 
-            const convertedDate = objted
-                .map(contact => {
-                    return contact;
-                })
-                .sort((a, b) => {
-                    const dateA = new Date(a.date.toDate());
-                    const dateB = new Date(b.date.toDate());
-                    return dateB - dateA;
-                })
+            const convertedDate = objted.sort((a, b) => {
+                const dateA = new Date(a.date.toDate());
+                const dateB = new Date(b.date.toDate());
+                return dateB - dateA;
+            })
 
             setContacts(convertedDate);
             setParentContacts(convertedDate);
