@@ -130,6 +130,7 @@ function ChatsBody () {
         const isSelected = state.sender && state.replier && state.chatId;
 
         if (isSelected) {
+            setMessages(null);
             setReplier(state.replier);
             setSender(state.sender);
 

@@ -48,6 +48,10 @@ function RegisterPage() {
             return;
         }
 
+        if (password.length < 9) {
+            setError("Password must be 8 characters");
+        }
+
         setBtnState("loading");
 
         // Nested? well i don't care
