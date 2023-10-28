@@ -20,6 +20,7 @@ export const firebaseConfig = {
 3. Go to **Project settings**, usually located on the left side.
 4. Look for **SDK setup and configuration** at the bottom the choose **config**
 5. Copy the config
-6. Don't forget to `export` the config variable
+6. Paste in `config.js`
+7. Don't forget to `export` the config variable
 
 Aight?!
