@@ -84,9 +84,7 @@ function RegisterPage() {
                                                 email: user.email,
                                                 photoURL: downloadURL
                                             })
-                                            await setDoc(doc(db, "userChats", user.uid), {
-                                                contacts: []
-                                            });
+                                            await setDoc(doc(db, "userChats", user.uid), {});
     
                                             setBtnState("idle");
                                             signOut(auth);

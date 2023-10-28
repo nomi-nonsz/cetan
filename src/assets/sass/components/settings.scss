@@ -1,0 +1,126 @@
+.settings {
+    padding: 0 100px;
+    position: relative;
+    overflow-y: scroll;
+
+    @include mobile {
+        margin: 0 20px;
+    }
+
+    &-form {
+        width: 520px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    &-item {
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: large;
+        }
+        input[type=text], input[type=email] {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid var(--primary-doomer);
+            background-color: var(--background);
+            color: white;
+            font-size: medium;
+            border-radius: 8px;
+
+            &:disabled {
+                background-color: transparent;
+            }
+        }
+        .desc {
+            font-size: small;
+            margin-top: 10px;
+            opacity: .8;
+        }
+        .fish {
+            display: flex;
+            gap: 10px;
+        }
+        .bit-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            width: 50px;
+
+            svg {
+                fill: white;
+                width: 1.2rem;
+                height: auto;
+            }
+        }
+    }
+
+    h1, h2 {
+        padding: 1rem 0;
+    }
+    hr {
+        opacity: .4;
+    }
+}
+
+.user-settings {
+    padding-bottom: 80px;
+    .btn-back {
+        background-color: transparent;
+        border: none;
+        margin: 10px 0 0 auto;
+        width: fit-content;
+        display: block;
+        padding: 0;
+        
+        svg {
+            fill: white;
+            width: 2.5rem;
+            height: auto;
+        }
+    }
+
+    .profile-image {
+        margin-top: 60px;
+
+        h2 {
+            text-align: center;
+        }
+    }
+    
+    
+    .form-file {
+        margin: 0 auto;
+        
+        label {
+            img {
+                width: 300px;
+                border-radius: 999px;
+                object-fit: cover;
+                height: auto;
+                transition: .1s opacity;
+                margin: 0 auto;
+                display: block;
+
+                cursor: pointer;
+
+                &:hover {
+                    opacity: .7;
+                }
+            }
+            .desc {
+                display: none;
+            }
+        }
+        .info {
+            text-align: center;
+            opacity: .8;
+            margin-top: 10px;
+        }
+
+        input[type=file] { display: none; }
+    }
+}

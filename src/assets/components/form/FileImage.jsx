@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ReactComponent as ImageIcon } from "../..//svg/image.svg";
 
-function FileImage ({ refFile }) {
-    const [imgUrl, setUrl] = useState(null);
+function FileImage ({ refFile, src }) {
+    const [imgUrl, setUrl] = useState(src);
 
     const onChange = () => {
         const file = refFile.current.files[0];
@@ -21,6 +21,7 @@ function FileImage ({ refFile }) {
                 ) : <ImageIcon />}
                 <div className="desc">Profile image</div>
             </label>
+            <div className="info">Avatar image will be publicly visible, maximum avatar image file size is 10MB, it is recommended that it has been manually cropped in a 1:1 box.</div>
             <input type="file" ref={refFile} id="uplod" accept="image/*" onChange={onChange}  />
         </div>
     )

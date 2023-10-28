@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useReducer, useState } from "react";
 import { useNavigate } from "react-router";
 import { collection, doc, getDoc, getDocs, onSnapshot, query, where } from "firebase/firestore";
 import { db } from "../firebase/firebase";
@@ -15,6 +15,21 @@ import SideAdd from "../assets/components/button/SideAdd";
 import ConfLogout from "../assets/components/modal/ConfLogout";
 import ChatIntro from "../assets/components/ChatIntro";
 import Contacts from "../assets/components/Contacts";
+import UserSettings from "../assets/components/settings/UserSettings";
+
+function chatoFAM (state, action) {
+    state.stateChatOut("")
+
+    switch (action.type) {
+        case "USER_SETTINGS":
+            state.stateChat(true);
+        case "RESET":
+            state.stateChat(false);
+            state.stateChatOut("");
+    }
+
+    return state;
+}
 
 function Chats() {
     const navigate = useNavigate();
@@ -26,6 +41,13 @@ function Chats() {
 
     // toggle chat layout for mobile
     const [stateChat, setStateChat] = useState(false);
+
+    // chat out state
+    const [chatOutState, setChatOut] = useState("");
+    const [chatOutReducer, chatOutDispatch] = useReducer(chatoFAM, {
+        stateChat: setStateChat,
+        stateChatOut: setChatOut
+    });
 
     // the user data from database
     const [contacts, setContacts] = useState([]); 
@@ -94,7 +116,12 @@ function Chats() {
                             <TopBar
                                 img={currentUser.photoURL}
                                 username={currentUser.displayName}
+                                email={currentUser.email}
                                 triggerLogout={setLogout}
+                                triggerBar={(state) => {
+                                    setChatOut(state);
+                                    setStateChat(true);
+                                }}
                             />
                             {showLogout == true && <ConfLogout setVisible={setLogout} />}
                             <Contacts
@@ -116,14 +143,24 @@ function Chats() {
                     style={isMobile ? { flex: stateChat ? 1 : 0 } : {}}
                 >
                     {currentUser ? (
-                        state.chatId && state.replier && state.sender ? (
-                            <div className="chat-wrapper">
-                                <ChatsBody triggerChange={setStateChat} />
-                                <MsgInput />
-                            </div>
-                        ) : (
-                            <ChatIntro />
-                        )
+                        <div className="chat-wrapper">
+                            {chatOutState === "USER_SETTINGS" ? (
+                                <UserSettings
+                                    triggerBack={async () => { 
+                                        setStateChat(false);
+                                        if (isMobile) await new Promise(resolve => setTimeout(resolve, 1000));
+                                        setChatOut("");
+                                    }}
+                                />
+                            ) : (state.chatId && state.replier && state.sender ? (
+                                <>
+                                    <ChatsBody triggerChange={setStateChat} />
+                                    <MsgInput />
+                                </>
+                            ) : (
+                                <ChatIntro />
+                            ))}
+                        </div>
                     ) : (
                         <div className="no-user">
                             <h3>

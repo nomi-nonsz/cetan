@@ -1,3 +1,5 @@
+@import "./components/settings.scss";
+
 .chat-intro {
     margin: auto;
     opacity: .8;
@@ -39,13 +41,29 @@
             justify-content: space-between;
             align-items: center;
             color: white;
-            background-color: var(--accent);
-            padding: 10px;
+            background-color: var(--primary);
+            padding: 5px;
+
+            
 
             .user {
                 display: flex;
                 align-items: center;
                 gap: 10px;
+                background-color: transparent;
+                color: white;
+                padding: 5px;
+                padding-right: 15px;
+                border-radius: 12px;
+                
+                .text {
+                    font-family: var(--font-roboto);
+                    text-align: left;
+                    .username {
+                        font-weight: bold;
+                        font-size: medium;
+                    }
+                }
 
                 img {
                     width: 40px;
@@ -53,6 +71,10 @@
                     object-fit: cover;
                     background-color: var(--backgound);
                     border-radius: 999px;
+                }
+
+                &:hover {
+                    background-color: var(--accent);
                 }
             }
             button {
@@ -137,11 +159,16 @@
                     width: 40px;
                     height: 40px;
                     border-radius: 4px;
+                    display: none;
 
                     svg {
                         width: 1.5rem;
                         height: auto;
                         fill: white;
+                    }
+
+                    @include mobile {
+                        display: block;
                     }
                 }
     
