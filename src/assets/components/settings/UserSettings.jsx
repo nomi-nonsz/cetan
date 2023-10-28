@@ -13,6 +13,7 @@ function UserSettings({ triggerBack }) {
     const { currentUser } = useContext(AuthContext);
 
     const [isCopied, setCopied] = useState(false);
+    const [username, setUsername] = useState(currentUser.displayName);
 
     const refProfile = useRef(null);
     const refUsername = useRef(null);
@@ -56,7 +57,10 @@ function UserSettings({ triggerBack }) {
                         ref={refUsername}
                         id="username"
                         placeholder="Enter your username"
-                        value={currentUser.displayName}
+                        value={username}
+                        onChange={(e) => {
+                            setUsername(e.target.value)
+                        }}
                     />
                     <div className="desc">Username is displayed publicly</div>
                 </section>
