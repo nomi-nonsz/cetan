@@ -12,6 +12,7 @@ import { ReactComponent as ArrowLeft } from "../../svg/left-arrow.svg";
 import { ReactComponent as X } from "../../svg/x.svg";
 import { ReactComponent as Clipboard } from "../../svg/clipboard.svg";
 import { ReactComponent as Check } from "../../svg/check.svg";
+import { validateMaxFile } from "../../../lib/fileValidator";
 
 function UserSettings({ triggerBack }) {
     const { isMobile } = useContext(ViewportContext);
@@ -51,15 +52,25 @@ function UserSettings({ triggerBack }) {
     const handleSave = async(e) => {
         e.preventDefault();
 
+        const file = refProfile.current.files[0]
+
         if (username.length < 1) {
             errorMsg("The changed data must not be empty");
+            return;
+        }
+
+        if (file && !validateMaxFile(file, 2)) {
+            errorMsg("Image file size is too big, max 2MB");
             return;
         }
 
         const docRef = doc(db, "users", currentUser.uid);
 
         try {
-            await updateDoc(docRef, { username });
+            // update photo soon
+            await updateDoc(docRef, {
+                username
+            });
             await updateProfile(currentUser, {displayName: username});
         } catch (error) {
             console.error(error);

@@ -19,6 +19,7 @@ import { ReactComponent as Flies } from "../assets/svg/flies.svg";
 import FacebookIcon from "../assets/img/facebook.png";
 import Submit from "../assets/components/button/Submit";
 import FileImage from "../assets/components/form/FileImage";
+import { validateMaxFile } from "../lib/fileValidator";
 
 function RegisterPage() {
     const navigate = useNavigate();
@@ -39,6 +40,7 @@ function RegisterPage() {
         const passwordval = password.current.value;
         const fileimg = file.current.files[0];
 
+        // empty values error
         if (
             usernameval.length < 1 ||
             emailval.length < 1 ||
@@ -48,8 +50,16 @@ function RegisterPage() {
             return;
         }
 
-        if (password.length < 9) {
+        // file size is too biggg
+        if (!validateMaxFile(fileimg, 2)) {
+            setError("Image file size is too big, max 2MB");
+            return;
+        }
+
+        // password char length error
+        if (passwordval.length < 9) {
             setError("Password must be 8 characters");
+            return;
         }
 
         setBtnState("loading");
