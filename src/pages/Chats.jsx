@@ -101,6 +101,12 @@ function Chats() {
         }
     }, [currentUser, countdown]);
 
+    const goBack = async () => { 
+        setStateChat(false);
+        if (isMobile) await new Promise(resolve => setTimeout(resolve, 1000));
+        setChatOut("");
+    }
+
     return (
         <>
             {showAdd == true && (
@@ -146,11 +152,7 @@ function Chats() {
                         <div className="chat-wrapper">
                             {chatOutState === "USER_SETTINGS" ? (
                                 <UserSettings
-                                    triggerBack={async () => { 
-                                        setStateChat(false);
-                                        if (isMobile) await new Promise(resolve => setTimeout(resolve, 1000));
-                                        setChatOut("");
-                                    }}
+                                    triggerBack={goBack}
                                 />
                             ) : (state.chatId && state.replier && state.sender ? (
                                 <>

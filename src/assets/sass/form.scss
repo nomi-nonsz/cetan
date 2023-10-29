@@ -75,14 +75,35 @@
                 }
 
                 .form-file {
+                    width: 200px;
+                    text-align: center;
+
+                    @include mobile {
+                        width: 100%;
+                    }
+
                     label {
                         fill: var(--primary);
                         cursor: pointer;
                         transition: .2s opacity;
                         text-align: center;
     
-                        svg, img { width: 200px; }
-                        svg { height: auto; }
+                        .no-img, img {
+                            width: 200px;
+                            margin: 0 auto;
+                        }
+                        .no-img {
+                            background-color: var(--secondary-darken);
+                            border-radius: 999px;
+                            border: 1px solid var(--primary-doomer);
+                            height: 200px;
+                            display: flex;
+                            justify-content: center;
+                            svg {
+                                width: 100px;
+                                height: auto;
+                            }
+                        }
                         img {
                             height: 200px;
                             object-fit: cover;
@@ -92,10 +113,17 @@
                         .desc {
                             margin-top: 16px;
                         }
-
+                        
                         &:hover {
                             opacity: .8;
                         }
+                    }
+
+                    .info {
+                        font-size: small;
+                        width: fit-content;
+                        margin-top: 10px;
+                        opacity: .8;
                     }
                     input[type=file] {
                         display: none;
