@@ -29,94 +29,99 @@
     .side-chats {
         flex: 1;
         background-color: var(--secondary);
-        position: relative;
 
         @include mobile {
             flex-grow: 1;
             overflow-x: hidden;
         }
-        
-        .top-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: white;
-            background-color: var(--primary);
-            padding: 5px;
 
+        .side-wrapper {
+            position: relative;
+            height: 100%;
             
+            @include mobile {
+                width: 100vw;
 
-            .user {
+            }
+            .top-bar {
                 display: flex;
+                justify-content: space-between;
                 align-items: center;
-                gap: 10px;
-                background-color: transparent;
                 color: white;
+                background-color: var(--primary);
                 padding: 5px;
-                padding-right: 15px;
-                border-radius: 12px;
-                
-                .text {
-                    font-family: var(--font-roboto);
-                    text-align: left;
-                    .username {
-                        font-weight: bold;
-                        font-size: medium;
+                .user {
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                    background-color: transparent;
+                    color: white;
+                    padding: 5px;
+                    padding-right: 15px;
+                    border-radius: 12px;
+                    
+                    .text {
+                        font-family: var(--font-roboto);
+                        text-align: left;
+                        .username {
+                            font-weight: bold;
+                            font-size: medium;
+                        }
+                    }
+    
+                    img {
+                        width: 40px;
+                        height: 40px;
+                        object-fit: cover;
+                        background-color: var(--backgound);
+                        border-radius: 999px;
+                    }
+    
+                    &:hover {
+                        background-color: var(--accent);
                     }
                 }
-
-                img {
-                    width: 40px;
-                    height: 40px;
-                    object-fit: cover;
-                    background-color: var(--backgound);
-                    border-radius: 999px;
-                }
-
-                &:hover {
-                    background-color: var(--accent);
+                button {
+                    background: none;
+                    border: none;
+                    svg {
+                        fill: white;
+                        width: 1.3em;
+                        height: auto;
+                    }
                 }
             }
-            button {
-                background: none;
-                border: none;
-                svg {
-                    fill: white;
-                    width: 1.3em;
-                    height: auto;
+    
+            .searchbar, .user-list {
+                padding: 0 14px;
+            }
+    
+            .searchbar {
+                margin: 20px 0;
+                input {
+                    padding: 12px 15px;
+                    width: 100%;
+                    background-color: var(--secondary-darken);
+                    border: none;
+                    border-radius: 12px;
+                    color: white;
                 }
             }
-        }
-
-        .searchbar, .user-list {
-            padding: 0 14px;
-        }
-
-        .searchbar {
-            margin: 20px 0;
-            input {
-                padding: 12px 15px;
-                width: 100%;
-                background-color: var(--secondary-darken);
-                border: none;
-                border-radius: 12px;
-                color: white;
+            .user-list {
+                display: flex;
+                flex-direction: column;
+                gap: 7px;
+                position: relative;
+    
+                .loading-component {
+                    margin: auto;
+                    margin-top: 20px;
+                }
             }
-        }
-        .user-list {
-            display: flex;
-            flex-direction: column;
-            gap: 7px;
-            position: relative;
-
-            .loading-component {
-                margin: auto;
-                margin-top: 20px;
+            .no-user {
+                margin-top: 120px;
+                text-align: center;
             }
-        }
-        .no-user {
-            margin-top: 120px;
-            text-align: center;
         }
     }
     .main-chat {

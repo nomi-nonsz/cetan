@@ -17,20 +17,6 @@ import ChatIntro from "../assets/components/ChatIntro";
 import Contacts from "../assets/components/Contacts";
 import UserSettings from "../assets/components/settings/UserSettings";
 
-function chatoFAM (state, action) {
-    state.stateChatOut("")
-
-    switch (action.type) {
-        case "USER_SETTINGS":
-            state.stateChat(true);
-        case "RESET":
-            state.stateChat(false);
-            state.stateChatOut("");
-    }
-
-    return state;
-}
-
 function Chats() {
     const navigate = useNavigate();
 
@@ -44,10 +30,6 @@ function Chats() {
 
     // chat out state
     const [chatOutState, setChatOut] = useState("");
-    const [chatOutReducer, chatOutDispatch] = useReducer(chatoFAM, {
-        stateChat: setStateChat,
-        stateChatOut: setChatOut
-    });
 
     // the user data from database
     const [contacts, setContacts] = useState([]); 
@@ -103,7 +85,6 @@ function Chats() {
 
     const goBack = async () => { 
         setStateChat(false);
-        if (isMobile) await new Promise(resolve => setTimeout(resolve, 1000));
         setChatOut("");
     }
 
@@ -117,32 +98,34 @@ function Chats() {
                     className="side-chats"
                     style={isMobile ? { flex: stateChat ? 0 : 1 } : {}}
                 >
-                    {currentUser ? (
-                        <>
-                            <TopBar
-                                img={currentUser.photoURL}
-                                username={currentUser.displayName}
-                                email={currentUser.email}
-                                triggerLogout={setLogout}
-                                triggerBar={(state) => {
-                                    setChatOut(state);
-                                    setStateChat(true);
-                                }}
-                            />
-                            {showLogout == true && <ConfLogout setVisible={setLogout} />}
-                            <Contacts
-                                setParentContacts={setContacts}
-                                triggerChange={setStateChat}
-                            />
-                            <SideAdd
-                                onClick={() => {
-                                    setShowAdd(true);
-                                }}
-                            />
-                        </>
-                    ) : (
-                        <div className="no-user">No Signed yet</div>
-                    )}
+                    <div className="side-wrapper">
+                        {currentUser ? (
+                            <>
+                                <TopBar
+                                    img={currentUser.photoURL}
+                                    username={currentUser.displayName}
+                                    email={currentUser.email}
+                                    triggerLogout={setLogout}
+                                    triggerBar={(state) => {
+                                        setChatOut(state);
+                                        setStateChat(true);
+                                    }}
+                                />
+                                {showLogout == true && <ConfLogout setVisible={setLogout} />}
+                                <Contacts
+                                    setParentContacts={setContacts}
+                                    triggerChange={setStateChat}
+                                />
+                                <SideAdd
+                                    onClick={() => {
+                                        setShowAdd(true);
+                                    }}
+                                />
+                            </>
+                        ) : (
+                            <div className="no-user">No Signed yet</div>
+                        )}
+                    </div>
                 </div>
                 <div
                     className="main-chat"
