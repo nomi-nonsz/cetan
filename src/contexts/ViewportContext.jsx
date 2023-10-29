@@ -8,9 +8,9 @@ export function ViewportContextProvider({ children }) {
     const [viewportHeight, setViewportHeight] = useState(window.innerHeight);
 
     // breakpoints
-    const [isLaptop, setLaptop] = useState(false);
-    const [isTablet, setTablet] = useState(false);
-    const [isMobile, setMobile] = useState(false);
+    const [isLaptop, setLaptop] = useState(window.innerWidth <= 1280);
+    const [isTablet, setTablet] = useState(window.innerWidth <= 768);
+    const [isMobile, setMobile] = useState(window.innerWidth <= 560);
 
     useEffect(() => {
         function handleResize() {

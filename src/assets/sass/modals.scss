@@ -34,6 +34,11 @@
     height: fit-content;
     border-radius: 12px;
 
+    @include mobile {
+        margin: auto 30px;
+        width: auto;
+    }
+
     h2 { margin-bottom: 18px; }
 
     .search-bar {
@@ -58,6 +63,10 @@
     padding: 30px;
     width: fit-content;
     border-radius: 8px;
+
+    @include mobile {
+        width: auto;
+    }
 
     h2 {
         margin: 20px;
