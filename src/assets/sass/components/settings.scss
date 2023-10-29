@@ -38,6 +38,22 @@
                 background-color: transparent;
             }
         }
+        button[type=submit] {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 8px;
+            transition: .15s background-color, opacity;
+            &:hover { background-color: var(--primary-darken); }
+            &:disabled {
+                opacity: .8;
+                background-color: var(--primary-doomer);
+            }
+        }
+        .error-msg {
+            color: var(--red);
+        }
         .desc {
             font-size: small;
             margin-top: 10px;
@@ -108,8 +124,11 @@
                 transition: .1s opacity;
                 margin: 0 auto;
                 display: block;
-
                 cursor: pointer;
+
+                @include mobile {
+                    width: 240px;
+                }
 
                 &:hover {
                     opacity: .7;

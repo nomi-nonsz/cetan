@@ -1,4 +1,9 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
+
+import { doc, updateDoc } from "firebase/firestore";
+import { db } from "../../../firebase/firebase";
+import { updateProfile } from "firebase/auth";
+
 import { ViewportContext } from "../../../contexts/ViewportContext";
 import { AuthContext } from "../../../contexts/AuthContext";
 import FileImage from "../form/FileImage";
@@ -15,10 +20,18 @@ function UserSettings({ triggerBack }) {
     const [isCopied, setCopied] = useState(false);
     const [username, setUsername] = useState(currentUser.displayName);
 
+    const [isChanged, setChanged] = useState(false);
+
+    const [errorMsg, setError] = useState("");
+
     const refProfile = useRef(null);
     const refUsername = useRef(null);
     const refEmail = useRef(null);
     // const refUid = useRef(null);
+
+    useEffect(() => {
+        setChanged(username !== currentUser.displayName);
+    }, [username]);
 
     const copyUid = async () => {
         // alternative
@@ -35,8 +48,27 @@ function UserSettings({ triggerBack }) {
         }
     }
 
+    const handleSave = async(e) => {
+        e.preventDefault();
+
+        if (username.length < 1) {
+            errorMsg("The changed data must not be empty");
+            return;
+        }
+
+        const docRef = doc(db, "users", currentUser.uid);
+
+        try {
+            await updateDoc(docRef, { username });
+            await updateProfile(currentUser, {displayName: username});
+        } catch (error) {
+            console.error(error);
+            setError(error);
+        }
+    }
+
     return (
-        <div className="settings user-settings">
+        <div className="settings user-settings" onSubmit={handleSave}>
             <button className="btn-back" onClick={triggerBack}>
                 {isMobile ? <ArrowLeft /> : <X />}
             </button>
@@ -90,6 +122,12 @@ function UserSettings({ triggerBack }) {
                         Share with friends, companions, services, anyone to
                         communicate with you
                     </div>
+                </section>
+                <section className="settings-item">
+                    <div className="error-msg">{errorMsg}</div>
+                </section>
+                <section className="settings-item">
+                    <button type="submit" disabled={!isChanged}>Save Changes</button>
                 </section>
             </form>
         </div>
