@@ -97,14 +97,28 @@
             }
     
             .searchbar {
+                position: relative;
                 margin: 20px 0;
+
                 input {
-                    padding: 12px 15px;
+                    padding: 12px 40px 12px 15px;
                     width: 100%;
                     background-color: var(--secondary-darken);
                     border: none;
                     border-radius: 12px;
                     color: white;
+                    &::placeholder {
+                        color: #b3b9c1;
+                    }
+                }
+
+                svg {
+                    position: absolute;
+                    right: 30px;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    fill: #b3b9c1;
+                    pointer-events: none;
                 }
             }
             .user-list {

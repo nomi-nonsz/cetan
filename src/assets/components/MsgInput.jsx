@@ -69,6 +69,11 @@ function MsgInput () {
             })
 
             setBtn("idle");
+
+            // reset
+            message.current.value = "";
+            imgRef.current.value = null;
+            changeImage();
             
             await updateDoc(contactRef, {
                 [replier.uid]: {
@@ -81,11 +86,6 @@ function MsgInput () {
                     chatId
                 }
             })
-
-            // reset
-            message.current.value = ""
-            imgRef.current.files[0] = null;
-            setImg(null);
         }
         catch (error) {
             console.error(error);
@@ -94,7 +94,11 @@ function MsgInput () {
 
     const changeImage = () => {
         const file = imgRef.current.files[0];
-        if (!file) return;
+
+        if (!file) {
+            setImg(null);
+            return;
+        }
 
         const reader = new FileReader();
         reader.onload = (e) => { return setImg(e.target.result) };
