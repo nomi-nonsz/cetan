@@ -141,7 +141,6 @@
     .main-chat {
         flex: 3;
         background-color: var(--secondary-darken);
-        border: 1px solid var(--primary-doomer);
         
         @include mobile {
             flex: 3;

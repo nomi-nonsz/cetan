@@ -1,0 +1,16 @@
+{
+    "dark": {
+        "blue-dim": {
+            "primary": "#277ae7",
+            "primary-darken": "#1b69cf",
+            "primary-doomer": "#277ae749",
+            "secondary": "#061b37",
+            "secondary-darken": "#03152c",
+            "green": "#19e6a2",
+            "red": "#e7184c",
+            "text": "white",
+            "background": "#020b1b",
+            "accent": "#1761c1"
+        }
+    }
+}
