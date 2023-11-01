@@ -300,27 +300,64 @@
                 }
             }
             .msg-input {
-                background-color: var(--secondary);
-                padding: 5px;
+                margin: 10px;
     
                 .file-preview {
-                    margin: 10px;
-                    img {
-                        width: 300px;
-                        border-radius: 8px;
+                    background-color: var(--secondary);
+                    padding: 10px;
+                    margin-bottom: 10px;
+                    border-radius: 8px;
+
+                    .img-item {
+                        position: relative;
+                        width: fit-content;
+                        height: fit-content;
+
+                        img {
+                            width: 300px;
+                            border-radius: 8px;
+                            transition: .2s opacity;
+                            display: block;
+                        }
+
+                        &:hover img {
+                            opacity: .7;
+                        }
+
+                        .cancel {
+                            background-color: transparent;
+                            margin-bottom: auto;
+                            border: none;
+                            position: absolute;
+                            right: 8px;
+                            top: 8px;
+                            opacity: 0;
+                            transition: .2s opacity;
+                            svg {
+                                width: 2rem;
+                                height: auto;
+                            }
+                        }
+
+                        &:hover .cancel {
+                            opacity: 1;
+                        }
                     }
                 }
                 
                 .msg-wrapper {
                     display: flex;
-                    gap: 10px;
+                    padding: 5px;
+                    border-radius: 10px;
+                    gap: 5px;
+                    background-color: var(--secondary);
                     
                     input[type=text] {
                         height: 45px;
-                        padding: 0 20px;
-                        background-color: var(--secondary-darken);
-                        border: 1px solid var(--primary-doomer);
-                        border-radius: 99px;
+                        padding: 0 10px;
+                        background-color: transparent;
+                        border: none;
+                        border-radius: 8px;
                         flex-grow: 1;
                         color: white;
                         font-size: medium;
@@ -358,7 +395,7 @@
                         width: 45px;
                         background-color: var(--primary);
                         border: none;
-                        border-radius: 99px;
+                        border-radius: 8px;
                         position: relative;
 
                         @include mobile {

@@ -7,6 +7,7 @@ import LoadingAnim from "./LoadingAnim";
 
 import { ReactComponent as SendIcon } from "../svg/send.svg";
 import { ReactComponent as ImgIcon } from "../svg/image2.svg";
+import { ReactComponent as XIcon } from "../svg/x.svg";
 
 function MsgInput () {
     const message = useRef(null);
@@ -92,6 +93,11 @@ function MsgInput () {
         }
     }
 
+    const cancelImage = () => {
+        imgRef.current.value = null;
+        setImg(null);
+    }
+
     const changeImage = () => {
         const file = imgRef.current.files[0];
 
@@ -107,7 +113,16 @@ function MsgInput () {
 
     return (
         <div className="msg-input">
-            {imgUrl && <div className="file-preview"><img src={imgUrl} alt="" /></div>}
+            {imgUrl &&
+                <div className="file-preview">
+                    <div className="img-item">
+                        <img src={imgUrl} alt="" />
+                        <button className="cancel" onClick={cancelImage}>
+                            <XIcon />
+                        </button>
+                    </div>
+                </div>
+            }
             <form className="msg-wrapper" onSubmit={handleSend}>
                 <div className="file-input">
                     <label htmlFor="file-img">

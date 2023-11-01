@@ -30,9 +30,9 @@ button {
 }
 
 ::-webkit-scrollbar {
-    width: 12px;
+    width: 10px;
     @include mobile {
-        width: 8px;
+        width: 7px;
     }
 }
 
