@@ -1,14 +1,26 @@
-import React, { useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 
-function ChatSender({ profile, username, msg, img }) {
+import { ReactComponent as ThreeDots } from "../../svg/3-dots.svg";
+import { ReactComponent as Trash } from "../../svg/trash.svg";
+
+function ChatSender({ profile, username, msg, img, id, deleteChat }) {
     const chatRef = useRef(null);
 
     useEffect(() => {
         chatRef.current?.scrollIntoView({ behavior: "smooth" });
     }, [msg]);
 
+    const handleDelete = () => {
+        deleteChat(id);
+    }
+
     return (
         <div className="chat chat-sender" ref={chatRef}>
+            <div className="chat-option">
+                <button className="danger" onClick={handleDelete}>
+                    <Trash />
+                </button>
+            </div>
             <div className="chat-wrapper">
                 <div className="msgbox">
                     <div className="username">{username}</div>

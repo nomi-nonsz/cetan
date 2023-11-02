@@ -1,6 +1,6 @@
 import React, { useContext, useRef, useState } from "react";
 import { ChatContext } from "../../contexts/ChatContext";
-import { arrayUnion, doc, serverTimestamp, updateDoc } from "firebase/firestore";
+import { addDoc, arrayUnion, collection, doc, serverTimestamp, setDoc, updateDoc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { db, storage } from "../../firebase/firebase";
 import LoadingAnim from "./LoadingAnim";
@@ -51,9 +51,11 @@ function MsgInput () {
             setBtn("loading");
 
             const chatRef = doc(db, "chats", chatId);
+            const chatDummy = collection(db, "chatDummy");
             const contactRef = doc(db, "userChats", sender.uid);
 
             const newChat = {
+                id: "",
                 uid: sender.uid,
                 message: msg,
                 datetime: new Date(Date.now())
@@ -63,6 +65,13 @@ function MsgInput () {
 
             if (uploadedImageURL)
                 newChat.imgURL = uploadedImageURL;
+
+            const dummy = await addDoc(chatDummy, {
+                ...newChat,
+                chatFrom: chatId
+            });
+
+            newChat.id = dummy.id;
             
             await updateDoc(chatRef, {
                 conversation: arrayUnion(newChat),

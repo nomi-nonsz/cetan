@@ -6,6 +6,7 @@ import { db } from "../firebase/firebase";
 import { ViewportContext } from "../contexts/ViewportContext";
 import { AuthContext } from "../contexts/AuthContext";
 import { ChatContext } from "../contexts/ChatContext";
+import { ModalContext } from "../contexts/ModalContext";
 
 import TopBar from "../assets/components/TopBar";
 import ChatsBody from "../assets/components/ChatsBody";
@@ -16,6 +17,7 @@ import ConfLogout from "../assets/components/modal/ConfLogout";
 import ChatIntro from "../assets/components/ChatIntro";
 import Contacts from "../assets/components/Contacts";
 import UserSettings from "../assets/components/settings/UserSettings";
+import ConfDelete from "../assets/components/modal/ConfDelete";
 
 function Chats() {
     const navigate = useNavigate();
@@ -23,6 +25,7 @@ function Chats() {
     // contexts
     const { currentUser } = useContext(AuthContext);
     const { state } = useContext(ChatContext);
+    const { deleteChat, setDeleteChat } = useContext(ModalContext);
     const { isMobile } = useContext(ViewportContext);
 
     // toggle chat layout for mobile
@@ -92,6 +95,17 @@ function Chats() {
             {showAdd == true && (
                 <AddContact setVisible={setShowAdd} users={users} />
             )}
+            {deleteChat.state && <ConfDelete
+                title={"Delete message"}
+                message={"Are you sure you want to delete this message?"}
+                accept={deleteChat.payload}
+                reject={() => {
+                    setDeleteChat({
+                        state: false,
+                        payload: () => {}
+                    });
+                }}
+            />}
             <div className="chats">
                 <div
                     className="side-chats"

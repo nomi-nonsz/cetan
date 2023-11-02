@@ -272,6 +272,38 @@
                         }
                     }
                     &-sender {
+                        .chat-option {
+                            padding-top: 20px;
+                            opacity: 0;
+                            transition: .15s opacity;
+                            button {
+                                border: none;
+                                height: 40px;
+                                width: 40px;
+                                border-radius: 99px;
+                                background-color: var(--secondary);
+                                transition: .15s background-color;
+                                svg {
+                                    fill: white;
+                                    opacity: .6;
+                                    width: 1.3rem;
+                                    height: auto;
+                                }
+                                &.danger {
+                                    svg {
+                                        fill: var(--red);
+                                        transition: .15s fill;
+                                    }
+                                    &:hover {
+                                        background-color: var(--red);
+                                        svg { fill: white; }
+                                    }
+                                }
+                            }
+                        }
+                        &:hover .chat-option {
+                            opacity: 1;
+                        }
                         .chat-wrapper {
                             .msgbox {
                                 margin-left: auto;

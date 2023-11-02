@@ -263,7 +263,7 @@
     }
 }
 
-.dsc-btn-primary, .dsc-btn-secondary {
+.dsc-btn-primary, .dsc-btn-secondary, .dsc-btn-danger {
     border: none;
     padding: 15px;
     border-radius: 8px;
@@ -285,6 +285,14 @@
     color: var(--primary);
     &:hover {
         background-color: var(--secondary-darken);
+    }
+}
+
+.dsc-btn-danger {
+    background-color: var(--red);
+    color: white;
+    &:hover {
+        background-color: var(--red-dark);
     }
 }
 

@@ -8,8 +8,9 @@ import ChatReceiver from "./chat/ChatReceiver";
 import LoadingAnim from "./LoadingAnim";
 
 import { ChatContext } from "../../contexts/ChatContext";
-import { doc, onSnapshot } from "firebase/firestore";
+import { arrayRemove, doc, getDoc, onSnapshot, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase/firebase";
+import { ModalContext } from "../../contexts/ModalContext";
 
 function ExampleChat () {
     return <>
@@ -117,8 +118,8 @@ function ExampleChat () {
 }
 
 function ChatConsole (chats) {
-    chats.forEach(({ message, username, role }, index) => {
-        console.log(`${index}. [${role}](${username}): ${message}`)
+    chats.forEach(({ message, username }, index) => {
+        console.log(`${index}. (${username}): ${message}`)
     })
 }
 
@@ -128,6 +129,37 @@ function ChatsBody ({ triggerChange }) {
     const [sender, setSender] = useState({});
 
     const { state } = useContext(ChatContext);
+    const { setDeleteChat } = useContext(ModalContext);
+
+    const deleteChat = async (id) => {
+        const chatRef = doc(db, "chats", state.chatId);
+
+        try {
+            const chats = await getDoc(chatRef);
+            const { conversation } = chats.data();
+
+            const newConversation = conversation.filter((chat) => chat.id !== id);
+
+            await updateDoc(chatRef, {
+                conversation: newConversation
+            });
+
+            setDeleteChat({
+                state: false,
+                payload: () => {}
+            })
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    const handleDelete = (id) => {
+        console.log(id);
+        setDeleteChat({
+            state: true,
+            payload: () => deleteChat(id)
+        });
+    }
 
     useEffect(() => {
         const isSelected = state.sender && state.replier && state.chatId;
@@ -157,7 +189,7 @@ function ChatsBody ({ triggerChange }) {
             {messages ? (
                 messages.length < 1 ? (
                     <div className="no-msg">Start the conversation by saying hi to <b>{replier.username}</b></div>
-                ) : (messages.map(({ message, uid, imgURL }, key) => {
+                ) : (messages.map(({ message, uid, imgURL, id }, key) => {
                     const isSelected = state.sender && state.replier && state.chatId;
     
                     if (!isSelected) {
@@ -174,7 +206,9 @@ function ChatsBody ({ triggerChange }) {
                                     username={"You"}
                                     msg={message}
                                     img={imgURL}
-                                    key={key}
+                                    key={id || key}
+                                    id={id}
+                                    deleteChat={handleDelete}
                                 />
                             );
                         case state.replier.uid:
@@ -184,7 +218,7 @@ function ChatsBody ({ triggerChange }) {
                                     username={replier.username}
                                     msg={message}
                                     img={imgURL}
-                                    key={key}
+                                    key={id || key}
                                 />
                             )
                     }
