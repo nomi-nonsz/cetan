@@ -228,7 +228,7 @@
                         margin: 10px;
                     }
     
-                    .chat-wrapper {
+                    .chatbox-wrapper {
                         max-width: 60%;
 
                         @include mobile {
@@ -276,6 +276,11 @@
                             padding-top: 20px;
                             opacity: 0;
                             transition: .15s opacity;
+
+                            @include mobile {
+                                padding-top: 10px;
+                            }
+
                             button {
                                 border: none;
                                 height: 40px;
@@ -283,12 +288,23 @@
                                 border-radius: 99px;
                                 background-color: var(--secondary);
                                 transition: .15s background-color;
+
+                                @include mobile {
+                                    width: 30px;
+                                    height: 30px;
+                                }
+
                                 svg {
                                     fill: white;
                                     opacity: .6;
                                     width: 1.3rem;
                                     height: auto;
+                                    
+                                    @include mobile {
+                                        width: .9rem;
+                                    }
                                 }
+
                                 &.danger {
                                     svg {
                                         fill: var(--red);

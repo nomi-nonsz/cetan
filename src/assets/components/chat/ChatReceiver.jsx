@@ -9,7 +9,7 @@ function ChatReceiver({ profile, username, msg, img }) {
 
     return (
         <div className="chat chat-receiver" ref={chatRef}>
-            <div className="chat-wrapper">
+            <div className="chatbox-wrapper">
                 <div className="msgbox">
                     <div className="username">{username}</div>
                     <div className="msg">{msg}</div>

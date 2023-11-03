@@ -21,7 +21,7 @@ function ChatSender({ profile, username, msg, img, id, deleteChat }) {
                     <Trash />
                 </button>
             </div>
-            <div className="chat-wrapper">
+            <div className="chatbox-wrapper">
                 <div className="msgbox">
                     <div className="username">{username}</div>
                     <div className="msg">{msg}</div>

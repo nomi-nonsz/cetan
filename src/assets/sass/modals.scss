@@ -82,6 +82,11 @@
     width: fit-content;
     height: fit-content;
     position: absolute;
+
+    @include mobile {
+        width: auto;
+        margin: auto 20px;
+    }
 }
 
 .desicion {
