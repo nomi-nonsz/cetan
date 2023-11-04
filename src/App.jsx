@@ -6,23 +6,16 @@ import {
   Navigate
 } from 'react-router-dom';
 
-import { AuthContext, AuthContextProvider } from './contexts/AuthContext';
 import RegisterPage from './pages/Register'
 import LoginPage from './pages/Login';
 import Chats from './pages/Chats';
+import Contexts from './contexts/Contexts';
+
 import "./assets/sass/main.scss";
-import { ChatContextProvider } from './contexts/ChatContext';
-import { ViewportContextProvider } from './contexts/ViewportContext';
-import { ModalContextProvider } from './contexts/ModalContext';
 
 function App() {
-  const [user, setUser] = useState({});
-  
   return (
-    <AuthContextProvider onWake={setUser}>
-    <ChatContextProvider>
-    <ViewportContextProvider>
-    <ModalContextProvider>
+    <Contexts>
       <Router>
         <Routes>
           <Route path='/signup' element={ <RegisterPage /> } />
@@ -32,10 +25,7 @@ function App() {
           } />
         </Routes>
       </Router>
-    </ModalContextProvider>
-    </ViewportContextProvider>
-    </ChatContextProvider>
-    </AuthContextProvider>
+    </Contexts>
   )
 }
 

@@ -4,7 +4,7 @@ import { auth } from "../firebase/firebase";
 
 export const AuthContext = createContext();
 
-export function AuthContextProvider ({ onWake, children }) {
+export function AuthContextProvider ({ children }) {
     const [currentUser, setUser] = useState({});
 
     useEffect(() => {
