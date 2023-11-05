@@ -1,0 +1,198 @@
+
+.home {
+    &-body {
+        background-color: var(--secondary);
+
+        a:hover {
+            text-decoration: underline;
+            * {
+                text-decoration: none;
+            }
+        }
+
+        .container {
+            width: 1440px;
+            margin: 0 auto;
+        }
+
+        .btn-primary, .btn-secondary {
+            border: none;
+            border-radius: 5px;
+            font-family: Roboto;
+            font-size: 16px;
+            transition: .15s background-color;
+        }
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+            &:hover {
+                background-color: var(--primary-darken);
+            }
+        }
+        .btn-secondary {
+            background-color: var(--background);
+            color: var(--primary);
+            &:hover {
+                background-color: var(--secondary-darken);
+            }
+        }
+    }
+    
+    &-main-container {
+        picture img {
+            pointer-events: none;
+        }
+
+        h1.header {
+            font-family: Poppins;
+            font-weight: 400;
+            font-size: 48px;
+        }
+        p.content, div.content {
+            font-family: Roboto;
+            line-height: 153.6%;
+        }
+
+        .hero {
+            height: 100vh;
+            display: flex;
+            box-sizing: content-box;
+            justify-content: space-between;
+            align-items: center;
+
+            .contain {
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+
+                header {
+                    h1 {
+                        margin-bottom: -14px;
+                    }
+                }
+
+                .buttons {
+                    display: flex;
+                    gap: 16px;
+
+                    .btn-primary, .btn-secondary {
+                        padding: 14px 25px;
+                    }
+                }
+            }
+        }
+        .feature {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 2cm auto;
+
+            .contain {
+                width: 45%;
+            }
+            .image {
+                display: flex;
+                justify-content: flex-end;
+            }
+        }
+        .qoutes {
+            height: 60vh;
+        }
+        .lain-qoutes {
+            background: #111720;
+            position: relative;
+
+            .text {
+                position: absolute;
+                width: 100%;
+                z-index: 2;
+                top: 50%;
+                transform: translateY(-50%);
+
+                h1, p {
+                    max-width: 70%;
+                }
+                p {
+                    font-family: Roboto;
+                    font-size: 24px;
+                }
+            }
+
+            .lain-bg {
+                height: 100%;
+                width: 60%;
+                right: 0;
+                top: 0;
+                position: absolute;
+                background-size: cover;
+                background-repeat: no-repeat;
+
+                &::after {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: linear-gradient(104deg, #111720 17.29%, rgba(17, 23, 32, 0.39) 89.97%);
+                }
+            }
+        }
+        section.last {
+            height: 100vh;
+            position: relative;
+
+            .contain {
+                text-align: center;
+                position: absolute;
+                width: fit-content;
+                height: fit-content;
+                inset: 0;
+                margin: auto;
+
+                h1 {
+                    width: 701px;
+                }
+                .btn-primary {
+                    margin: auto;
+                    margin-top: 20px;
+                    width: fit-content;
+                    font-size: 20px;
+                    padding: 18px 40px;
+                }
+            }
+
+            .in1, .in2 {
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+            .in1 { left: 50px; }
+            .in2 { right: 50px; }
+        }
+        
+        .end {
+            background: var(--background);
+            box-sizing: content-box;
+            padding: 60px 0;
+            .name {
+                display: flex;
+                align-items: center;
+                gap: 18px;
+                h2 {
+                    font-family: Poppins;
+                }
+            }
+            .desc {
+                margin-top: 14px;
+                width: 452px;
+                font-family: Roboto;
+                line-height: 153.7%;
+            }
+            .copy {
+                margin-top: 28px;
+                font-size: 14px;
+            }
+        }
+    }
+}

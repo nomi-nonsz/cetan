@@ -10,7 +10,6 @@ export function AuthContextProvider ({ children }) {
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
             setUser(user);
-            onWake(user);
         })
     }, [])
     

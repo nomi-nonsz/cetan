@@ -1,0 +1,83 @@
+.navbar {
+    position: fixed;
+    width: 100vw;
+    background-color: #152130be;
+    backdrop-filter: blur(24px);
+    padding: 20px 0;
+    z-index: 10;
+
+    .container {
+        width: 1440px;
+        justify-content: space-between;
+        align-items: center;
+        margin: 0 auto;
+        display: flex;
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+
+        .name {
+            font-size: 24px;
+            font-family: Poppins;
+            font-weight: 700;
+            
+        }
+    }
+
+    .navs {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 60px;
+
+        li {
+            a {
+                color: white;
+                transition: .15s opacity;
+                opacity: .8;
+                font-family: Roboto;
+                font-size: 18px;
+                
+                &:hover {
+                    opacity: 1;
+                }
+            }
+            
+            &.auth {
+                display: flex;
+                gap: 14px;
+
+                .btn {
+                    padding: 14px 30px;
+                    font-family: Roboto;
+                    color: white;
+                    font-size: 16px;
+                    border-radius: 8px;
+
+                    &-login, &-signup {
+                        border: 2px solid var(--primary, #277AE7);
+                        transition: .15s;
+                    }
+                    &-login {
+                        background-color: var(--primary);
+                        &:hover {
+                            background-color: var(--primary-darken);
+                        }
+                    }
+                    &-signup {
+                        background-color: transparent;
+                        &:hover {
+                            background-color: var(--secondary-darken);
+                            border-color: transparent;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
