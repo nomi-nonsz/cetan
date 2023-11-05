@@ -1,3 +1,5 @@
+@import "../breakpoints.scss";
+
 .navbar {
     position: fixed;
     width: 100vw;
@@ -6,12 +8,23 @@
     padding: 20px 0;
     z-index: 10;
 
+    @include laptop {
+        .app_logo {
+            width: 2.5rem;
+            height: auto;
+        }
+    }
+
     .container {
-        width: 1440px;
+        width: 1280px;
         justify-content: space-between;
         align-items: center;
         margin: 0 auto;
         display: flex;
+
+        @include laptop { width: 768px; }
+        @include tablet { width: 560px; }
+        @include mobile { width: auto; }
     }
 
     .logo {
@@ -23,7 +36,11 @@
             font-size: 24px;
             font-family: Poppins;
             font-weight: 700;
-            
+        }
+        
+        @include laptop {
+            gap: 12px;
+            .name { font-size: 20px; }
         }
     }
 
@@ -35,6 +52,10 @@
         align-items: center;
         gap: 60px;
 
+        @include laptop {
+            gap: 40px;
+        }
+
         li {
             a {
                 color: white;
@@ -42,6 +63,10 @@
                 opacity: .8;
                 font-family: Roboto;
                 font-size: 18px;
+                
+                @include laptop {
+                    font-size: 14px;
+                }
                 
                 &:hover {
                     opacity: 1;
@@ -58,6 +83,11 @@
                     color: white;
                     font-size: 16px;
                     border-radius: 8px;
+
+                    @include laptop {
+                        padding: 10px 20px;
+                        font-size: 14px;
+                    }
 
                     &-login, &-signup {
                         border: 2px solid var(--primary, #277AE7);

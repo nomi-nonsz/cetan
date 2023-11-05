@@ -11,8 +11,15 @@
         }
 
         .container {
-            width: 1440px;
+            width: 1280px;
             margin: 0 auto;
+
+            @include laptop { width: 768px; }
+            @include tablet { width: 560px; }
+            @include mobile {
+                width: auto;
+                margin: 0 40px;
+            }
         }
 
         .btn-primary, .btn-secondary {
@@ -47,6 +54,8 @@
             font-family: Poppins;
             font-weight: 400;
             font-size: 48px;
+
+            @include laptop { font-size: 32px; }
         }
         p.content, div.content {
             font-family: Roboto;
@@ -57,8 +66,17 @@
             height: 100vh;
             display: flex;
             box-sizing: content-box;
+            flex-direction: row-reverse;
             justify-content: space-between;
             align-items: center;
+
+            @include mobile {
+                flex-direction: column;
+                justify-content: center;
+                gap: 20px;
+                height: auto;
+                padding-top: 120px;
+            }
 
             .contain {
                 display: flex;
@@ -80,6 +98,10 @@
                     }
                 }
             }
+
+            .image img {
+                width: 100%;
+            }
         }
         .feature {
             display: flex;
@@ -94,9 +116,33 @@
                 display: flex;
                 justify-content: flex-end;
             }
+
+            @include laptop {
+                gap: 30px;
+
+                .contain, .image {
+                    flex: 1;
+                }
+                .image img {
+                    width: 100%;
+                }
+            }
+
+            @include mobile {
+                margin: 3cm 40px;
+                flex-direction: column !important;
+
+                .contain {
+                    width: auto;
+                }
+            }
         }
         .qoutes {
             height: 60vh;
+
+            @include mobile {
+                height: 593px;
+            }
         }
         .lain-qoutes {
             background: #111720;
@@ -111,10 +157,16 @@
 
                 h1, p {
                     max-width: 70%;
+                    @include mobile {
+                        max-width: fit-content;
+                    }
                 }
                 p {
                     font-family: Roboto;
                     font-size: 24px;
+                    @include tablet {
+                        font-size: 20px;
+                    }
                 }
             }
 
@@ -136,6 +188,14 @@
                     height: 100%;
                     background: linear-gradient(104deg, #111720 17.29%, rgba(17, 23, 32, 0.39) 89.97%);
                 }
+
+                @include tablet {
+                    width: 100%;
+                    background-position: 50% 50%;
+                    &::after {
+                        background: linear-gradient(0deg, #111720 0%, rgba(17, 23, 32, 0.39) 89.97%);
+                    }
+                }
             }
         }
         section.last {
@@ -151,7 +211,10 @@
                 margin: auto;
 
                 h1 {
-                    width: 701px;
+                    width: 700px;
+                    @include laptop {
+                        width: 380px;
+                    }
                 }
                 .btn-primary {
                     margin: auto;
@@ -166,9 +229,18 @@
                 position: absolute;
                 top: 50%;
                 transform: translateY(-50%);
+                height: auto;
+                @include tablet {
+                    display: none;
+                }
             }
             .in1 { left: 50px; }
             .in2 { right: 50px; }
+
+            @include laptop {
+                .in1 { width: 20rem; }
+                .in2 { width: 20rem; }
+            }
         }
         
         .end {
@@ -188,6 +260,10 @@
                 width: 452px;
                 font-family: Roboto;
                 line-height: 153.7%;
+
+                @include mobile {
+                    width: auto;
+                }
             }
             .copy {
                 margin-top: 28px;

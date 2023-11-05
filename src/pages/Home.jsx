@@ -14,10 +14,11 @@ import Lain from "../assets/img/lain-iwakura.jpg";
 
 import { Link } from "react-router-dom";
 
-function Feature({ gap, reverse, className, children }) {
+function Feature({ gap, reverse, className, id, children }) {
     return (
         <section
             className={`container feature ${className}`}
+            id={id}
             style={{ gap, flexDirection: reverse ? "row-reverse" : "row" }}
         >
             {children}
@@ -30,6 +31,9 @@ function Home() {
         <main className="home-body">
             <main className="home-main-container">
                 <section className="container hero">
+                    <div className="image">
+                        <img src={ConnectedPPL} alt="" />
+                    </div>
                     <div className="contain">
                         <header>
                             <h1 className="header">
@@ -50,11 +54,8 @@ function Home() {
                             </Link>
                         </div>
                     </div>
-                    <div className="image">
-                        <img src={ConnectedPPL} alt="" />
-                    </div>
                 </section>
-                <Feature className="feature-sync">
+                <Feature className="feature-sync" id={"sync-chat"}>
                     <div className="image">
                         <picture>
                             <img src={SyncFeature} alt="Sync Feature" />
@@ -99,7 +100,7 @@ function Home() {
                 <section className="last">
                     <div className="contain">
                         <h1 className="header">
-                            Now let’s start your first conversation
+                            Now let's start your first conversation
                         </h1>
                         <Link to={"/signup"}>
                             <div className="btn-primary">

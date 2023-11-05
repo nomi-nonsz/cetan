@@ -18,7 +18,7 @@ function Navbar () {
                 <ul className="navs">
                     <li><Link to={"/"}>Home</Link></li>
                     <li><Link to={"/about/"}>About</Link></li>
-                    <li><Link to={"/about/"}>Features</Link></li>
+                    <li><Link href={"/#sync-chat"}>Features</Link></li>
                     <li className="auth">
                         <button className="btn btn-login" onClick={() => navigate("/login")}>Login</button>
                         <button className="btn btn-signup" onClick={() => navigate("/signup")}>Sign Up</button>
