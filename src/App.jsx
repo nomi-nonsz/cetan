@@ -13,7 +13,7 @@ import Contexts from './contexts/Contexts';
 
 import "./assets/sass/main.scss";
 
-import Navbar from './assets/components/nav/navbar';
+import Navbar from './assets/components/nav/Navbar';
 
 function App() {
   return (
@@ -21,13 +21,13 @@ function App() {
       <Router>
         <Routes>
           <Route path='/' element={
-            <>
+            <main style={{ overflowX: "hidden" }}>
               <Navbar />
               <Routes>
                 <Route path='/' element={ <Home /> } />
                 <Route path='/about' />
               </Routes>
-            </>
+            </main>
           } />
           <Route path='/signup' element={ <RegisterPage /> } />
           <Route path='/login' element={ <LoginPage /> } />

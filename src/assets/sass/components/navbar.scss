@@ -1,5 +1,42 @@
 @import "../breakpoints.scss";
 
+
+.auth-btn {
+    display: flex;
+    gap: 14px;
+
+    .btn {
+        padding: 14px 30px;
+        font-family: Roboto;
+        color: white;
+        font-size: 16px;
+        border-radius: 8px;
+
+        @include laptop {
+            padding: 10px 20px;
+            font-size: 14px;
+        }
+
+        &-login, &-signup {
+            border: 2px solid var(--primary, #277AE7);
+            transition: .15s;
+        }
+        &-login {
+            background-color: var(--primary);
+            &:hover {
+                background-color: var(--primary-darken);
+            }
+        }
+        &-signup {
+            background-color: transparent;
+            &:hover {
+                background-color: var(--secondary-darken);
+                border-color: transparent;
+            }
+        }
+    }
+}
+
 .navbar {
     position: fixed;
     width: 100vw;
@@ -24,7 +61,10 @@
 
         @include laptop { width: 768px; }
         @include tablet { width: 560px; }
-        @include mobile { width: auto; }
+        @include mobile {
+            width: auto;
+            margin: 0 40px;
+        }
     }
 
     .logo {
@@ -44,7 +84,7 @@
         }
     }
 
-    .navs {
+    .desktop-nav {
         list-style: none;
         padding: 0;
         margin: 0;
@@ -54,6 +94,10 @@
 
         @include laptop {
             gap: 40px;
+        }
+
+        @include tablet {
+            display: none;
         }
 
         li {
@@ -72,42 +116,81 @@
                     opacity: 1;
                 }
             }
-            
-            &.auth {
-                display: flex;
-                gap: 14px;
+        }
+    }
 
-                .btn {
-                    padding: 14px 30px;
-                    font-family: Roboto;
-                    color: white;
-                    font-size: 16px;
-                    border-radius: 8px;
+    .burgir {
+        background: none;
+        border: none;
+        position: relative;
+        width: 55px;
+        height: 55px;
+        display: none;
 
-                    @include laptop {
-                        padding: 10px 20px;
-                        font-size: 14px;
-                    }
+        @include tablet {
+            display: block;
+        }
 
-                    &-login, &-signup {
-                        border: 2px solid var(--primary, #277AE7);
-                        transition: .15s;
-                    }
-                    &-login {
-                        background-color: var(--primary);
-                        &:hover {
-                            background-color: var(--primary-darken);
-                        }
-                    }
-                    &-signup {
-                        background-color: transparent;
-                        &:hover {
-                            background-color: var(--secondary-darken);
-                            border-color: transparent;
-                        }
-                    }
-                }
+        #bar-1, #bar-2 {
+            width: 40px;
+            height: 5px;
+            border-radius: 20px;
+            background-color: white;
+            position: absolute;
+            transform: translate(-50%, -50%);
+            left: 50%;
+
+            transition-duration: .1s;
+            transition-property: top transform;
+            transition-timing-function: ease-out;
+        }
+    }
+}
+
+.navbar-mobile {
+    position: fixed;
+    display: none;
+    background-color: #152130c2;
+    backdrop-filter: blur(40px);
+    padding: 40px;
+    padding-top: 100px;
+    width: 100vw;
+    height: 100vh;
+    z-index: 5;
+    box-sizing: border-box;
+    transition: .2s right;
+
+    @include tablet {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .navs {
+        display: flex;
+        flex-direction: column;
+
+        a {
+            color: white;
+            width: auto;
+            display: block;
+            padding: 18px;
+            font-size: 18px;
+            border-radius: 8px;
+
+            &:hover {
+                background-color: var(--secondary-darken);
             }
+        }
+    }
+    .auth-btn {
+        display: flex;
+
+        .btn {
+            flex: 1;
+            display: block;
+            padding: 16px 30px;
+            font-size: 18px;
         }
     }
 }
