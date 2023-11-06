@@ -1,9 +1,13 @@
 .form-fadder {
     height: 100vh;
+    width: 100vw;
+    background-image: url("../svg/auth/background.svg");
+    background-size: 70%;
     display: flex;
     
     @include mobile {
         height: fit-content;
+        padding-top: 90px;
     }
 
     .form-container {
@@ -16,13 +20,12 @@
         @include tablet {
             grid-template-columns: 40% 60%;
         }
+
         @include mobile {
             grid-template-columns: 100%;
             margin: 0;
-            padding: 10px;
-            padding-bottom: 30px;
+            padding: 0;
         }
-
 
         header {
             color: white;
@@ -35,8 +38,8 @@
             position: relative;
             
             @include mobile {
-                border-radius: 15px 15px 0 0;
-                padding-bottom: 80px;
+                border-radius: 0;
+                padding-bottom: 150px;
             }
 
             h1 {
@@ -58,7 +61,7 @@
             background-color: var(--secondary);
             
             @include mobile {
-                border-radius: 0 0 15px 15px;
+                border-radius: 0;
                 padding: 30px;
             }
             

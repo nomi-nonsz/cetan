@@ -20,17 +20,16 @@ function App() {
     <Contexts>
       <Router>
         <Routes>
-          <Route path='/' element={
+          <Route path='*' element={
             <main style={{ overflowX: "hidden" }}>
               <Navbar />
               <Routes>
                 <Route path='/' element={ <Home /> } />
-                <Route path='/about' />
+                <Route path='/signup' element={ <RegisterPage /> } />
+                <Route path='/login' element={ <LoginPage /> } />
               </Routes>
             </main>
           } />
-          <Route path='/signup' element={ <RegisterPage /> } />
-          <Route path='/login' element={ <LoginPage /> } />
           <Route path='/chats' element={
               <Chats />
           } />

@@ -67,10 +67,11 @@
         }
     }
 
-    .logo {
+    .logo a {
         display: flex;
         align-items: center;
         gap: 18px;
+        color: white;
 
         .name {
             font-size: 24px;
@@ -150,10 +151,10 @@
 .navbar-mobile {
     position: fixed;
     display: none;
-    background-color: #152130c2;
-    backdrop-filter: blur(40px);
+    background-color: #152130d9;
+    backdrop-filter: blur(32px);
     padding: 40px;
-    padding-top: 100px;
+    padding-top: 120px;
     width: 100vw;
     height: 100vh;
     z-index: 5;

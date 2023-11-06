@@ -29,8 +29,10 @@ function Navbar () {
         <nav className="navbar">
             <div className="container">
                 <div className="logo">
-                    <Logo />
-                    <div className="name">Cetan</div>
+                    <Link to={"/"}>
+                        <Logo />
+                        <div className="name">Cetan</div>
+                    </Link>
                 </div>
                 <ul className="desktop-nav">
                     <li><Link to={"/"}>Home</Link></li>

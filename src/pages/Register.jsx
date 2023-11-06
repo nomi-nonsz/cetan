@@ -191,7 +191,7 @@ function RegisterPage() {
                                 </Submit>
                             </div>
                             <div className="form-footer">
-                                already have an account? <Link to="/login">Login</Link>
+                                Already have an account? <Link to="/login">Login</Link>
                             </div>
                         </div>
                     </form>
