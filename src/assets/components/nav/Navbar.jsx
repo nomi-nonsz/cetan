@@ -10,18 +10,22 @@ function Navbar () {
 
     const [dropNav, setDrop] = useState(false);
 
+    const toggleNavMobile = () => {
+        setDrop(!dropNav);
+    }
+
     return <>
         <nav className="navbar-mobile"
             style={{
                 right: dropNav ? "0%" : "-100%"
             }}
         >
-            <div className="navs">
+            <div className="navs" onClick={toggleNavMobile}>
                 <Link to={"/"}>Home</Link>
                 <Link to={"/about/"}>About</Link>
                 <Link href={"/#sync-chat"}>Features</Link>
             </div>
-            <div className="auth-btn">
+            <div className="auth-btn" onClick={toggleNavMobile}>
                 <button className="btn btn-login" onClick={() => navigate("/login")}>Login</button>
                 <button className="btn btn-signup" onClick={() => navigate("/signup")}>Sign Up</button>
             </div>
@@ -45,7 +49,7 @@ function Navbar () {
                 </ul>
                 <button
                     className="burgir"
-                    onClick={() => setDrop(!dropNav)}
+                    onClick={toggleNavMobile}
                 >
                     <div
                         id="bar-1"
