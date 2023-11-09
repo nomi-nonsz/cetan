@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 
 import { doc, updateDoc } from "firebase/firestore";
-import { db } from "../../../firebase/firebase";
+import { db, storage } from "../../../firebase/firebase";
 import { updateProfile } from "firebase/auth";
 
 import { ViewportContext } from "../../../contexts/ViewportContext";
@@ -13,14 +13,19 @@ import { ReactComponent as X } from "../../svg/x.svg";
 import { ReactComponent as Clipboard } from "../../svg/clipboard.svg";
 import { ReactComponent as Check } from "../../svg/check.svg";
 import { validateMaxFile } from "../../../lib/fileValidator";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import LoadingAnim from "../LoadingAnim";
 
 function UserSettings({ triggerBack }) {
     const { isMobile } = useContext(ViewportContext);
-    const { currentUser } = useContext(AuthContext);
+    const { currentUser, refresh } = useContext(AuthContext);
 
     const [isCopied, setCopied] = useState(false);
+
+    const [profile, setProfile] = useState("");
     const [username, setUsername] = useState(currentUser.displayName);
 
+    const [btnState, setBtn] = useState("idle");
     const [isChanged, setChanged] = useState(false);
 
     const [errorMsg, setError] = useState("");
@@ -31,8 +36,12 @@ function UserSettings({ triggerBack }) {
     // const refUid = useRef(null);
 
     useEffect(() => {
-        setChanged(username !== currentUser.displayName);
-    }, [username]);
+        const isChange =
+            (username !== currentUser.displayName) ||
+            (profile.length > 0);
+
+        setChanged(isChange);
+    }, [username, profile]);
 
     const copyUid = async () => {
         // alternative
@@ -49,10 +58,30 @@ function UserSettings({ triggerBack }) {
         }
     }
 
+    const updateProfileImage = () => {
+        const file = refProfile.current.files[0];
+        if (!file) return;
+
+        return new Promise((resolve, reject) => {
+            const extension = file.name.split(".").pop();
+            const storageRef = ref(storage, `profiles/user-${currentUser.uid}.${extension}`);
+            const uploadTask = uploadBytesResumable(storageRef, file);
+
+            uploadTask.on((error) => {
+                reject(new Error(error));
+            }, async () => {
+                const savedURL = await getDownloadURL(uploadTask.snapshot.ref);
+                resolve(savedURL);
+            });
+        })
+    }
+
     const handleSave = async(e) => {
         e.preventDefault();
 
         const file = refProfile.current.files[0]
+
+        if (btnState == "loading") return;
 
         if (username.length < 1) {
             errorMsg("The changed data must not be empty");
@@ -66,16 +95,31 @@ function UserSettings({ triggerBack }) {
 
         const docRef = doc(db, "users", currentUser.uid);
 
+        setBtn("loading");
+
         try {
             // update photo soon
-            await updateDoc(docRef, {
-                username
-            });
-            await updateProfile(currentUser, {displayName: username});
+            const newData = { username };
+            const newProfile = { displayName: username };
+
+            if (file) {
+                const savedURL = await updateProfileImage();
+
+                newData.photoURL = savedURL;
+                newProfile.photoURL = savedURL;
+            }
+
+            await updateDoc(docRef, newData);
+            await updateProfile(currentUser, newProfile);
+
+            refresh();
+            
         } catch (error) {
             console.error(error);
             setError(error);
         }
+
+        setBtn("idle");
     }
 
     return (
@@ -91,6 +135,9 @@ function UserSettings({ triggerBack }) {
                     <FileImage
                         refFile={refProfile}
                         src={currentUser.photoURL}
+                        onChange={(e) => {
+                            setProfile(e.target.value);
+                        }}
                     />
                 </section>
                 <section className="settings-item">
@@ -138,7 +185,13 @@ function UserSettings({ triggerBack }) {
                     <div className="error-msg">{errorMsg}</div>
                 </section>
                 <section className="settings-item">
-                    <button type="submit" disabled={!isChanged}>Save Changes</button>
+                    <button
+                        type="submit"
+                        disabled={!isChanged && (btnState == "idle")}
+                    >
+                        {btnState == "idle" ?
+                        "Save Changes" : <LoadingAnim />}
+                    </button>
                 </section>
             </form>
         </div>
