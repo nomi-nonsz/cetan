@@ -13,9 +13,9 @@ function AddContact ({ setVisible, users }) {
 
     const watchSearch = () => {
         const q = queryRef.current.value;
-        const filtered = users.filter(({ email }) => {
+        const filtered = users.filter(({ username }) => {
             if (q.length > 0)
-                return email.toLowerCase().includes(q.toLowerCase());
+                return username.toLowerCase().includes(q.toLowerCase());
         });
         
         setFilter(filtered)
@@ -88,7 +88,7 @@ function AddContact ({ setVisible, users }) {
                     <input type="email" ref={queryRef} onChange={watchSearch} placeholder="Find contact by email..." id="" />
                 </div>
                 <div className="result-field">
-                    {filterUser.length > 0 && filterUser.map(({ email, username, photoURL, uid }) => (
+                    {filterUser.length > 0 ? filterUser.map(({ email, username, photoURL, uid }) => (
                         <UserItem
                             uid={uid}
                             img={photoURL}
@@ -97,7 +97,9 @@ function AddContact ({ setVisible, users }) {
                             addBtnClick={handleAddContact}
                             key={uid}
                         />
-                    ))}
+                    )) : (
+                        <div className="no-user">No User found</div>
+                    )}
                 </div>
             </div>
         </div>

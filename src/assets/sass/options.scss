@@ -1,0 +1,40 @@
+.list-option {
+    position: absolute;
+    z-index: 5;
+    right: 8px;
+    background-color: var(--secondary);
+    border-radius: 8px;
+    padding: 6px;
+    box-shadow: 0 0 16px 0 #03070f5e;
+
+    .list-item {
+        display: flex;
+        background-color: transparent;
+        border: none;
+        border-radius: 4px;
+        color: white;
+        gap: 10px;
+        padding: 8px;
+        border-radius: 8px;
+        width: 170px;
+        text-align: left;
+        align-items: center;
+        transition: .15s background-color;
+
+        svg {
+            width: 16px;
+            height: auto;
+        }
+
+        &:hover {
+            background-color: var(--secondary-darken);
+        }
+    }
+
+    .list-danger {
+        color: var(--red);
+        svg {
+            fill: var(--red);
+        }
+    }
+}

@@ -3,18 +3,19 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { doc, updateDoc } from "firebase/firestore";
 import { db, storage } from "../../../firebase/firebase";
 import { updateProfile } from "firebase/auth";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 
 import { ViewportContext } from "../../../contexts/ViewportContext";
 import { AuthContext } from "../../../contexts/AuthContext";
 import FileImage from "../form/FileImage";
+import LoadingAnim from "../LoadingAnim";
+
+import { validateMaxFile } from "../../../lib/fileValidator";
 
 import { ReactComponent as ArrowLeft } from "../../svg/left-arrow.svg";
 import { ReactComponent as X } from "../../svg/x.svg";
 import { ReactComponent as Clipboard } from "../../svg/clipboard.svg";
 import { ReactComponent as Check } from "../../svg/check.svg";
-import { validateMaxFile } from "../../../lib/fileValidator";
-import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
-import LoadingAnim from "../LoadingAnim";
 
 function UserSettings({ triggerBack }) {
     const { isMobile } = useContext(ViewportContext);

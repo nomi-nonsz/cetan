@@ -9,6 +9,7 @@ import { ChatContext } from "../contexts/ChatContext";
 import { ModalContext } from "../contexts/ModalContext";
 
 import TopBar from "../assets/components/TopBar";
+import ChatTop from "../assets/components/ChatTop";
 import ChatsBody from "../assets/components/ChatsBody";
 import MsgInput from "../assets/components/MsgInput";
 import AddContact from "../assets/components/modal/AddContact";
@@ -152,6 +153,7 @@ function Chats() {
                                 />
                             ) : (state.chatId && state.replier && state.sender ? (
                                 <>
+                                    <ChatTop />
                                     <ChatsBody triggerChange={setStateChat} />
                                     <MsgInput />
                                 </>

@@ -53,8 +53,19 @@
         }
     }
     .result-field {
-        height: 160px;
+        height: 220px;
         overflow-y: scroll;
+        position: relative;
+
+        @include mobile {
+            height: 180px;
+        }
+
+        .no-user {
+            position: absolute;
+            left: 50%; top: 50%;
+            transform: translate(-50%, -50%);
+        }
     }
 }
 

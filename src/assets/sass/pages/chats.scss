@@ -65,16 +65,22 @@
                         text-align: left;
                         .username {
                             font-weight: bold;
-                            font-size: medium;
+                            font-size: large;
+                            @include mobile { font-size: medium; }
                         }
                     }
     
                     img {
-                        width: 40px;
-                        height: 40px;
+                        width: 50px;
+                        height: 50px;
                         object-fit: cover;
                         background-color: var(--backgound);
                         border-radius: 999px;
+
+                        @include mobile {
+                            width: 40px;
+                            height: 40px;
+                        }
                     }
     
                     &:hover {
@@ -156,11 +162,66 @@
                 width: 100vw;
             }
             
-            .top-chat {
-                background-color: var(--accent);
+            .chat-top {
                 display: flex;
                 color: white;
-                padding: 10px;
+                padding: 5px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+
+                .user {
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                    background-color: transparent;
+                    color: white;
+                    padding: 5px;
+                    padding-right: 15px;
+                    border-radius: 12px;
+                    
+                    .text {
+                        font-family: var(--font-roboto);
+                        text-align: left;
+                        font-size: small;
+                        .username {
+                            font-weight: bold;
+                            font-size: medium;
+                        }
+                    }
+    
+                    img {
+                        width: 50px;
+                        height: 50px;
+                        object-fit: cover;
+                        background-color: var(--backgound);
+                        border-radius: 999px;
+                    }
+                }
+
+                .other {
+                    position: relative;
+
+                    .other-btn {
+                        background-color: transparent;
+                        border: none;
+                        border-radius: 44px;
+                        width: 45px;
+                        height: 45px;
+                        margin-right: 10px;
+    
+                        &:hover {
+                            background-color: var(--secondary);
+                        }
+                        
+                        svg {
+                            fill: white;
+                            width: 24px;
+                            height: auto;
+                            height: auto;
+                        }
+                    }
+                }
             }
             
             .chats-body {
@@ -409,6 +470,7 @@
                         flex-grow: 1;
                         color: white;
                         font-size: medium;
+                        outline: none;
 
                         @include mobile {
                             font-size: small;
