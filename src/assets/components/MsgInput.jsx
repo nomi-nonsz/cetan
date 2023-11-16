@@ -1,8 +1,12 @@
 import React, { useContext, useRef, useState } from "react";
+import moment from "moment/moment";
+
 import { ChatContext } from "../../contexts/ChatContext";
-import { addDoc, arrayUnion, collection, doc, serverTimestamp, setDoc, updateDoc } from "firebase/firestore";
+
+import { addDoc, arrayUnion, collection, doc, serverTimestamp, updateDoc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { db, storage } from "../../firebase/firebase";
+
 import LoadingAnim from "./LoadingAnim";
 
 import { ReactComponent as SendIcon } from "../svg/send.svg";
@@ -23,7 +27,8 @@ function MsgInput () {
         if (!file) return;
 
         return new Promise((resolve, reject) => {
-            const storageRef = ref(storage, `images/chats/${state.replier.uid}_${file.name}`);
+            const date = moment().format("YYYY:MM:DD-hh:mm:ss");
+            const storageRef = ref(storage, `images/chats/CETAN-IMG_${date}_${file.name}`);
             const uploadTask = uploadBytesResumable(storageRef, file);
     
             uploadTask.on((error) => {
