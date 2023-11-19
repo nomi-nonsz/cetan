@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import SearchBar from "./SearchBar";
 import UserList from "./UserList";
-import { doc, onSnapshot } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, onSnapshot, query, where } from "firebase/firestore";
 import { db } from "../../firebase/firebase";
 import { AuthContext } from "../../contexts/AuthContext";
 
@@ -13,11 +13,40 @@ function Contacts ({ setParentContacts, triggerChange }) {
 
     const [thatValue, setValue] = useState("");
 
+    const insertUserToContacts = async (contacts) => {
+        const newContacts = [];
+        
+        try {
+            const ids = [...contacts].map(({ uid }) => uid);
+            const uq = query(collection(db, "users"), where('uid', 'in', ids));
+            const snapshot = await getDocs(uq);
+
+            if (snapshot.empty) return [];
+
+            let index = 0;
+            snapshot.forEach(async (user) => {
+                if (ids.includes(user.data().uid)) {
+                    const expectedContact = contacts.filter(({ uid }) => uid === user.data().uid)[0];
+                    newContacts.push({
+                        user: user.data(),
+                        ...expectedContact,
+                    });
+                    index++;
+                }
+            });
+
+            return newContacts;
+        }
+        catch (error) {
+            console.error(error);
+        }
+    }
+
     const getContacts = () => {
         const docRef = doc(db, "userChats", currentUser.uid);
         return onSnapshot(docRef, (ds) => {
             const data = ds.data();
-            const objted = Object.values(data);
+            const objted = data ? Object.values(data) : [];
 
             const convertedDate = objted.sort((a, b) => {
                 const dateA = new Date(a.date.toDate());
@@ -25,8 +54,10 @@ function Contacts ({ setParentContacts, triggerChange }) {
                 return dateB - dateA;
             })
 
-            setContacts(convertedDate);
-            setParentContacts(convertedDate);
+            insertUserToContacts(convertedDate).then((finalData) => {
+                setContacts(finalData);
+                setParentContacts(finalData);
+            });
         })
     }
 

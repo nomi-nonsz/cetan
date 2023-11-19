@@ -2,10 +2,7 @@
     "userid": {
         "contactId": {
             "uid": "string",
-            "username": "string",
-            "email": "string",
-            "photoURL": "string",
-            "lastMessage": "string",
+            "status": ["clear", "added", "blocked"],
             "date": "TimeStamp",
             "chatId": "string"
         }

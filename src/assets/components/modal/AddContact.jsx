@@ -33,19 +33,28 @@ function AddContact ({ setVisible, users }) {
             const docp = await getDoc(docRef);
             const user = await getDoc(targetUser);
             const targetChat = await getDoc(targetRef);
+
+            // When user docs didn't exist
+            if (!docp.exists()) await setDoc(docRef, {});
+            // And when the target contact docs didn't exist
+            if (!targetChat.exists()) await setDoc(targetRef, {});
             
             // Add chats for current user to contact
             if (!docp.data()[uid]) {
+                const addContactsMsg = `${currentUser.displayName} Just added ${user.data().username}`;
+
                 const chatRef = await addDoc(chatColl, {
                     conversation: [],
-                    date: serverTimestamp()
+                    date: serverTimestamp(),
+                    users: [currentUser.uid, uid]
                 });
 
                 await updateDoc(docRef, {
                     [uid]: {
-                        ...user.data(),
+                        uid,
                         date: serverTimestamp(),
-                        lastMessage: "",
+                        lastMessage: addContactsMsg,
+                        status: "ADDED",
                         chatId: chatRef.id
                     }
                 });
@@ -58,11 +67,9 @@ function AddContact ({ setVisible, users }) {
                     await updateDoc(targetRef, {
                         [currentUser.uid]: {
                             uid: currentUser.uid,
-                            username: currentUser.displayName,
-                            email: currentUser.email,
-                            photoURL: currentUser.photoURL,
                             date: serverTimestamp(),
-                            lastMessage: "",
+                            lastMessage: addContactsMsg,
+                            status: "CLEAR",
                             chatId: chatRef.id
                         }
                     });

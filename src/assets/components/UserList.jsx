@@ -39,8 +39,10 @@ function UserList ({ contacts, triggerChange }) {
     return (
         <div className="user-list">
             {contacts ? (
-                contacts.length > 0 ? contacts.map(({ photoURL, username, uid, lastMessage }, key) => (
-                    <UserItem
+                contacts.length > 0 ? contacts.map(({ user, uid, lastMessage }) => {
+                    const { photoURL, username } = user;
+
+                    return <UserItem
                         img={photoURL}
                         username={username}
                         chat={lastMessage}
@@ -48,7 +50,7 @@ function UserList ({ contacts, triggerChange }) {
                         key={uid}
                         onClick={handleClickChat}
                     />
-                )) : (
+            }) : (
                     <div className="no-user">
                         You didn't have any contact yet<br />
                     </div>

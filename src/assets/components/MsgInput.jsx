@@ -39,6 +39,34 @@ function MsgInput () {
             });
         })
     }
+
+    const updateContact = async (replier, sender, msg, chatId) => {
+        const senderRef = doc(db, "userChats", sender.uid);
+        const replierRef = doc(db, "userChats", replier.uid);
+
+        try {
+            await updateDoc(senderRef, {
+                [replier.uid]: {
+                    uid: replier.uid,
+                    lastMessage: `${sender.username}: ${msg}`,
+                    date: serverTimestamp(),
+                    chatId
+                }
+            })
+
+            await updateDoc(replierRef, {
+                [sender.uid]: {
+                    uid: sender.uid,
+                    lastMessage: `${sender.username}: ${msg}`,
+                    date: serverTimestamp(),
+                    chatId
+                }
+            })
+        }
+        catch (error) {
+            console.error(error);
+        }
+    }
     
     const handleSend = async (e) => {
         e.preventDefault();
@@ -57,7 +85,6 @@ function MsgInput () {
 
             const chatRef = doc(db, "chats", chatId);
             const chatDummy = collection(db, "chatDummy");
-            const contactRef = doc(db, "userChats", sender.uid);
 
             const newChat = {
                 id: "",
@@ -85,22 +112,12 @@ function MsgInput () {
 
             setBtn("idle");
 
+            await updateContact(replier, sender, msg, chatId);
+
             // reset
             message.current.value = "";
             imgRef.current.value = null;
             changeImage();
-            
-            await updateDoc(contactRef, {
-                [replier.uid]: {
-                    uid: replier.uid,
-                    username: replier.username,
-                    email: replier.email,
-                    photoURL: replier.photoURL,
-                    lastMessage: `${sender.username}: ${msg}`,
-                    date: serverTimestamp(),
-                    chatId
-                }
-            })
         }
         catch (error) {
             console.error(error);
