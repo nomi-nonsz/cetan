@@ -1,5 +1,5 @@
-import React, { useContext, useRef, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import React, { FormEvent, useContext, useRef, useState } from "react";
+import { Link, NavigateFunction, useLocation, useNavigate } from "react-router-dom";
 
 import AuthWith from "../assets/components/AuthWith";
 import { ReactComponent as GoogleIcon } from "../assets/svg/google.svg";
@@ -9,26 +9,27 @@ import SideNotif from "../assets/components/modal/SideNotif";
 import Submit from "../assets/components/button/Submit";
 import { signInWithEmailAndPassword } from "@firebase/auth";
 import { auth } from "../firebase/firebase";
+import { AuthErrorCodes, UserCredential } from "firebase/auth";
 
 function LoginPage() {
-    const navigate = useNavigate();
+    const navigate: NavigateFunction = useNavigate();
 
-    const location = useLocation().search;
-    const search = new URLSearchParams(location);
-    const registerSuccess = search.get("creatingAccount");
+    const location: string = useLocation().search;
+    const search: URLSearchParams = new URLSearchParams(location);
+    const registerSuccess: string | null = search.get("creatingAccount");
 
-    const [errorMsg, setError] = useState("");
-    const [btnState, setBtnState] = useState("idle");
+    const [errorMsg, setError] = useState<string>("");
+    const [btnState, setBtnState] = useState<string>("idle");
 
-    const emailRef = useRef(null);
-    const passwordRef = useRef(null);
+    const emailRef = useRef<HTMLInputElement | null>(null);
+    const passwordRef = useRef<HTMLInputElement | null>(null);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
         setError("");
 
-        const email = emailRef.current.value;
-        const password = passwordRef.current.value;
+        const email: string = emailRef.current?.value!;
+        const password: string = passwordRef.current?.value!;
 
         if (email.length < 1 || password.length < 1) {
             setError("Email and password must be filled in");
@@ -37,7 +38,7 @@ function LoginPage() {
 
         setBtnState("loading");
         signInWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
+            .then((userCredential: UserCredential) => {
                 // Signed in
                 const { user } = userCredential;
                 if (user) {
@@ -45,8 +46,8 @@ function LoginPage() {
                 }
             })
             .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
+                const errorCode = error?.code;
+                const errorMessage = error?.message;
                 
                 switch (errorCode) {
                     case "auth/invalid-login-credentials":

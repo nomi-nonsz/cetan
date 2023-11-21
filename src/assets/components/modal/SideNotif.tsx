@@ -1,6 +1,11 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { ReactNode, useEffect, useRef, useState } from "react";
 
-function SideNotif ({ lifetime, children }) {
+interface SideNotifProps {
+    lifetime?: number;
+    children?: ReactNode
+}
+
+function SideNotif ({ lifetime, children }: SideNotifProps) {
     const [thatleft, setLeft] = useState({ left: "-50%" });
 
     useEffect(() => {

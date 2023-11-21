@@ -5,7 +5,7 @@ import { ViewportContextProvider } from './ViewportContext';
 import { ModalContextProvider } from './ModalContext';
 import { AuthContextProvider } from './AuthContext';
 
-function Contexts ({ children }) {
+function Contexts ({ children }: { children: React.ReactNode }) {
     return (
         <AuthContextProvider>
         <ChatContextProvider>

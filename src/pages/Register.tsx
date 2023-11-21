@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import { FormEvent, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
     createUserWithEmailAndPassword,
@@ -10,7 +10,7 @@ import {
     uploadBytesResumable,
     getDownloadURL
 } from "firebase/storage";
-import { addDoc, collection, doc, setDoc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import { auth, storage, db } from "../firebase/firebase";
 
 import AuthWith from "../assets/components/AuthWith";
@@ -26,38 +26,45 @@ function RegisterPage() {
     const [errormsg, setError] = useState("");
     const [btnState, setBtnState] = useState("idle");
 
-    const username = useRef(null);
-    const email = useRef(null);
-    const password = useRef(null);
-    const file = useRef(null);
+    const username = useRef<HTMLInputElement | null>(null);
+    const email = useRef<HTMLInputElement | null>(null);
+    const password = useRef<HTMLInputElement | null>(null);
+    const file = useRef<HTMLInputElement | null>(null);
     
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
         setError("");
+
+        let fileimg: File | FileList | null = null;
         
-        const usernameval = username.current.value;
-        const emailval = email.current.value;
-        const passwordval = password.current.value;
-        const fileimg = file.current.files[0];
+        const usernameval = username.current?.value;
+        const emailval = email.current?.value;
+        const passwordval = password.current?.value;
+
+        if (file.current && file.current.files) {
+            fileimg = file.current?.files[0];
+        }
+        
+        if (!usernameval && !emailval && !passwordval) return;
 
         // empty values error
         if (
-            usernameval.length < 1 ||
-            emailval.length < 1 ||
-            passwordval.length < 1
+            usernameval!.length < 1 ||
+            emailval!.length < 1 ||
+            passwordval!.length < 1
         ) {
             setError("Input field * must be filled");
             return;
         }
 
         // file size is too biggg
-        if (!validateMaxFile(fileimg, 2)) {
+        if (!validateMaxFile(fileimg!, 2)) {
             setError("Image file size is too big, max 2MB");
             return;
         }
 
         // password char length error
-        if (passwordval.length < 9) {
+        if (passwordval!.length < 9) {
             setError("Password must be 8 characters");
             return;
         }
@@ -65,15 +72,16 @@ function RegisterPage() {
         setBtnState("loading");
 
         // Nested? well i don't care
-        createUserWithEmailAndPassword(auth, emailval, passwordval)
+        createUserWithEmailAndPassword(auth, emailval!, passwordval!)
             .then((userCredential) => {
                 return new Promise((resolve, reject) => {
                     // Signed in
                     const { user } = userCredential;
                     if (user) {
-                        const extension = fileimg.name.split(".").pop();
+                        const thisFile = fileimg as File;
+                        const extension = thisFile.name.split(".").pop();
                         const storageRef = ref(storage, `profiles/user-${user.uid}.${extension}`);
-                        const uploadTask = uploadBytesResumable(storageRef, fileimg);
+                        const uploadTask = uploadBytesResumable(storageRef, thisFile);
     
                         uploadTask.on(
                             (error) => {

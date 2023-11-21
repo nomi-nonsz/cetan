@@ -1,17 +1,26 @@
-import React, { useEffect, useState } from "react";
+import React, { FormEvent, Ref, RefObject, useEffect, useRef, useState } from "react";
 import { ReactComponent as ImageIcon } from "../..//svg/image.svg";
 
-function FileImage ({ refFile, src, onChange }) {
-    const [imgUrl, setUrl] = useState(src);
+interface FileImageProps {
+    refFile: Ref<HTMLInputElement>;
+    src?: string;
+    onChange?: (e: FormEvent) => void
+}
 
-    const changed = (e) => {
-        onChange(e);
+type ImageResult = string | ArrayBuffer | null | undefined;
 
-        const file = refFile.current.files[0];
+function FileImage ({ refFile, src, onChange }: FileImageProps) {
+    const [imgUrl, setUrl] = useState<ImageResult>(src);
+
+    const changed = (e: FormEvent) => {
+        if (onChange) onChange(e);
+
+        const file = refFile!.current?.files[0];
         if (!file) return;
 
+
         const reader = new FileReader();
-        reader.onload = (e) => { return setUrl(e.target.result) };
+        reader.onload = (e) => { return setUrl(e.target?.result) };
         reader.readAsDataURL(file);
     }
 
@@ -19,7 +28,7 @@ function FileImage ({ refFile, src, onChange }) {
         <div className="form-file">
             <label htmlFor="uplod">
                 {imgUrl ? (
-                    <img src={imgUrl} alt="uploaded image" />
+                    <img src={imgUrl as string} alt="uploaded image" />
                 ) : <div className="no-img">
                     <ImageIcon />
                 </div>}

@@ -1,6 +1,12 @@
-import React from "react";
+import React, { ReactNode } from "react";
 
-export default function AuthWith ({ icon, onClick, children }) {
+interface AuthWithProps {
+    icon?: ReactNode;
+    onClick?: () => void
+    children?: ReactNode;
+}
+
+export default function AuthWith ({ icon, onClick, children }: AuthWithProps) {
     const click = () => {
         if (!onClick) {
             alert("third-party authentication not available yet");

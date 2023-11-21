@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 
 import ConnectedPPL from "../assets/svg/homepage/connected-ppl.svg";
 import SyncFeature from "../assets/svg/homepage/sync-feature.svg";
@@ -14,7 +14,15 @@ import Lain from "../assets/img/lain-iwakura.jpg";
 
 import { Link } from "react-router-dom";
 
-function Feature({ gap, reverse, className, id, children }) {
+interface FeatureProps {
+    gap?: number;
+    reverse?: boolean;
+    className?: string;
+    id?: string;
+    children?: ReactNode;
+}
+
+function Feature({ gap, reverse, className, id, children }: FeatureProps) {
     return (
         <section
             className={`container feature ${className}`}
