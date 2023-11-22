@@ -1,4 +1,4 @@
-import React, { FormEvent, useContext, useRef, useState } from "react";
+import { FormEvent, useRef, useState } from "react";
 import { Link, NavigateFunction, useLocation, useNavigate } from "react-router-dom";
 
 import AuthWith from "../assets/components/AuthWith";
@@ -9,7 +9,7 @@ import SideNotif from "../assets/components/modal/SideNotif";
 import Submit from "../assets/components/button/Submit";
 import { signInWithEmailAndPassword } from "@firebase/auth";
 import { auth } from "../firebase/firebase";
-import { AuthErrorCodes, UserCredential } from "firebase/auth";
+import { UserCredential } from "firebase/auth";
 
 function LoginPage() {
     const navigate: NavigateFunction = useNavigate();

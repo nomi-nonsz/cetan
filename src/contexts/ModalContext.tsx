@@ -1,9 +1,25 @@
-import React, { createContext, useState } from "react";
+import React, { Dispatch, ReactNode, SetStateAction, createContext, useState } from "react";
 
-export const ModalContext = createContext({});
+interface StateValue {
+    state: boolean;
+    payload: () => void
+}
 
-export function ModalContextProvider ({ children }) {
-    const [deleteChat, setDeleteChat] = useState({
+interface ModalProvider {
+    deleteChat: StateValue;
+    setDeleteChat: Dispatch<SetStateAction<StateValue>>
+}
+
+export const ModalContext = createContext<ModalProvider>({
+    deleteChat: {
+        state: false,
+        payload: () => {}
+    },
+    setDeleteChat: () => {}
+});
+
+export function ModalContextProvider ({ children }: { children: ReactNode }) {
+    const [deleteChat, setDeleteChat] = useState<StateValue>({
         state: false,
         payload: () => {}
     });

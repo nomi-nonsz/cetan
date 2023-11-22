@@ -1,8 +1,16 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { ReactNode, createContext, useEffect, useState } from "react";
 
-export const ViewportContext = createContext();
+interface ViewportValues {
+    viewportWidth?: number,
+    viewportHeight?: number,
+    isLaptop?: boolean,
+    isTablet?: boolean,
+    isMobile?: boolean,
+}
 
-export function ViewportContextProvider({ children }) {
+export const ViewportContext = createContext<ViewportValues>({});
+
+export function ViewportContextProvider({ children }: { children: ReactNode }) {
     // individual values
     const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
     const [viewportHeight, setViewportHeight] = useState(window.innerHeight);

@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { FormEvent, useContext, useRef, useState } from "react";
 import moment from "moment/moment";
 
 import { ChatContext } from "../../contexts/ChatContext";
@@ -12,18 +12,19 @@ import LoadingAnim from "./LoadingAnim";
 import { ReactComponent as SendIcon } from "../svg/send.svg";
 import { ReactComponent as ImgIcon } from "../svg/image2.svg";
 import { ReactComponent as XIcon } from "../svg/x.svg";
+import { UserAlt } from "../../contexts/AuthContext";
 
 function MsgInput () {
-    const message = useRef(null);
-    const imgRef = useRef(null);
+    const message = useRef<HTMLInputElement | null>(null);
+    const imgRef = useRef<HTMLInputElement | null>(null);
 
-    const [btnState, setBtn] = useState("idle");
+    const [btnState, setBtn] = useState<string>("idle");
     const [imgUrl, setImg] = useState(null);
 
     const { state } = useContext(ChatContext);
 
     const sendImage = () => {
-        const file = imgRef.current.files[0];
+        const file = imgRef.current?.files![0];
         if (!file) return;
 
         return new Promise((resolve, reject) => {
@@ -31,7 +32,9 @@ function MsgInput () {
             const storageRef = ref(storage, `images/chats/CETAN-IMG_${date}_${file.name}`);
             const uploadTask = uploadBytesResumable(storageRef, file);
     
-            uploadTask.on((error) => {
+            uploadTask.on(
+            "state_changed",
+            (error) => {
                 reject(new Error(error));
             }, async () => {
                 const donwloadURL = await getDownloadURL(uploadTask.snapshot.ref);
@@ -40,13 +43,13 @@ function MsgInput () {
         })
     }
 
-    const updateContact = async (replier, sender, msg, chatId) => {
-        const senderRef = doc(db, "userChats", sender.uid);
-        const replierRef = doc(db, "userChats", replier.uid);
+    const updateContact = async (replier: UserAlt, sender: UserAlt, msg: string, chatId: string) => {
+        const senderRef = doc(db, "userChats", sender.uid!);
+        const replierRef = doc(db, "userChats", replier.uid!);
 
         try {
             await updateDoc(senderRef, {
-                [replier.uid]: {
+                [replier.uid as string]: {
                     uid: replier.uid,
                     lastMessage: `${sender.username}: ${msg}`,
                     date: serverTimestamp(),
@@ -55,7 +58,7 @@ function MsgInput () {
             })
 
             await updateDoc(replierRef, {
-                [sender.uid]: {
+                [sender.uid as string]: {
                     uid: sender.uid,
                     lastMessage: `${sender.username}: ${msg}`,
                     date: serverTimestamp(),
@@ -68,29 +71,29 @@ function MsgInput () {
         }
     }
     
-    const handleSend = async (e) => {
+    const handleSend = async (e: FormEvent) => {
         e.preventDefault();
 
-        const msg = message.current.value;
-        const file = imgRef.current.files[0];
+        const msg = message.current?.value;
+        const file = imgRef.current?.files![0];
 
         const { replier, sender, chatId } = state;
 
-        if (msg.length < 1) return;
+        if (msg!.length < 1) return;
         if (!replier && !sender) return;
         if (btnState == "loading") return;
         
         try {
             setBtn("loading");
 
-            const chatRef = doc(db, "chats", chatId);
+            const chatRef = doc(db, "chats", chatId!);
             const chatDummy = collection(db, "chatDummy");
 
             const newChat = {
                 id: "",
-                uid: sender.uid,
+                uid: sender?.uid,
                 message: msg,
-                datetime: new Date(Date.now())
+                datetime: new Date(Date.now()),
             };
 
             const uploadedImageURL = await sendImage();

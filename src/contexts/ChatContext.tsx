@@ -1,7 +1,5 @@
-import React, { ReactNode, createContext, useContext, useReducer } from "react";
+import React, { Dispatch, ReactNode, createContext, useContext, useReducer } from "react";
 import { AuthContext, UserAlt, useAuthContext } from "./AuthContext";
-
-export const ChatContext = createContext({});
 
 export type ChatState = {
     sender: UserAlt | null,
@@ -10,14 +8,26 @@ export type ChatState = {
 }
 
 export type ChatAction = {
-    type: "CHANGE_USER",
+    type: string,
     payload: {
         replier: UserAlt,
         chatId: string
     }
-} | {
-    type: "RESET_USER"
 }
+
+interface ChatStateInter {
+    state: ChatState;
+    dispatch: Dispatch<ChatAction> | null
+}
+
+export const ChatContext = createContext<ChatStateInter>({
+    state: {
+        sender: null,
+        replier: null,
+        chatId: null
+    },
+    dispatch: null
+});
 
 export const ChatContextProvider = ({ children }: { children: ReactNode }) => {
     const { currentUser } = useAuthContext();

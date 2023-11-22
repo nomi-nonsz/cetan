@@ -4,7 +4,7 @@ import { collection, doc, getDoc, getDocs, onSnapshot, query, where } from "fire
 import { db } from "../firebase/firebase";
 
 import { ViewportContext } from "../contexts/ViewportContext";
-import { AuthContext } from "../contexts/AuthContext";
+import { AuthContext, useAuthContext } from "../contexts/AuthContext";
 import { ChatContext } from "../contexts/ChatContext";
 import { ModalContext } from "../contexts/ModalContext";
 
@@ -24,7 +24,7 @@ function Chats() {
     const navigate = useNavigate();
 
     // contexts
-    const { currentUser } = useContext(AuthContext);
+    const { currentUser } = useAuthContext();
     const { state } = useContext(ChatContext);
     const { deleteChat, setDeleteChat } = useContext(ModalContext);
     const { isMobile } = useContext(ViewportContext);
@@ -49,7 +49,7 @@ function Chats() {
     const getAllUsers = () => {
         const result = query(
             collection(db, "users"),
-            where("username", "!=", currentUser.displayName)
+            where("username", "!=", currentUser?.displayName)
         );
     
         return getDocs(result).then((qs) => {

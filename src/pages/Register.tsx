@@ -82,8 +82,14 @@ function RegisterPage() {
                         const extension = thisFile.name.split(".").pop();
                         const storageRef = ref(storage, `profiles/user-${user.uid}.${extension}`);
                         const uploadTask = uploadBytesResumable(storageRef, thisFile);
-    
+
+
                         uploadTask.on(
+                            'state_changed',
+                            (snapshot) => {
+                                const uploadProgress = Math.floor((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+                                console.log(`Debug: Upload progress ${uploadProgress}`);
+                            },
                             (error) => {
                                 setError("Something went wrong when uploading image");
                                 reject(error);

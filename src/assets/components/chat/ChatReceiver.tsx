@@ -1,7 +1,14 @@
 import React, { useEffect, useRef } from "react";
 
-function ChatReceiver({ profile, username, msg, img }) {
-    const chatRef = useRef(null);
+interface ChatReceiverProps {
+    profile: string;
+    username: string;
+    msg: string;
+    img?: string;
+}
+
+function ChatReceiver({ profile, username, msg, img }: ChatReceiverProps) {
+    const chatRef = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
         chatRef.current?.scrollIntoView({ behavior: "smooth" });

@@ -4,8 +4,8 @@ import { auth } from "../firebase/firebase";
 import { UserInfo } from "firebase/auth";
 
 interface AuthContextProps {
-    currentUser: UserInfo | null;
-    refresh: () => void
+    currentUser?: UserInfo | null;
+    refresh?: () => void
 }
 
 export const AuthContext = createContext<AuthContextProps | null>({
@@ -45,8 +45,8 @@ export const useAuthContext = () => {
 }
 
 export interface UserAlt {
-    uid: string,
-    username: string,
-    email: string,
-    photoURL: string
+    uid?: string,
+    username?: string,
+    email?: string,
+    photoURL?: string
 }

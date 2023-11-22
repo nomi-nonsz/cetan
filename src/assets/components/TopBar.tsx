@@ -1,7 +1,15 @@
 import React from "react";
 import { ReactComponent as Logout } from "../svg/exit.svg"
 
-function TopBar ({ img, username, email, triggerLogout, triggerBar }) {
+interface TopBarProps {
+    img: string;
+    username: string;
+    email: string;
+    triggerLogout: (state: boolean) => void,
+    triggerBar: (state: string) => void
+}
+
+function TopBar ({ img, username, email, triggerLogout, triggerBar }: TopBarProps) {
     const toUserSettings = () => triggerBar("USER_SETTINGS");
 
     return (

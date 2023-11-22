@@ -17,10 +17,10 @@ function ChatTop () {
     return (
         <div className="chat-top">
             <div className="user">
-                <img src={state.replier.photoURL} alt="contact" />
+                <img src={state.replier?.photoURL} alt="contact" />
                 <div className="text">
-                    <div className="username">{state.replier.username}</div>
-                    <div className="email">{state.replier.email}</div>
+                    <div className="username">{state.replier?.username}</div>
+                    <div className="email">{state.replier?.email}</div>
                 </div>
             </div>
             <div className="other">
