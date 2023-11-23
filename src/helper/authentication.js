@@ -11,7 +11,7 @@ import {
     getDownloadURL
 } from "firebase/storage";
 import { doc, setDoc } from "firebase/firestore";
-import { auth, storage, db } from "../firebase/firebase";
+import { auth, storage, db } from "../firebase";
 
 /**
  * Create account authentication

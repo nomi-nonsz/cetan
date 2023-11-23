@@ -9,7 +9,7 @@ import LoadingAnim from "./LoadingAnim";
 
 import { ChatContext } from "../../contexts/ChatContext";
 import { arrayRemove, doc, getDoc, onSnapshot, updateDoc } from "firebase/firestore";
-import { db } from "../../firebase/firebase";
+import { db } from "../../firebase";
 import { ModalContext } from "../../contexts/ModalContext";
 
 function ExampleChat () {

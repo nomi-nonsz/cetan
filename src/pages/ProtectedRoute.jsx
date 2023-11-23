@@ -8,4 +8,6 @@ export default function ProtectedRoute ({ children }) {
     if (!currentUser.uid) {
         return <Navigate to="/" />
     }
+
+    return children;
 }

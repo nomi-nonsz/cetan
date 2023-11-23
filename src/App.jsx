@@ -5,6 +5,8 @@ import {
   Route
 } from 'react-router-dom';
 
+import ProtectedRoute from './pages/ProtectedRoute';
+
 import Home from './pages/Home';
 import RegisterPage from './pages/Register'
 import LoginPage from './pages/Login';
@@ -14,7 +16,6 @@ import Contexts from './contexts/Contexts';
 import "./assets/sass/main.scss";
 
 import Navbar from './assets/components/nav/Navbar';
-import ProtectedRoute from './pages/ProtectedRoute';
 
 function App() {
   return (

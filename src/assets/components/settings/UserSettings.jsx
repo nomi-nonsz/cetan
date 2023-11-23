@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 
 import { doc, updateDoc } from "firebase/firestore";
-import { db, storage } from "../../../firebase/firebase";
+import { db, storage } from "../../../firebase";
 import { updateProfile } from "firebase/auth";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 

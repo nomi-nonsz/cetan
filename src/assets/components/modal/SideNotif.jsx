@@ -9,7 +9,7 @@ function SideNotif ({ lifetime, children }) {
     
             setTimeout(() => {
                 setLeft({ left: "-50%" });
-            }, 6000);
+            }, 3000);
         }
     }, []);
     

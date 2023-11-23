@@ -8,7 +8,7 @@ import FacebookIcon from "../assets/img/facebook.png";
 import SideNotif from "../assets/components/modal/SideNotif";
 import Submit from "../assets/components/button/Submit";
 import { signInWithEmailAndPassword } from "@firebase/auth";
-import { auth } from "../firebase/firebase";
+import { auth } from "../firebase";
 import { Login } from "../helper/authentication";
 
 function LoginPage() {

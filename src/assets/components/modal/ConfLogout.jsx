@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { auth } from "../../../firebase/firebase";
+import { auth } from "../../../firebase";
 import { signOut } from "firebase/auth";
 import DesicionBtn from "../button/DesicionBtn";
 import LoadingAnim from "../LoadingAnim";

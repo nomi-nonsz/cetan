@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import UserItem from "./UserItem";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
-import { db } from "../../firebase/firebase";
+import { db } from "../../firebase";
 import { AuthContext } from "../../contexts/AuthContext";
 import { ChatContext } from "../../contexts/ChatContext";
 import LoadingAnim from "./LoadingAnim";

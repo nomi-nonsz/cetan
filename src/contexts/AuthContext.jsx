@@ -1,8 +1,8 @@
 import { onAuthStateChanged } from "@firebase/auth";
 import { createContext, useEffect, useState } from "react";
-import { auth } from "../firebase/firebase";
+import { auth } from "../firebase";
 
-export const AuthContext = createContext({
+const INIT_VALUE = {
     currentUser: {
         uid: null,
         email: null,
@@ -10,10 +10,12 @@ export const AuthContext = createContext({
         imgURL: null
     },
     refresh: () => {}
-});
+}
+
+export const AuthContext = createContext(INIT_VALUE);
 
 export function AuthContextProvider ({ children }) {
-    const [currentUser, setUser] = useState(null);
+    const [currentUser, setUser] = useState(INIT_VALUE.currentUser);
     const [count, setCount] = useState(0);
 
     // idk whatever react lifecycle is

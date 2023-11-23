@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useReducer, useState } from "react";
 import { useNavigate } from "react-router";
 import { collection, doc, getDoc, getDocs, onSnapshot, query, where } from "firebase/firestore";
-import { db } from "../firebase/firebase";
+import { db } from "../firebase";
 
 import { ViewportContext } from "../contexts/ViewportContext";
 import { AuthContext } from "../contexts/AuthContext";

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { addDoc, arrayUnion, collection, doc, getDoc, query, serverTimestamp, setDoc, updateDoc, where } from "firebase/firestore";
 import { AuthContext } from "../../../contexts/AuthContext";
-import { db } from "../../../firebase/firebase";
+import { db } from "../../../firebase";
 
 import UserItem from "../UserItem";
 import { ReactComponent as CloseIcon } from "../../svg/x.svg";

@@ -5,7 +5,7 @@ import { ChatContext } from "../../contexts/ChatContext";
 
 import { addDoc, arrayUnion, collection, doc, serverTimestamp, updateDoc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
-import { db, storage } from "../../firebase/firebase";
+import { db, storage } from "../../firebase";
 
 import LoadingAnim from "./LoadingAnim";
 
