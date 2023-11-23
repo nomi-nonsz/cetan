@@ -9,6 +9,7 @@ import SideNotif from "../assets/components/modal/SideNotif";
 import Submit from "../assets/components/button/Submit";
 import { signInWithEmailAndPassword } from "@firebase/auth";
 import { auth } from "../firebase/firebase";
+import { Login } from "../helper/authentication";
 
 function LoginPage() {
     const navigate = useNavigate();
@@ -36,29 +37,8 @@ function LoginPage() {
         }
 
         setBtnState("loading");
-        signInWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                // Signed in
-                const { user } = userCredential;
-                if (user) {
-                    navigate("/chats");
-                }
-            })
-            .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                
-                switch (errorCode) {
-                    case "auth/invalid-login-credentials":
-                        setError("Wrong email or password"); break;
-                    default:
-                        setError(errorMessage);
-                }
-                console.error(errorCode, errorMessage);
-            })
-            .finally(() => {
-                setBtnState("idle");
-            })
+        
+        Login(email, password, setBtnState, setError);
     };
 
     return (

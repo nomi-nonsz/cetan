@@ -1,17 +1,8 @@
 import React, { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import {
-    createUserWithEmailAndPassword,
-    signOut,
-    updateProfile
-} from "firebase/auth";
-import {
-    ref,
-    uploadBytesResumable,
-    getDownloadURL
-} from "firebase/storage";
-import { addDoc, collection, doc, setDoc } from "firebase/firestore";
-import { auth, storage, db } from "../firebase/firebase";
+import { auth } from "../firebase/firebase";
+
+import { Register } from "../helper/authentication";
 
 import AuthWith from "../assets/components/AuthWith";
 import { ReactComponent as GoogleIcon } from "../assets/svg/google.svg";
@@ -64,73 +55,22 @@ function RegisterPage() {
 
         setBtnState("loading");
 
-        // Nested? well i don't care
-        createUserWithEmailAndPassword(auth, emailval, passwordval)
-            .then((userCredential) => {
-                return new Promise((resolve, reject) => {
-                    // Signed in
-                    const { user } = userCredential;
-                    if (user) {
-                        const extension = fileimg.name.split(".").pop();
-                        const storageRef = ref(storage, `profiles/user-${user.uid}.${extension}`);
-                        const uploadTask = uploadBytesResumable(storageRef, fileimg);
-    
-                        uploadTask.on(
-                            (error) => {
-                                setError("Something went wrong when uploading image");
-                                reject(error);
-                            },
-                            () => {
-                                getDownloadURL(uploadTask.snapshot.ref).then(
-                                    async (downloadURL) => {
-                                        try {
-                                            await updateProfile(user, {
-                                                displayName: usernameval,
-                                                photoURL: downloadURL
-                                            })
-                                            await setDoc(doc(db, "users", user.uid), {
-                                                uid: user.uid,
-                                                username: user.displayName,
-                                                email: user.email,
-                                                photoURL: downloadURL
-                                            })
-                                            await setDoc(doc(db, "userChats", user.uid), {});
-    
-                                            setBtnState("idle");
-                                            signOut(auth);
-
-                                            resolve(navigate("/login?creatingAccount=success"));
-                                        }
-                                        catch (error) {
-                                            setError("Something went wrong");
-                                            reject(error);
-                                        }
-                                    }
-                                );
-                            }
-                        );
-                    }
-                    else {
-                        reject(new Error("User is not found"));
-                    }
-                })
-            })
-            .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-
-                console.error(errorCode, errorMessage);
-                switch (errorCode) {
-                    case "auth/email-already-in-use":
-                        setError("Email is already in use");
-                        break;
-                    default:
-                        setError(errorMessage);
-                }
-            })
-            .finally(() => {
-                setBtnState("idle");
-            });
+        Register(emailval, passwordval, fileimg).then(() => {
+            btnState("idle");
+            navigate("/login?creatingAccount=success");
+        })
+        .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            
+            switch (errorCode) {
+                case "auth/email-already-in-use":
+                    errorState("Email is already in use");
+                    break;
+                default:
+                    errorState(errorMessage);
+            }
+        });
     };
 
     return (
