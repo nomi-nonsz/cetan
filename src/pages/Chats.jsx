@@ -21,8 +21,6 @@ import UserSettings from "../assets/components/settings/UserSettings";
 import ConfDelete from "../assets/components/modal/ConfDelete";
 
 function Chats() {
-    const navigate = useNavigate();
-
     // contexts
     const { currentUser } = useContext(AuthContext);
     const { state } = useContext(ChatContext);
@@ -38,9 +36,6 @@ function Chats() {
     // the user data from database
     const [contacts, setContacts] = useState([]); 
     const [users, setUsers] = useState([]);
-
-    // idk
-    const [countdown, setCount] = useState(10);
 
     // toggle modal
     const [showAdd, setShowAdd] = useState(false);
@@ -68,23 +63,6 @@ function Chats() {
     useEffect(() => {
         currentUser.uid && getAllUsers()
     }, [currentUser.uid]);
-
-    // anticipate if the user has not logged in
-    useEffect(() => {
-        if (!currentUser) {
-            const down = setInterval(() => {
-                if (countdown < 1) {
-                    navigate("/login");
-                    return;
-                }
-                setCount(countdown - 1);
-            }, 1000);
-    
-            return () => {
-                clearInterval(down);
-            };
-        }
-    }, [currentUser, countdown]);
 
     const goBack = async () => { 
         setStateChat(false);
@@ -163,20 +141,6 @@ function Chats() {
                         </div>
                     ) : (
                         <div className="no-user">
-                            <h3>
-                                You need to login first before using the app
-                            </h3>
-                            <p>
-                                you will be redirected to the login page in{" "}
-                                {countdown} seconds
-                            </p>
-                            <button
-                                onClick={() => {
-                                    navigate("/login");
-                                }}
-                            >
-                                Login
-                            </button>
                         </div>
                     )}
                 </div>
