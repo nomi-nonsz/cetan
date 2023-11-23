@@ -38,7 +38,23 @@ function LoginPage() {
 
         setBtnState("loading");
         
-        Login(email, password, setBtnState, setError);
+        Login(email, password).then(() => {
+            navigate("/chats");
+        })
+        .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            
+            switch (errorCode) {
+                case "auth/invalid-login-credentials":
+                    setError("Wrong email or password"); break;
+                default:
+                    setError(errorMessage);
+            }
+        })
+        .finally(() => {
+            setBtnState("idle");
+        })
     };
 
     return (

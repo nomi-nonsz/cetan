@@ -5,7 +5,7 @@ function FileImage ({ refFile, src, onChange }) {
     const [imgUrl, setUrl] = useState(src);
 
     const changed = (e) => {
-        onChange(e);
+        if (onChange) onChange(e);
 
         const file = refFile.current.files[0];
         if (!file) return;

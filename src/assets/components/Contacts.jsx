@@ -15,6 +15,9 @@ function Contacts ({ setParentContacts, triggerChange }) {
 
     const insertUserToContacts = async (contacts) => {
         const newContacts = [];
+
+        if (contacts.length < 1)
+            return contacts;
         
         try {
             const ids = [...contacts].map(({ uid }) => uid);

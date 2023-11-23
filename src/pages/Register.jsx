@@ -48,15 +48,15 @@ function RegisterPage() {
         }
 
         // password char length error
-        if (passwordval.length < 9) {
+        if (passwordval.length < 8) {
             setError("Password must be 8 characters");
             return;
         }
 
         setBtnState("loading");
 
-        Register(emailval, passwordval, fileimg).then(() => {
-            btnState("idle");
+        Register(usernameval, emailval, passwordval, fileimg).then(() => {
+            setBtnState("idle");
             navigate("/login?creatingAccount=success");
         })
         .catch((error) => {
@@ -65,11 +65,13 @@ function RegisterPage() {
             
             switch (errorCode) {
                 case "auth/email-already-in-use":
-                    errorState("Email is already in use");
+                    setError("Email is already in use");
                     break;
                 default:
-                    errorState(errorMessage);
+                    setError(errorMessage);
             }
+        }).finally(() => {
+            setBtnState("idle");
         });
     };
 

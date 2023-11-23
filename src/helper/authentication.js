@@ -15,13 +15,14 @@ import { auth, storage, db } from "../firebase/firebase";
 
 /**
  * Create account authentication
+ * @param {string} username
  * @param {string} email
  * @param {string} password
  * @param {File} img
  * @param {React.SetStateAction<string>} btnState
  * @param {React.SetStateAction<string>} errorState
  */
-export function Register (email, password, img) {
+export function Register (username, email, password, img) {
     // Nested hell? well i don't care
     return createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
@@ -43,7 +44,7 @@ export function Register (email, password, img) {
                                 async (downloadURL) => {
                                     try {
                                         await updateProfile(user, {
-                                            displayName: usernameval,
+                                            displayName: username,
                                             photoURL: downloadURL
                                         })
                                         await setDoc(doc(db, "users", user.uid), {
@@ -58,7 +59,6 @@ export function Register (email, password, img) {
                                         resolve();
                                     }
                                     catch (error) {
-                                        setError("Something went wrong");
                                         reject(error);
                                     }
                                 }
@@ -72,12 +72,9 @@ export function Register (email, password, img) {
             })
         })
         .catch((error) => {
-            console.error(error.code, error.message);
+            console.error(error);
             throw error;
         })
-        .finally(() => {
-            btnState("idle");
-        });
 }
 
 /**
@@ -88,28 +85,20 @@ export function Register (email, password, img) {
  * @param {React.SetStateAction<string>} btnState
  * @param {React.SetStateAction<string>} errorState
  */
-export function Login (email, password, btnState, errorState) {
-    return signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
+export function Login (email, password) {
+    return new Promise((resolve, reject) => {
+        signInWithEmailAndPassword(auth, email, password).then((userCredential) => {
             // Signed in
             const { user } = userCredential;
             if (user) {
-                navigate("/chats");
+                resolve();
             }
+        }).catch((error) => {
+            reject(error);
         })
-        .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            
-            switch (errorCode) {
-                case "auth/invalid-login-credentials":
-                    errorState("Wrong email or password"); break;
-                default:
-                    errorState(errorMessage);
-            }
-            console.error(errorCode, errorMessage);
-        })
-        .finally(() => {
-            btnState("idle");
-        })
+    })
+    .catch((error) => {
+        console.error(error);
+        throw error;
+    })
 }

@@ -9,7 +9,7 @@
 }
 
 .modal-side-notif {
-    position: absolute;
+    position: fixed;
     left: 20px;
     top: 20px;
     background-color: var(--secondary);
@@ -17,6 +17,7 @@
     border: 1px solid var(--primary-doomer);
     border-radius: 8px;
     transition: 0.5s left;
+    z-index: 50;
 
     h3 {
         color: var(--primary);

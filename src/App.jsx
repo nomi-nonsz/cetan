@@ -14,6 +14,7 @@ import Contexts from './contexts/Contexts';
 import "./assets/sass/main.scss";
 
 import Navbar from './assets/components/nav/Navbar';
+import ProtectedRoute from './pages/ProtectedRoute';
 
 function App() {
   return (
@@ -31,7 +32,9 @@ function App() {
             </main>
           } />
           <Route path='/chats' element={
-              <Chats />
+              <ProtectedRoute>
+                <Chats />
+              </ProtectedRoute>
           } />
         </Routes>
       </Router>
