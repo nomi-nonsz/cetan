@@ -1,16 +1,21 @@
-import React, { createContext, useContext, useReducer } from "react";
+import React, { createContext, useContext, useEffect, useReducer } from "react";
 import { AuthContext } from "./AuthContext";
+import { setReplierStatus } from "../controllers/contacts";
 
-export const ChatContext = createContext();
+const INITIAL_STATE = {
+    sender: null,
+    replier: null,
+    chatId: null,
+    statue: null
+}
+
+export const ChatContext = createContext({
+    state: INITIAL_STATE,
+    dispatch: () => {}
+});
 
 export const ChatContextProvider = ({ children }) => {
     const { currentUser } = useContext(AuthContext);
-
-    const INITIAL_STATE = {
-        sender: null,
-        replier: null,
-        chatId: null
-    }
 
     const chatReducer = (state, action) => {
         switch (action.type) {
@@ -23,20 +28,28 @@ export const ChatContextProvider = ({ children }) => {
                         photoURL: currentUser.photoURL
                     },
                     replier: action.payload.replier,
-                    chatId: action.payload.chatId
+                    chatId: action.payload.chatId,
+                    status: action.payload.status
                 };
             case "RESET_USER":
-                return {
-                    sender: null,
-                    replier: null,
-                    chatId: null
-                }
+                return INITIAL_STATE;
             default:
                 return state;
         }
     }
 
     const [state, dispatch] = useReducer(chatReducer, INITIAL_STATE);
+
+    useEffect(() => {
+        // debug stuff
+        console.log(state);
+        if (state) {
+            if (state.status === "BLOCKED") {
+                console.log(`You're blocked by ${state.replier.username}`)
+            }
+            setReplierStatus(state.replier, state.sender, "CLEAR");
+        }
+    }, [state]);
 
     return (
         <ChatContext.Provider value={{ state, dispatch }}>

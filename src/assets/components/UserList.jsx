@@ -14,6 +14,7 @@ function UserList ({ contacts, triggerChange }) {
         try {
             const replierRef = doc(db, "users", e.uid);
             const replier = await getDoc(replierRef);
+            const replierContact = await getDoc(doc(db, "userChats", replier.data().uid));
             
             const chatRef = doc(db, "userChats", currentUser.uid);
             const userChat = await getDoc(chatRef);
@@ -25,7 +26,8 @@ function UserList ({ contacts, triggerChange }) {
                 type: "CHANGE_USER",
                 payload: {
                     replier: replier.data(),
-                    chatId: userChat.data()[replier.id].chatId
+                    chatId: userChat.data()[replier.id].chatId,
+                    status: replierContact.data()[currentUser.uid].status
                 }
             });
 
