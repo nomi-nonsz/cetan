@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../../contexts/AuthContext";
 
 import { ReactComponent as Logo } from "@/public/cetan.svg";
 
@@ -7,6 +8,7 @@ import "~/assets/sass/components/navbar.scss";
 
 function Navbar () {
     const navigate = useNavigate();
+    const { currentUser } = useContext(AuthContext);
 
     const [dropNav, setDrop] = useState(false);
 
@@ -26,8 +28,12 @@ function Navbar () {
                 <Link href={"/#sync-chat"}>Features</Link>
             </div>
             <div className="auth-btn" onClick={toggleNavMobile}>
-                <button className="btn btn-login" onClick={() => navigate("/login")}>Login</button>
-                <button className="btn btn-signup" onClick={() => navigate("/signup")}>Sign Up</button>
+                {!currentUser ? <>
+                    <button className="btn btn-login" onClick={() => navigate("/login")}>Login</button>
+                    <button className="btn btn-signup" onClick={() => navigate("/signup")}>Sign Up</button>
+                </> : (
+                    <button className="btn btn-login" onClick={() => navigate("/chats")}>Open Cetan</button>
+                )}
             </div>
         </nav>
         <nav className="navbar">
@@ -43,8 +49,12 @@ function Navbar () {
                     <li><Link to={"/about/"}>About</Link></li>
                     <li><Link href={"/#sync-chat"}>Features</Link></li>
                     <li className="auth-btn">
-                        <button className="btn btn-login" onClick={() => navigate("/login")}>Login</button>
-                        <button className="btn btn-signup" onClick={() => navigate("/signup")}>Sign Up</button>
+                        {!currentUser ? <>
+                            <button className="btn btn-login" onClick={() => navigate("/login")}>Login</button>
+                            <button className="btn btn-signup" onClick={() => navigate("/signup")}>Sign Up</button>
+                        </> : (
+                            <button className="btn btn-login" onClick={() => navigate("/chats")}>Open Cetan</button>
+                        )}
                     </li>
                 </ul>
                 <button
