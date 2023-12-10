@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import ConnectedPPL from "../assets/svg/homepage/connected-ppl.svg";
 import SyncFeature from "../assets/svg/homepage/sync-feature.svg";
@@ -13,6 +13,7 @@ import { ReactComponent as Logo } from "@/public/cetan.svg";
 import Lain from "../assets/img/lain-iwakura.jpg";
 
 import { Link } from "react-router-dom";
+import { AuthContext } from "../contexts/AuthContext";
 
 function Feature({ gap, reverse, className, id, children }) {
     return (
@@ -27,12 +28,16 @@ function Feature({ gap, reverse, className, id, children }) {
 }
 
 function Home() {
+    const { currentUser } = useContext(AuthContext);
+
+    const _route_to_enter = currentUser ? "/chats" : "/signup";
+
     return (
         <main className="home-body">
             <main className="home-main-container">
                 <section className="container hero">
                     <div className="image">
-                        <img src={ConnectedPPL} alt="" />
+                        <img src={ConnectedPPL} alt="Connected People" />
                     </div>
                     <div className="contain">
                         <header>
@@ -42,9 +47,9 @@ function Home() {
                             <p className="content">idk what content need to show</p>
                         </header>
                         <div className="buttons">
-                            <Link to={"/signup"}>
+                            <Link to={_route_to_enter}>
                                 <div className="btn-primary">
-                                    Start Chating
+                                    {currentUser ? "Continue Chating" : "Start Chating"}
                                 </div>
                             </Link>
                             <Link to={"/"}>
@@ -100,11 +105,13 @@ function Home() {
                 <section className="last">
                     <div className="contain">
                         <h1 className="header">
-                            Now let's start your first conversation
+                            {!currentUser ?
+                                "Now let's start your first conversation" :
+                                "Now let's continue your conversation"}
                         </h1>
-                        <Link to={"/signup"}>
+                        <Link to={_route_to_enter}>
                             <div className="btn-primary">
-                                Get Started
+                                {!currentUser ? "Get Started" : "Continue"}
                             </div>
                         </Link>
                     </div>
@@ -118,7 +125,7 @@ function Home() {
                             <h2>Cetan</h2>
                         </header>
                         <div className="desc">
-                            A open-source real-time private chat app for study case, made with React and Firebase. <a href="https://github.com/norman-andrians/cetan.git">See source code</a>
+                            A open-source real-time private chat app for study case, made with React and Firebase. <a href="https://github.com/norman-andrians/cetan.git" target="_blank">See source code</a>
                         </div>
                         <div className="copy">
                             Copyright © 2023 Norman Andrians
