@@ -1,5 +1,5 @@
 
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, onSnapshot, query, updateDoc, where } from "firebase/firestore";
 // import { UserContact } from "./contact.d.ts";
 import { db } from "../firebase";
 
@@ -31,4 +31,54 @@ export async function setReplierStatus (replier, sender, status) {
     catch (error) {
         console.log(error);
     }
+}
+
+export async function insertUserToContacts (contacts) {
+    const newContacts = [];
+
+    if (contacts.length < 1)
+        return contacts;
+    
+    try {
+        const ids = [...contacts].map(({ uid }) => uid);
+        const uq = query(collection(db, "users"), where('uid', 'in', ids));
+        const snapshot = await getDocs(uq);
+
+        if (snapshot.empty) return [];
+
+        let index = 0;
+        snapshot.forEach(async (user) => {
+            if (ids.includes(user.data().uid)) {
+                const expectedContact = contacts.filter(({ uid }) => uid === user.data().uid)[0];
+                newContacts.push({
+                    user: user.data(),
+                    ...expectedContact,
+                });
+                index++;
+            }
+        });
+
+        return newContacts;
+    }
+    catch (error) {
+        console.error(error);
+    }
+}
+
+export function getContacts (currentUser, cb) {
+    const docRef = doc(db, "userChats", currentUser.uid);
+    return onSnapshot(docRef, (ds) => {
+        const data = ds.data();
+        const objted = data ? Object.values(data) : [];
+
+        const convertedDate = objted.sort((a, b) => {
+            const dateA = new Date(a.date.toDate());
+            const dateB = new Date(b.date.toDate());
+            return dateB - dateA;
+        })
+
+        insertUserToContacts(convertedDate).then((finalData) => {
+            cb(finalData);
+        });
+    })
 }
