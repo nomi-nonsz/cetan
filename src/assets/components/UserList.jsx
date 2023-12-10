@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import UserItem from "./UserItem";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
-import { db } from "../../firebase";
+import { fetchReplierData } from "../../controllers/contacts";
 import { AuthContext } from "../../contexts/AuthContext";
 import { ChatContext } from "../../contexts/ChatContext";
 import LoadingAnim from "./LoadingAnim";
@@ -10,32 +9,14 @@ function UserList ({ contacts, triggerChange }) {
     const { currentUser } = useContext(AuthContext);
     const chatCtx = useContext(ChatContext);
 
-    const handleClickChat = async (e) => {
-        try {
-            const replierRef = doc(db, "users", e.uid);
-            const replier = await getDoc(replierRef);
-            const replierContact = await getDoc(doc(db, "userChats", replier.data().uid));
-            
-            const chatRef = doc(db, "userChats", currentUser.uid);
-            const userChat = await getDoc(chatRef);
-
-            if (!replier.exists())
-                throw new Error("Replier user not found");
-            
+    const handleClickChat = (e) => {
+        fetchReplierData(currentUser, e).then((data) => {
             chatCtx.dispatch({
                 type: "CHANGE_USER",
-                payload: {
-                    replier: replier.data(),
-                    chatId: userChat.data()[replier.id].chatId,
-                    status: replierContact.data()[currentUser.uid].status
-                }
+                payload: data
             });
-
             triggerChange(true);
-        }
-        catch (error) {
-            console.error(error);
-        }
+        })
     }
 
     return (

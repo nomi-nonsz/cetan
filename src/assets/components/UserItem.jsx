@@ -11,7 +11,7 @@ function UserItem ({ img, username, chat, onClick, addBtnClick, uid }) {
 
     const handleClick = (e) => {
         const event = { ...e, uid };
-        onClick(event);
+        if (e) onClick(event);
     }
 
     return (

@@ -1,8 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import SearchBar from "./SearchBar";
 import UserList from "./UserList";
-import { collection, doc, getDoc, getDocs, onSnapshot, query, where } from "firebase/firestore";
-import { db } from "../../firebase";
 import { AuthContext } from "../../contexts/AuthContext";
 import { getContacts } from "../../controllers/contacts";
 

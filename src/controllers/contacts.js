@@ -1,5 +1,16 @@
-
-import { collection, doc, getDoc, getDocs, onSnapshot, query, updateDoc, where } from "firebase/firestore";
+import {
+    addDoc,
+    collection,
+    doc,
+    getDoc,
+    getDocs,
+    onSnapshot,
+    query,
+    serverTimestamp,
+    setDoc,
+    updateDoc,
+    where,
+} from "firebase/firestore";
 // import { UserContact } from "./contact.d.ts";
 import { db } from "../firebase";
 
@@ -29,7 +40,7 @@ export async function setReplierStatus (replier, sender, status) {
         })
     }
     catch (error) {
-        console.log(error);
+        console.error(error);
     }
 }
 
@@ -57,7 +68,6 @@ export async function insertUserToContacts (contacts) {
                 index++;
             }
         });
-
         return newContacts;
     }
     catch (error) {
@@ -65,6 +75,12 @@ export async function insertUserToContacts (contacts) {
     }
 }
 
+/**
+ * 
+ * @param {*} currentUser 
+ * @param {(data) => {}} cb 
+ * @returns 
+ */
 export function getContacts (currentUser, cb) {
     const docRef = doc(db, "userChats", currentUser.uid);
     return onSnapshot(docRef, (ds) => {
@@ -81,4 +97,90 @@ export function getContacts (currentUser, cb) {
             cb(finalData);
         });
     })
+}
+
+/**
+ * 
+ * @param {*} currentUser 
+ * @param {*} uid user id that want to add
+ */
+export async function setContact (currentUser, uid) {
+    const chatColl = collection(db, "chats");
+    const docRef = doc(db, "userChats", currentUser.uid);
+    const targetRef = doc(db, "userChats", uid);
+    const targetUser = doc(db, "users", uid);
+
+    try {
+        const docp = await getDoc(docRef);
+        const user = await getDoc(targetUser);
+        const targetChat = await getDoc(targetRef);
+
+        // When user docs didn't exist
+        if (!docp.exists()) await setDoc(docRef, {});
+        // And when the target contact docs didn't exist
+        if (!targetChat.exists()) await setDoc(targetRef, {});
+        
+        // Add chats for current user to contact
+        if (!docp.data()[uid]) {
+            const addContactsMsg = `${currentUser.displayName} Just added ${user.data().username}`;
+
+            const chatRef = await addDoc(chatColl, {
+                conversation: [],
+                date: serverTimestamp(),
+                users: [currentUser.uid, uid]
+            });
+
+            await updateDoc(docRef, {
+                [uid]: {
+                    uid,
+                    date: serverTimestamp(),
+                    lastMessage: addContactsMsg,
+                    status: "ADDED",
+                    chatId: chatRef.id
+                }
+            });
+
+            // Add chats for contact for current user
+            if (!targetChat.data()[currentUser.uid]) {
+                await updateDoc(targetRef, {
+                    [currentUser.uid]: {
+                        uid: currentUser.uid,
+                        date: serverTimestamp(),
+                        lastMessage: addContactsMsg,
+                        status: "CLEAR",
+                        chatId: chatRef.id
+                    }
+                });
+            }
+        }
+        
+    }
+    catch (error) {
+        console.error(error);
+        throw error;
+    }
+}
+
+export async function fetchReplierData (currentUser, replierData) {
+    try {
+        const replierRef = doc(db, "users", replierData.uid);
+        const replier = await getDoc(replierRef);
+        const replierContact = await getDoc(doc(db, "userChats", replier.data().uid));
+        
+        const chatRef = doc(db, "userChats", currentUser.uid);
+        const userChat = await getDoc(chatRef);
+
+        if (!replier.exists())
+            throw new Error("Replier user not found");
+
+        return {
+            replier: replier.data(),
+            chatId: userChat.data()[replier.id].chatId,
+            status: replierContact.data()[currentUser.uid].status
+        }
+    }
+    catch (error) {
+        console.error(error);
+        throw error;
+    }
 }
