@@ -1,17 +1,13 @@
 import React, { useContext, useRef, useState } from "react";
-import moment from "moment/moment";
 
 import { ChatContext } from "../../contexts/ChatContext";
-
-import { addDoc, arrayUnion, collection, doc, serverTimestamp, updateDoc } from "firebase/firestore";
-import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
-import { db, storage } from "../../firebase";
 
 import LoadingAnim from "./LoadingAnim";
 
 import { ReactComponent as SendIcon } from "../svg/send.svg";
 import { ReactComponent as ImgIcon } from "../svg/image2.svg";
 import { ReactComponent as XIcon } from "../svg/x.svg";
+import { sendMessage } from "../../controllers/chats";
 
 function MsgInput () {
     const message = useRef(null);
@@ -21,52 +17,6 @@ function MsgInput () {
     const [imgUrl, setImg] = useState(null);
 
     const { state } = useContext(ChatContext);
-
-    const sendImage = () => {
-        const file = imgRef.current.files[0];
-        if (!file) return;
-
-        return new Promise((resolve, reject) => {
-            const date = moment().format("YYYY:MM:DD-hh:mm:ss");
-            const storageRef = ref(storage, `images/chats/CETAN-IMG_${date}_${file.name}`);
-            const uploadTask = uploadBytesResumable(storageRef, file);
-    
-            uploadTask.on((error) => {
-                reject(new Error(error));
-            }, async () => {
-                const donwloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-                resolve(donwloadURL);
-            });
-        })
-    }
-
-    const updateContact = async (replier, sender, msg, chatId) => {
-        const senderRef = doc(db, "userChats", sender.uid);
-        const replierRef = doc(db, "userChats", replier.uid);
-
-        try {
-            await updateDoc(senderRef, {
-                [replier.uid]: {
-                    uid: replier.uid,
-                    lastMessage: `${sender.username}: ${msg}`,
-                    date: serverTimestamp(),
-                    chatId
-                }
-            })
-
-            await updateDoc(replierRef, {
-                [sender.uid]: {
-                    uid: sender.uid,
-                    lastMessage: `${sender.username}: ${msg}`,
-                    date: serverTimestamp(),
-                    chatId
-                }
-            })
-        }
-        catch (error) {
-            console.error(error);
-        }
-    }
     
     const handleSend = async (e) => {
         e.preventDefault();
@@ -74,45 +24,16 @@ function MsgInput () {
         const msg = message.current.value;
         const file = imgRef.current.files[0];
 
-        const { replier, sender, chatId } = state;
+        const { replier, sender } = state;
 
         if (msg.length < 1) return;
         if (!replier && !sender) return;
         if (btnState == "loading") return;
         
+        setBtn("loading");
+
         try {
-            setBtn("loading");
-
-            const chatRef = doc(db, "chats", chatId);
-            const chatDummy = collection(db, "chatDummy");
-
-            const newChat = {
-                id: "",
-                uid: sender.uid,
-                message: msg,
-                datetime: new Date(Date.now())
-            };
-
-            const uploadedImageURL = await sendImage();
-
-            if (uploadedImageURL)
-                newChat.imgURL = uploadedImageURL;
-
-            const dummy = await addDoc(chatDummy, {
-                ...newChat,
-                chatFrom: chatId
-            });
-
-            newChat.id = dummy.id;
-            
-            await updateDoc(chatRef, {
-                conversation: arrayUnion(newChat),
-                lastMessage: `${sender.username}: ${msg}`
-            })
-
-            setBtn("idle");
-
-            await updateContact(replier, sender, msg, chatId);
+            await sendMessage(state, msg, file);
 
             // reset
             message.current.value = "";
@@ -121,6 +42,9 @@ function MsgInput () {
         }
         catch (error) {
             console.error(error);
+        }
+        finally {
+            setBtn("idle");
         }
     }
 
