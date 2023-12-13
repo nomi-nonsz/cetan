@@ -36,11 +36,13 @@ export async function updateContactMessage (replier, sender, msg, chatId) {
     const senderRef = doc(db, "userChats", sender.uid);
     const replierRef = doc(db, "userChats", replier.uid);
 
+    const shortedMsg = msg.length > 14 ? msg.slice(0, 15) + "..." : msg;
+
     try {
         await updateDoc(senderRef, {
             [replier.uid]: {
                 uid: replier.uid,
-                lastMessage: `${sender.username}: ${msg}`,
+                lastMessage: `${sender.username}: ${shortedMsg}`,
                 date: serverTimestamp(),
                 chatId
             }
@@ -49,7 +51,7 @@ export async function updateContactMessage (replier, sender, msg, chatId) {
         await updateDoc(replierRef, {
             [sender.uid]: {
                 uid: sender.uid,
-                lastMessage: `${sender.username}: ${msg}`,
+                lastMessage: `${sender.username}: ${shortedMsg}`,
                 date: serverTimestamp(),
                 chatId
             }

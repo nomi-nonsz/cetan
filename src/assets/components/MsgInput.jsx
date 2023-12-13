@@ -26,7 +26,7 @@ function MsgInput () {
 
         const { replier, sender } = state;
 
-        if (msg.length < 1) return;
+        if (msg.length < 1 && !file) return;
         if (!replier && !sender) return;
         if (btnState == "loading") return;
         

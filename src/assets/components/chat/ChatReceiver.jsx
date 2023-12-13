@@ -10,10 +10,12 @@ function ChatReceiver({ profile, username, msg, img }) {
     return (
         <div className="chat chat-receiver" ref={chatRef}>
             <div className="chatbox-wrapper">
-                <div className="msgbox">
-                    <div className="username">{username}</div>
-                    <div className="msg">{msg}</div>
-                </div>
+                {msg.length > 0 && (
+                    <div className="msgbox">
+                        <div className="username">{username}</div>
+                        <div className="msg">{msg}</div>
+                    </div>
+                )}
                 {img && <div className="image"><img src={img} alt="" /></div>}
             </div>
             <img src={profile} className="profile" alt="sender" />

@@ -288,7 +288,12 @@
                     @include mobile {
                         margin: 10px;
                     }
-    
+
+                    &-content {
+                        display: flex;
+                        gap: 12px;
+                    }
+
                     .chatbox-wrapper {
                         max-width: 60%;
 
@@ -298,9 +303,9 @@
     
                         .msgbox {
                             background-color: var(--secondary);
+                            width: 100%;
                             padding: 18px;
                             border-radius: 8px;
-                            width: fit-content;
     
                             @include mobile {
                                 font-size: 10px;
@@ -318,8 +323,11 @@
                         }
     
                         .image {
-                            margin-top: 10px;
                             width: 100%;
+                            margin-top: 10px;
+                            display: flex;
+                            align-items: center;
+                            gap: 20px;
 
                             @include mobile {
                                 margin-top: 5px;
@@ -329,10 +337,14 @@
                                 width: 100%;
                                 height: auto;
                                 border-radius: 8px;
+                                display: block;
                             }
                         }
                     }
                     &-sender {
+                        .chat-content {
+                            justify-content: flex-end;
+                        }
                         .chat-option {
                             padding-top: 20px;
                             opacity: 0;
@@ -381,10 +393,9 @@
                         &:hover .chat-option {
                             opacity: 1;
                         }
-                        .chat-wrapper {
+                        .chatbox-wrapper {
+                            margin-left: auto;
                             .msgbox {
-                                margin-left: auto;
-    
                                 .username {
                                     color: var(--green);
                                 }
