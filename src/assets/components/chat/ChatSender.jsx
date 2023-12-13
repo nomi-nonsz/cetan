@@ -1,6 +1,5 @@
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 
-import { ReactComponent as ThreeDots } from "../../svg/3-dots.svg";
 import { ReactComponent as Trash } from "../../svg/trash.svg";
 
 function ChatSender({ profile, username, msg, img, id, deleteChat }) {

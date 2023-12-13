@@ -104,3 +104,5 @@ function ExampleChat () {
         />
     </>
 }
+
+export default ExampleChat;
