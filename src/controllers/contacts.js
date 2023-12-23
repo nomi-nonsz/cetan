@@ -1,6 +1,8 @@
 import {
     addDoc,
     collection,
+    deleteDoc,
+    deleteField,
     doc,
     getDoc,
     getDocs,
@@ -44,22 +46,25 @@ export async function setReplierStatus (replier, sender, status) {
 
         // make a copy of between 2 contacts data
         const sender_to_replier_contact = {...senderContact.data()[replier_id]};
-        // const replier_to_sender_contact = {...replierContact.data()[sender_id]};
+        /* const replier_to_sender_contact = {...replierContact.data()[sender_id]}; */
 
         // set new status from that copied data
         sender_to_replier_contact.status = status;
-        // replier_to_sender_contact.status = status;
+        /* replier_to_sender_contact.status = status; */
 
         // the updated!
         await updateDoc(senderContactRef, {
             [replier_id]: sender_to_replier_contact
         })
-        // await updateDoc(replierContactRef, {
-        //     [sender_id]: replier_to_sender_contact
-        // })
+        /*
+        await updateDoc(replierContactRef, {
+            [sender_id]: replier_to_sender_contact
+        })
+        */
     }
     catch (error) {
-        console.error(error);
+        console.error("Failed to set contact status", error);
+        throw error;
     }
 }
 
@@ -90,7 +95,8 @@ export async function insertUserToContacts (contacts) {
         return newContacts;
     }
     catch (error) {
-        console.error(error);
+        console.error("Failed to insert user to contacts", error);
+        throw error;
     }
 }
 
@@ -132,12 +138,15 @@ export async function setContact (currentUser, uid) {
     try {
         const docp = await getDoc(docRef);
         const user = await getDoc(targetUser);
-        const targetChat = await getDoc(targetRef);
+        let targetChat = await getDoc(targetRef);
 
         // When user docs didn't exist
         if (!docp.exists()) await setDoc(docRef, {});
         // And when the target contact docs didn't exist
-        if (!targetChat.exists()) await setDoc(targetRef, {});
+        if (!targetChat.exists()) {
+            await setDoc(targetRef, {});
+            targetChat = await getDoc(targetRef);
+        }
         
         // Add chats for current user to contact
         if (!docp.data()[uid]) {
@@ -177,6 +186,31 @@ export async function setContact (currentUser, uid) {
     catch (error) {
         console.error(error);
         throw error;
+    }
+}
+
+export async function deleteContact (sender, replier) {
+    try {
+        // get sender contact
+        const senderContactRef = doc(db, "userChats", sender.uid);
+        const senderContact = await getDoc(senderContactRef);
+    
+        // replier user data
+        const replierDoc = await getDoc(doc(db, "users", replier.uid));
+
+        if (!senderContact.exists() || !replierDoc.exists()) {
+            throw new Error("User documents doesn't exist");
+        }
+
+        const replier_id = replierDoc.data().uid;
+
+        await updateDoc(senderContactRef, {
+            [replier_id]: deleteField()
+        })
+    }
+    catch (err) {
+        console.error("Failed to delete contact", err);
+        throw err;
     }
 }
 

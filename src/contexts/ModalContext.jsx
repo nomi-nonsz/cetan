@@ -2,20 +2,21 @@ import React, { createContext, useState } from "react";
 
 export const ModalContext = createContext({});
 
-export function ModalContextProvider ({ children }) {
-    const [deleteChat, setDeleteChat] = useState({
-        state: false,
-        payload: () => {}
-    });
+const DEFAULT_VALUE = {
+    state: false,
+    payload: () => {}
+};
 
-    const [blockChat, setBlockChat] = useState({
-        state: false,
-        payload: () => {}
-    })
+export function ModalContextProvider ({ children }) {
+    const [deleteContact, setDeleteContact] = useState(DEFAULT_VALUE);
+    const [deleteChat, setDeleteChat] = useState(DEFAULT_VALUE);
+    const [blockChat, setBlockChat] = useState(DEFAULT_VALUE)
 
     return (
         <ModalContext.Provider
             value={{
+                deleteContact,
+                setDeleteContact,
                 deleteChat,
                 setDeleteChat,
                 blockChat,

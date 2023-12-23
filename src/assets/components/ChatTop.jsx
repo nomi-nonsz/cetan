@@ -1,8 +1,7 @@
 import React, { useContext, useState } from "react"
 
-import { AuthContext } from "../../contexts/AuthContext";
 import { ChatContext } from "../../contexts/ChatContext";
-import { setReplierStatus } from "../../controllers/contacts";
+import { deleteContact, setReplierStatus } from "../../controllers/contacts";
 import { ModalContext } from "../../contexts/ModalContext";
 
 import { ReactComponent as ThreeDots } from "../svg/3-dots-v.svg";
@@ -12,8 +11,8 @@ import { ReactComponent as MinusCircle } from "../svg/minus-circle.svg";
 import "~/assets/sass/options.scss";
 
 function ChatTop () {
-    const { state } = useContext(ChatContext);
-    const { blockChat, setBlockChat } = useContext(ModalContext);
+    const { state, dispatch } = useContext(ChatContext);
+    const { setBlockChat, setDeleteContact } = useContext(ModalContext);
     const contact = useContext(ChatContext);
 
     const [showOptions, setOptions] = useState(false);
@@ -25,6 +24,25 @@ function ChatTop () {
                 setReplierStatus(contact.state.replier, contact.state.sender, "BLOCKED").then(() => {
                     setOptions(false);
                     setBlockChat({ state: false, payload: () => {} })
+                });
+            }
+        })
+    }
+
+    const deleteReplier = () => {
+        setDeleteContact({
+            state: true,
+            payload: () => {
+                deleteContact(contact.state.sender, contact.state.replier).then(() => {
+                    setOptions(false);
+
+                    setDeleteContact({
+                        state: false,
+                        payload: () => {}
+                    });
+                    dispatch({
+                        type: "RESET_USER"
+                    });
                 });
             }
         })
@@ -49,7 +67,7 @@ function ChatTop () {
                             <Ban />
                             <div>Block</div>
                         </button>
-                        <button className="list-item list-danger">
+                        <button className="list-item list-danger" onClick={deleteReplier}>
                             <MinusCircle />
                             <div>Delete Contact</div>
                         </button>

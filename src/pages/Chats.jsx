@@ -25,8 +25,12 @@ function Chats() {
     const { currentUser } = useContext(AuthContext);
     const { state } = useContext(ChatContext);
 
-    const { deleteChat, setDeleteChat } = useContext(ModalContext);
-    const { blockChat, setBlockChat } = useContext(ModalContext);
+    // Modals data
+    const {
+        deleteContact, setDeleteContact,
+        deleteChat, setDeleteChat,
+        blockChat, setBlockChat
+    } = useContext(ModalContext);
 
     const { isMobile } = useContext(ViewportContext);
 
@@ -77,6 +81,17 @@ function Chats() {
             {showAdd == true && (
                 <AddContact setVisible={setShowAdd} users={users} />
             )}
+            {deleteContact.state && <Confirmation
+                title={"Delete contact"}
+                message={"Are you sure you want to delete this contact?"}
+                accept={deleteContact.payload}
+                reject={() => {
+                    setDeleteChat({
+                        state: false,
+                        payload: () => {}
+                    });
+                }}
+            />}
             {blockChat.state && <Confirmation
                 title={"Block contact"}
                 message={"Are you sure you want to block this contact?"}
@@ -129,7 +144,7 @@ function Chats() {
                                 />
                             </>
                         ) : (
-                            <div className="no-user">No Signed yet</div>
+                            <div className="no-user">Not Signed yet</div>
                         )}
                     </div>
                 </div>
