@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 
 import { ReactComponent as Trash } from "../../svg/trash.svg";
 
-function ChatSender({ profile, username, msg, img, id, deleteChat }) {
+function ChatSender({ profile, username, msg, img, date, id, deleteChat }) {
     const chatRef = useRef(null);
 
     useEffect(() => {
@@ -41,6 +41,7 @@ function ChatSender({ profile, username, msg, img, id, deleteChat }) {
                         <img src={img} alt="" />
                     </div>
                 )}
+                <div className="date">{date}</div>
             </div>
             <img src={profile} className="profile" alt="sender" />
         </div>

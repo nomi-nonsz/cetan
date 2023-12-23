@@ -11,6 +11,7 @@ import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../../firebase";
 import { ModalContext } from "../../contexts/ModalContext";
 import { deleteMessage } from "../../controllers/chats";
+import moment from "moment";
 
 function ChatsBody ({ triggerChange }) {
     const [messages, setMessages] = useState(null);
@@ -64,8 +65,9 @@ function ChatsBody ({ triggerChange }) {
             {messages ? (
                 messages.length < 1 ? (
                     <div className="no-msg">Start the conversation by saying hi to <b>{replier.username}</b></div>
-                ) : (messages.map(({ message, uid, imgURL, id }, key) => {
+                ) : (messages.map(({ message, uid, imgURL, datetime, id }, key) => {
                     const isSelected = state.sender && state.replier && state.chatId;
+                    const date = moment(datetime.toDate()).format("hh:mm");
     
                     if (!isSelected) {
                         return (
@@ -81,6 +83,7 @@ function ChatsBody ({ triggerChange }) {
                                     username={"You"}
                                     msg={message}
                                     img={imgURL}
+                                    date={date}
                                     key={id || key}
                                     id={id}
                                     deleteChat={handleDelete}
@@ -93,6 +96,7 @@ function ChatsBody ({ triggerChange }) {
                                     username={replier.username}
                                     msg={message}
                                     img={imgURL}
+                                    date={date}
                                     key={id || key}
                                 />
                             )

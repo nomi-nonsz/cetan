@@ -304,7 +304,7 @@
                         .msgbox {
                             background-color: var(--secondary);
                             width: 100%;
-                            padding: 18px;
+                            padding: 15px;
                             border-radius: 8px;
     
                             @include mobile {
@@ -340,11 +340,24 @@
                                 display: block;
                             }
                         }
+
+                        .date {
+                            opacity: .8;
+                            font-size: small;
+                            margin-top: 6px;
+                        }
                     }
                     &-sender {
                         .chat-content {
                             justify-content: flex-end;
+                            .username {
+                                padding-right: 30px;
+                            }
                         }
+                        .date {
+                            text-align: right;
+                        }
+                        
                         .chat-option {
                             padding-top: 20px;
                             opacity: 0;
@@ -353,6 +366,7 @@
                             @include mobile {
                                 padding-top: 10px;
                             }
+
 
                             button {
                                 border: none;

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 
-function ChatReceiver({ profile, username, msg, img }) {
+function ChatReceiver({ profile, username, msg, date, img }) {
     const chatRef = useRef(null);
 
     useEffect(() => {
@@ -17,6 +17,7 @@ function ChatReceiver({ profile, username, msg, img }) {
                     </div>
                 )}
                 {img && <div className="image"><img src={img} alt="" /></div>}
+                <div className="date">{date}</div>
             </div>
             <img src={profile} className="profile" alt="sender" />
         </div>
