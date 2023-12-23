@@ -2,6 +2,8 @@ import React, { useContext, useState } from "react"
 
 import { AuthContext } from "../../contexts/AuthContext";
 import { ChatContext } from "../../contexts/ChatContext";
+import { setReplierStatus } from "../../controllers/contacts";
+import { ModalContext } from "../../contexts/ModalContext";
 
 import { ReactComponent as ThreeDots } from "../svg/3-dots-v.svg";
 import { ReactComponent as Ban } from "../svg/ban.svg";
@@ -11,8 +13,22 @@ import "~/assets/sass/options.scss";
 
 function ChatTop () {
     const { state } = useContext(ChatContext);
+    const { blockChat, setBlockChat } = useContext(ModalContext);
+    const contact = useContext(ChatContext);
 
     const [showOptions, setOptions] = useState(false);
+
+    const blockReplier = () => {
+        setBlockChat({
+            state: true,
+            payload: () => {
+                setReplierStatus(contact.state.replier, contact.state.sender, "BLOCKED").then(() => {
+                    setOptions(false);
+                    setBlockChat({ state: false, payload: () => {} })
+                });
+            }
+        })
+    }
 
     return (
         <div className="chat-top">
@@ -29,7 +45,7 @@ function ChatTop () {
                 </button>
                 {showOptions && (
                     <div className="list-option">
-                        <button className="list-item list-danger">
+                        <button className="list-item list-danger" onClick={blockReplier}>
                             <Ban />
                             <div>Block</div>
                         </button>

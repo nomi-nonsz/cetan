@@ -6,7 +6,7 @@ const INITIAL_STATE = {
     sender: null,
     replier: null,
     chatId: null,
-    statue: null
+    status: null
 }
 
 export const ChatContext = createContext({
@@ -42,13 +42,13 @@ export const ChatContextProvider = ({ children }) => {
 
     useEffect(() => {
         // debug stuff
-        // console.log(state);
-        // if (state) {
-        //     if (state.status === "BLOCKED") {
-        //         console.log(`You're blocked by ${state.replier.username}`)
-        //     }
-        //     setReplierStatus(state.replier, state.sender, "CLEAR");
-        // }
+        console.log(state);
+        if (state) {
+            if (state.status === "BLOCKED") {
+                console.log(`You're blocked by ${state.replier.username}`)
+            }
+            // setReplierStatus(state.replier, state.sender, "CLEAR");
+        }
     }, [state]);
 
     return (

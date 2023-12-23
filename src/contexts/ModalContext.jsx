@@ -8,11 +8,18 @@ export function ModalContextProvider ({ children }) {
         payload: () => {}
     });
 
+    const [blockChat, setBlockChat] = useState({
+        state: false,
+        payload: () => {}
+    })
+
     return (
         <ModalContext.Provider
             value={{
                 deleteChat,
-                setDeleteChat
+                setDeleteChat,
+                blockChat,
+                setBlockChat
             }}
         >
             {children}

@@ -68,26 +68,32 @@ function MsgInput () {
 
     return (
         <div className="msg-input">
-            {imgUrl &&
-                <div className="file-preview">
+            {state.status !== "BLOCKED" ? (<>
+                {imgUrl && <div className="file-preview">
                     <div className="img-item">
                         <img src={imgUrl} alt="" />
                         <button className="cancel" onClick={cancelImage}>
                             <XIcon />
                         </button>
                     </div>
+                </div>}
+                <form className="msg-wrapper" onSubmit={handleSend}>
+                    <div className="file-input">
+                        <label htmlFor="file-img">
+                            <ImgIcon />
+                        </label>
+                        <input type="file" id="file-img" ref={imgRef} accept="image/*" onChange={changeImage} />
+                    </div>
+                    <input type="text" name="" id="" ref={message} placeholder="Write messages..." />
+                    <button type="submit" disabled={btnState == "loading"} className={btnState}>{btnState == "loading" ? <LoadingAnim /> : <SendIcon />}</button>
+                </form>
+            </>) : (
+                <div className="msg-wrapper">
+                    <div className="blocked">
+                        You're <span className="text-danger">blocked</span>, You can't chat with <b>{state.replier.username}</b>
+                    </div>
                 </div>
-            }
-            <form className="msg-wrapper" onSubmit={handleSend}>
-                <div className="file-input">
-                    <label htmlFor="file-img">
-                        <ImgIcon />
-                    </label>
-                    <input type="file" id="file-img" ref={imgRef} accept="image/*" onChange={changeImage} />
-                </div>
-                <input type="text" name="" id="" ref={message} placeholder="Write messages..." />
-                <button type="submit" disabled={btnState == "loading"} className={btnState}>{btnState == "loading" ? <LoadingAnim /> : <SendIcon />}</button>
-            </form>
+            )}
         </div>
     )
 }

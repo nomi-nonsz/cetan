@@ -544,6 +544,11 @@
                             }
                         }
                     }
+
+                    & .blocked {
+                        padding: 15px;
+                        opacity: .7;
+                    }
                 }
     
             }

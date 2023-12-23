@@ -22,22 +22,41 @@ import { db } from "../firebase";
  */
 export async function setReplierStatus (replier, sender, status) {
     try {
+        // get sender contact
+        const senderContactRef = doc(db, "userChats", sender.uid);
+        const senderContact = await getDoc(senderContactRef);
+
+        // get replier contact
         const replierContactRef = doc(db, "userChats", replier.uid);
         const replierContact = await getDoc(replierContactRef);
 
+        // sender and replier user data
         const senderDoc = await getDoc(doc(db, "users", sender.uid));
         const replierDoc = await getDoc(doc(db, "users", replier.uid));
 
-        if (!replierContact.exists() || !senderDoc.exists() || !replierDoc.exists()) {
+        if (!senderContact.exists() || !replierContact.exists() || !senderDoc.exists() || !replierDoc.exists()) {
             throw new Error("replier or sender doesn't exist");
         }
 
-        const replier_to_sender_contact = {...replierContact.data()[senderDoc.data().uid]};
-        replier_to_sender_contact.status = status;
+        // id
+        const sender_id = senderDoc.data().uid;
+        const replier_id = replierDoc.data().uid;
 
-        await updateDoc(replierContactRef, {
-            [senderDoc.data().uid]: replier_to_sender_contact
+        // make a copy of between 2 contacts data
+        const sender_to_replier_contact = {...senderContact.data()[replier_id]};
+        // const replier_to_sender_contact = {...replierContact.data()[sender_id]};
+
+        // set new status from that copied data
+        sender_to_replier_contact.status = status;
+        // replier_to_sender_contact.status = status;
+
+        // the updated!
+        await updateDoc(senderContactRef, {
+            [replier_id]: sender_to_replier_contact
         })
+        // await updateDoc(replierContactRef, {
+        //     [sender_id]: replier_to_sender_contact
+        // })
     }
     catch (error) {
         console.error(error);

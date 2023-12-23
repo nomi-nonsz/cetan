@@ -2,7 +2,7 @@ import React from "react";
 import DesicionBtn from "../button/DesicionBtn";
 import { ReactComponent as CloseIcon } from "../../svg/x.svg";
 
-function ConfDelete ({ title, message, accept, reject }) {
+function Confirmation ({ title, message, accept, reject }) {
     return (
         <div className="cover-bg">
             <div className="modal-delete">
@@ -20,4 +20,4 @@ function ConfDelete ({ title, message, accept, reject }) {
     )
 }
 
-export default ConfDelete;
+export default Confirmation;

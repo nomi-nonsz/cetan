@@ -18,13 +18,16 @@ import ConfLogout from "../assets/components/modal/ConfLogout";
 import ChatIntro from "../assets/components/ChatIntro";
 import Contacts from "../assets/components/Contacts";
 import UserSettings from "../assets/components/settings/UserSettings";
-import ConfDelete from "../assets/components/modal/ConfDelete";
+import Confirmation from "../assets/components/modal/Confirmation";
 
 function Chats() {
     // contexts
     const { currentUser } = useContext(AuthContext);
     const { state } = useContext(ChatContext);
+
     const { deleteChat, setDeleteChat } = useContext(ModalContext);
+    const { blockChat, setBlockChat } = useContext(ModalContext);
+
     const { isMobile } = useContext(ViewportContext);
 
     // toggle chat layout for mobile
@@ -74,7 +77,18 @@ function Chats() {
             {showAdd == true && (
                 <AddContact setVisible={setShowAdd} users={users} />
             )}
-            {deleteChat.state && <ConfDelete
+            {blockChat.state && <Confirmation
+                title={"Block contact"}
+                message={"Are you sure you want to block this contact?"}
+                accept={blockChat.payload}
+                reject={() => {
+                    setBlockChat({
+                        state: false,
+                        payload: () => {}
+                    });
+                }}
+            />}
+            {deleteChat.state && <Confirmation
                 title={"Delete message"}
                 message={"Are you sure you want to delete this message?"}
                 accept={deleteChat.payload}
