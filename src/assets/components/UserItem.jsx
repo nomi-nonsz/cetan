@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import LoadingAnim from "./LoadingAnim";
 import { ReactComponent as PlusIcon } from "../svg/plus.svg";
 
@@ -11,7 +11,7 @@ function UserItem ({ img, username, chat, onClick, addBtnClick, uid }) {
 
     const handleClick = (e) => {
         const event = { ...e, uid };
-        if (e) onClick(event);
+        if (e && onClick) onClick(event);
     }
 
     return (

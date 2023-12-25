@@ -143,9 +143,9 @@ export async function setContact (currentUser, uid) {
     const targetUser = doc(db, "users", uid);
 
     try {
-        const docp = await getDoc(docRef);
-        const user = await getDoc(targetUser);
+        let docp = await getDoc(docRef);
         let targetChat = await getDoc(targetRef);
+        const user = await getDoc(targetUser);
 
         // When user docs didn't exist
         if (!docp.exists()) {

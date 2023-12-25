@@ -1,13 +1,15 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { ReactComponent as Trash } from "../../svg/trash.svg";
 import moment from "moment";
 
 function ChatSender({ profile, username, msg, img, date, id, deleteChat }) {
     const chatRef = useRef(null);
-    const dateNow = moment(new Date(Date.now())).format("hh:mm");
+    const [dateNow, setDateNow] = useState("");
 
     useEffect(() => {
+        const now = moment(new Date(Date.now())).format("hh:mm");
+        setDateNow(now);
         chatRef.current?.scrollIntoView({ behavior: "smooth" });
     }, [msg]);
 

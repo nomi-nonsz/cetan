@@ -29,7 +29,9 @@ function AddContact ({ setVisible, contacts }) {
                 usrs.push(data);
             }
         });
+
         setUsers(usrs);
+        setFilter(usrs);
     }
 
     const watchSearch = () => {
@@ -37,6 +39,7 @@ function AddContact ({ setVisible, contacts }) {
         const filtered = users.filter(({ username }) => {
             if (q.length > 0)
                 return username.toLowerCase().includes(q.toLowerCase());
+            return true;
         });
         
         setFilter(filtered)
@@ -71,7 +74,7 @@ function AddContact ({ setVisible, contacts }) {
                 </button>
                 <h2>Add Contact</h2>
                 <div className="search-bar">
-                    <input type="email" ref={queryRef} onChange={watchSearch} placeholder="Find contact by email..." id="" />
+                    <input type="text" ref={queryRef} onChange={watchSearch} placeholder="Search user..." id="" />
                 </div>
                 <div className="result-field">
                     {filterUser.length > 0 ? filterUser.map(({ email, username, photoURL, uid }) => (
