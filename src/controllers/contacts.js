@@ -1,4 +1,5 @@
 import {
+    Timestamp,
     addDoc,
     collection,
     deleteDoc,
@@ -112,14 +113,20 @@ export function getContacts (currentUser, cb) {
         const data = ds.data();
         const objted = data ? Object.values(data) : [];
 
-        const convertedDate = objted.sort((a, b) => {
-            const dateA = new Date(a.date.toDate());
-            const dateB = new Date(b.date.toDate());
-            return dateB - dateA;
-        })
+        insertUserToContacts(objted).then((data) => {
+            const convertedDate = data.length > 0 ?
+                data.map((a) => {
+                    if (!a.date) return a;
+                    a.date = new Date(a.date.toDate());
+                    return a;
+                })
+                .sort((a, b) => {
+                    const dateA = a.date;
+                    const dateB = b.date;
+                    return dateB - dateA;
+                }) : [];
 
-        insertUserToContacts(convertedDate).then((finalData) => {
-            cb(finalData);
+            cb(convertedDate);
         });
     })
 }
@@ -141,7 +148,10 @@ export async function setContact (currentUser, uid) {
         let targetChat = await getDoc(targetRef);
 
         // When user docs didn't exist
-        if (!docp.exists()) await setDoc(docRef, {});
+        if (!docp.exists()) {
+            await setDoc(docRef, {});
+            docp = await getDoc(docRef);
+        }
         // And when the target contact docs didn't exist
         if (!targetChat.exists()) {
             await setDoc(targetRef, {});

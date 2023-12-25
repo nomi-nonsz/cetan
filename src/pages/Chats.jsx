@@ -48,29 +48,6 @@ function Chats() {
     const [showAdd, setShowAdd] = useState(false);
     const [showLogout, setLogout] = useState(false);
 
-    const getAllUsers = () => {
-        const result = query(
-            collection(db, "users"),
-            where("username", "!=", currentUser.displayName)
-        );
-    
-        return getDocs(result).then((qs) => {
-            const usrs = [];
-            qs.forEach(doc => {
-                const data = doc.data()
-                if (!contacts.some(c => c.uid === data.uid)) {
-                    usrs.push(data)
-                }
-            });
-            setUsers(usrs);
-        });
-    }
-    
-    // get all user then displayed on add contacts
-    useEffect(() => {
-        currentUser.uid && getAllUsers()
-    }, [currentUser.uid]);
-
     const goBack = async () => { 
         setStateChat(false);
         setChatOut("");
@@ -79,7 +56,10 @@ function Chats() {
     return (
         <>
             {showAdd == true && (
-                <AddContact setVisible={setShowAdd} users={users} />
+                <AddContact
+                    setVisible={setShowAdd}
+                    contacts={contacts}
+                />
             )}
             {deleteContact.state && <Confirmation
                 title={"Delete contact"}

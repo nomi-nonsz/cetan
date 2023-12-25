@@ -1,14 +1,36 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { db } from "../../../firebase";
+
 import { AuthContext } from "../../../contexts/AuthContext";
 import { setContact } from "../../../controllers/contacts";
 
 import UserItem from "../UserItem";
 import { ReactComponent as CloseIcon } from "../../svg/x.svg";
 
-function AddContact ({ setVisible, users }) {
+function AddContact ({ setVisible, contacts }) {
     const { currentUser } = useContext(AuthContext);
+
+    const [users, setUsers] = useState([]);
     const [filterUser, setFilter] = useState([]);
     const queryRef = useRef(null);
+    
+    const getAllUsers = async () => {
+        const result = query(
+            collection(db, "users"),
+            where("username", "!=", currentUser.displayName)
+        );
+    
+        const qs = await getDocs(result);
+        const usrs = [];
+        qs.forEach(doc => {
+            const data = doc.data();
+            if (!contacts.some(c => c.uid === data.uid)) {
+                usrs.push(data);
+            }
+        });
+        setUsers(usrs);
+    }
 
     const watchSearch = () => {
         const q = queryRef.current.value;
@@ -19,6 +41,11 @@ function AddContact ({ setVisible, users }) {
         
         setFilter(filtered)
     }
+    
+    // get all user then displayed on add contacts
+    useEffect(() => {
+        currentUser.uid && getAllUsers()
+    }, [currentUser.uid]);
 
     const handleAddContact = async (uid, setState) => {
         setState("loading")

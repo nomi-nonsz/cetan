@@ -1,9 +1,11 @@
 import React, { useEffect, useRef } from "react";
 
 import { ReactComponent as Trash } from "../../svg/trash.svg";
+import moment from "moment";
 
 function ChatSender({ profile, username, msg, img, date, id, deleteChat }) {
     const chatRef = useRef(null);
+    const dateNow = moment(new Date(Date.now())).format("hh:mm");
 
     useEffect(() => {
         chatRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -41,7 +43,7 @@ function ChatSender({ profile, username, msg, img, date, id, deleteChat }) {
                         <img src={img} alt="" />
                     </div>
                 )}
-                <div className="date">{date}</div>
+                <div className="date">{date === dateNow ? "Just now" : date}</div>
             </div>
             <img src={profile} className="profile" alt="sender" />
         </div>

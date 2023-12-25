@@ -67,6 +67,7 @@ function ChatsBody ({ triggerChange }) {
                     <div className="no-msg">Start the conversation by saying hi to <b>{replier.username}</b></div>
                 ) : (messages.map(({ message, uid, imgURL, datetime, id }, key) => {
                     const isSelected = state.sender && state.replier && state.chatId;
+
                     const date = moment(datetime.toDate()).format("hh:mm");
     
                     if (!isSelected) {

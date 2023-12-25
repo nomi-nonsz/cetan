@@ -35,7 +35,7 @@ function ConfLogout ({ setVisible }) {
                 <button className="btn-close" onClick={close}>
                     <CloseIcon />
                 </button>
-                <h2>Do you wanna logout now?</h2>
+                <h2>Do you want to logout now?</h2>
                 <div className="desicion">
                     <DesicionBtn.Primary onClick={logout}>Yes</DesicionBtn.Primary>
                     <DesicionBtn.Secondary onClick={close}>No</DesicionBtn.Secondary>
