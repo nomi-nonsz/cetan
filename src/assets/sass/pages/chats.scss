@@ -201,6 +201,8 @@
 
                 .other {
                     position: relative;
+                    background: none;
+                    border: none;
 
                     .other-btn {
                         background-color: transparent;
@@ -219,6 +221,16 @@
                             width: 24px;
                             height: auto;
                             height: auto;
+                        }
+                    }
+                    
+                    .list-option {
+                        display: none;
+                    }
+
+                    &:focus-within {
+                        .list-option {
+                            display: block;
                         }
                     }
                 }
@@ -441,14 +453,19 @@
                     padding: 10px;
                     margin-bottom: 10px;
                     border-radius: 8px;
+                    display: flex;
+                    flex-wrap: nowrap;
+                    overflow-y: scroll;
+                    gap: 10px;
 
                     .img-item {
                         position: relative;
                         width: fit-content;
                         height: fit-content;
-
+                        
                         img {
-                            width: 300px;
+                            height: 200px;
+                            width: auto;
                             border-radius: 8px;
                             transition: .2s opacity;
                             display: block;

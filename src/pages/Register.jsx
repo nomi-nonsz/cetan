@@ -10,7 +10,7 @@ import { ReactComponent as Flies } from "../assets/svg/flies.svg";
 import FacebookIcon from "../assets/img/facebook.png";
 import Submit from "../assets/components/button/Submit";
 import FileImage from "../assets/components/form/FileImage";
-import { validateMaxFile } from "../lib/fileValidator";
+import { validateMaxFile } from "../lib/naFile";
 
 function RegisterPage() {
     const navigate = useNavigate();

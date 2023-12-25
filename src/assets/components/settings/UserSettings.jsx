@@ -10,7 +10,7 @@ import { AuthContext } from "../../../contexts/AuthContext";
 import FileImage from "../form/FileImage";
 import LoadingAnim from "../LoadingAnim";
 
-import { validateMaxFile } from "../../../lib/fileValidator";
+import { validateMaxFile } from "../../../lib/naFile";
 
 import { ReactComponent as ArrowLeft } from "../../svg/left-arrow.svg";
 import { ReactComponent as X } from "../../svg/x.svg";

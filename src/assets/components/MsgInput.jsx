@@ -1,5 +1,6 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 
+import { readBlobUrl } from "../../lib/naFile";
 import { ChatContext } from "../../contexts/ChatContext";
 
 import LoadingAnim from "./LoadingAnim";
@@ -14,7 +15,7 @@ function MsgInput () {
     const imgRef = useRef(null);
 
     const [btnState, setBtn] = useState("idle");
-    const [imgUrl, setImg] = useState(null);
+    const [imgUrl, setImg] = useState([]);
 
     const { state } = useContext(ChatContext);
     
@@ -22,23 +23,23 @@ function MsgInput () {
         e.preventDefault();
 
         const msg = message.current.value;
-        const file = imgRef.current.files[0];
+        const { files } = imgRef.current;
 
         const { replier, sender } = state;
 
-        if (msg.length < 1 && !file) return;
+        if (msg.length < 1 && files.length < 1) return;
         if (!replier && !sender) return;
         if (btnState == "loading") return;
         
         setBtn("loading");
 
         try {
-            await sendMessage(state, msg, file);
+            await sendMessage(state, msg, files);
 
             // reset
             message.current.value = "";
-            imgRef.current.value = null;
-            changeImage();
+            imgRef.current.value = [];
+            setImg([]);
         }
         catch (error) {
             console.error(error);
@@ -48,41 +49,65 @@ function MsgInput () {
         }
     }
 
-    const cancelImage = () => {
-        imgRef.current.value = null;
-        setImg(null);
+    const updateImage = async (files) => {
+        let urls = [];
+        
+        for (let i = 0; i < files.length; i++) {
+            const url = await readBlobUrl(files[i]);
+            urls.push(url);
+        }
+
+        setImg(urls);
     }
 
-    const changeImage = () => {
-        const file = imgRef.current.files[0];
+    const cancelImage = (e) => {
+        const target = Number(e.target.attributes.itemID.value);
 
-        if (!file) {
-            setImg(null);
+        if (isNaN(target)) return;
+
+        const newUrls = [...imgUrl].filter((val, i) => i != target);
+        
+        setImg(newUrls);
+    }
+
+    const handleImageChange = () => {
+        const { files } = imgRef.current;
+
+        if (files.length < 1) {
+            setImg([]);
             return;
         }
 
-        const reader = new FileReader();
-        reader.onload = (e) => { return setImg(e.target.result) };
-        reader.readAsDataURL(file);
+        updateImage(files);
     }
 
     return (
         <div className="msg-input">
             {state.status !== "BLOCKED" ? (<>
-                {imgUrl && <div className="file-preview">
-                    <div className="img-item">
-                        <img src={imgUrl} alt="" />
-                        <button className="cancel" onClick={cancelImage}>
-                            <XIcon />
-                        </button>
-                    </div>
+                {imgUrl.length > 0 && <div className="file-preview">
+                    {imgUrl.map((data, i) => (
+                        <div className="img-item" key={i}>
+                            <img src={data} alt="" />
+                            <button className="cancel" itemID={i} onClick={cancelImage}>
+                                <XIcon itemID={i} />
+                            </button>
+                        </div>
+                    ))}
                 </div>}
                 <form className="msg-wrapper" onSubmit={handleSend}>
                     <div className="file-input">
                         <label htmlFor="file-img">
                             <ImgIcon />
                         </label>
-                        <input type="file" id="file-img" ref={imgRef} accept="image/*" onChange={changeImage} />
+                        <input
+                            type="file"
+                            id="file-img"
+                            ref={imgRef} 
+                            ccept="image/*"
+                            onChange={handleImageChange}
+                            disabled={btnState == "loading"}
+                            multiple
+                        />
                     </div>
                     <input type="text" name="" id="" ref={message} placeholder="Write messages..." />
                     <button type="submit" disabled={btnState == "loading"} className={btnState}>{btnState == "loading" ? <LoadingAnim /> : <SendIcon />}</button>

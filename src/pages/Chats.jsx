@@ -1,7 +1,4 @@
-import React, { useContext, useEffect, useReducer, useState } from "react";
-import { useNavigate } from "react-router";
-import { collection, doc, getDoc, getDocs, onSnapshot, query, where } from "firebase/firestore";
-import { db } from "../firebase";
+import React, { useContext, useState } from "react";
 
 import { ViewportContext } from "../contexts/ViewportContext";
 import { AuthContext } from "../contexts/AuthContext";
@@ -66,7 +63,7 @@ function Chats() {
                 message={"Are you sure you want to delete this contact?"}
                 accept={deleteContact.payload}
                 reject={() => {
-                    setDeleteChat({
+                    setDeleteContact({
                         state: false,
                         payload: () => {}
                     });

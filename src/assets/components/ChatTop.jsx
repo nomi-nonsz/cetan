@@ -57,23 +57,21 @@ function ChatTop () {
                     <div className="email">{state.replier.email}</div>
                 </div>
             </div>
-            <div className="other">
+            <button className="other">
                 <button className="other-btn" onClick={() => setOptions(!showOptions)}>
                     <ThreeDots />
                 </button>
-                {showOptions && (
-                    <div className="list-option">
-                        <button className="list-item list-danger" onClick={blockReplier}>
-                            <Ban />
-                            <div>Block</div>
-                        </button>
-                        <button className="list-item list-danger" onClick={deleteReplier}>
-                            <MinusCircle />
-                            <div>Delete Contact</div>
-                        </button>
-                    </div>
-                )}
-            </div>
+                <div className="list-option">
+                    <button className="list-item list-danger" onClick={blockReplier}>
+                        <Ban />
+                        <div>Block</div>
+                    </button>
+                    <button className="list-item list-danger" onClick={deleteReplier}>
+                        <MinusCircle />
+                        <div>Delete Contact</div>
+                    </button>
+                </div>
+            </button>
         </div>
     )
 }
