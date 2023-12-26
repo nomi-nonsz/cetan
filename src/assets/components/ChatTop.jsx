@@ -4,13 +4,14 @@ import { ChatContext } from "../../contexts/ChatContext";
 import { deleteContact, setReplierStatus } from "../../controllers/contacts";
 import { ModalContext } from "../../contexts/ModalContext";
 
+import { ReactComponent as LeftArrow } from "../svg/left-arrow.svg";
 import { ReactComponent as ThreeDots } from "../svg/3-dots-v.svg";
 import { ReactComponent as Ban } from "../svg/ban.svg";
 import { ReactComponent as MinusCircle } from "../svg/minus-circle.svg";
 
 import "~/assets/sass/options.scss";
 
-function ChatTop () {
+function ChatTop ({ triggerChange }) {
     const { state, dispatch } = useContext(ChatContext);
     const { setBlockChat, setDeleteContact } = useContext(ModalContext);
     const contact = useContext(ChatContext);
@@ -50,11 +51,16 @@ function ChatTop () {
 
     return (
         <div className="chat-top">
-            <div className="user">
-                <img src={state.replier.photoURL} alt="contact" />
-                <div className="text">
-                    <div className="username">{state.replier.username}</div>
-                    <div className="email">{state.replier.email}</div>
+            <div className="field">
+                <button className="back-btn" onClick={() => { triggerChange(false) }}>
+                    <LeftArrow />
+                </button>
+                <div className="user">
+                    <img src={state.replier.photoURL} alt="contact" />
+                    <div className="text">
+                        <div className="username">{state.replier.username}</div>
+                        <div className="email">{state.replier.email}</div>
+                    </div>
                 </div>
             </div>
             <button className="other">

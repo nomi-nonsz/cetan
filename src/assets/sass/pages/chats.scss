@@ -8,16 +8,19 @@
 }
 
 .chats {
-    display: flex;
+    display: grid;
     margin: 0 auto;
     width: 1280px;
     height: 100vh;
+    grid-template-rows: 100%;
+    grid-template-columns: 27% 73%;
 
     @include laptop {
         width: auto;
         margin: 0 20px;
     }
     @include mobile {
+        display: flex;
         margin: 0;
     }
 
@@ -27,7 +30,6 @@
     }
 
     .side-chats {
-        flex: 1;
         background-color: var(--secondary);
 
         @include mobile {
@@ -145,7 +147,6 @@
         }
     }
     .main-chat {
-        flex: 3;
         background-color: var(--secondary-darken);
         
         @include mobile {
@@ -169,6 +170,39 @@
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
+
+                .field {
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                }
+
+                .back-btn {
+                    position: sticky;
+                    left: 10px;
+                    top: 10px;
+                    border: none;
+                    background-color: transparent;
+                    width: 40px;
+                    height: 40px;
+                    border-radius: 99px;
+                    display: block;
+                    transition: .15s background-color;
+
+                    &:active {
+                        background-color: var(--secondary);
+                    }
+
+                    svg {
+                        width: 2rem;
+                        height: auto;
+                        fill: white;
+                    }
+
+                    @include mobile {
+                        display: block;
+                    }
+                }
 
                 .user {
                     display: flex;
@@ -240,28 +274,6 @@
                 flex-grow: 1;
                 position: relative;
                 overflow-y: scroll;
-
-                .back-btn {
-                    position: sticky;
-                    left: 10px;
-                    top: 10px;
-                    background-color: var(--primary);
-                    border: none;
-                    width: 40px;
-                    height: 40px;
-                    border-radius: 4px;
-                    display: none;
-
-                    svg {
-                        width: 1.5rem;
-                        height: auto;
-                        fill: white;
-                    }
-
-                    @include mobile {
-                        display: block;
-                    }
-                }
     
                 .no-msg {
                     position: absolute;
@@ -315,14 +327,9 @@
     
                         .msgbox {
                             background-color: var(--secondary);
-                            width: 100%;
+                            width: fit-content;
                             padding: 15px;
                             border-radius: 8px;
-    
-                            @include mobile {
-                                font-size: 10px;
-                                padding: 12px;
-                            }
     
                             .username {
                                 font-weight: bold;
@@ -331,6 +338,11 @@
                             }
                             .msg {
                                 word-wrap: break-word;
+                            }
+                            
+                            @include mobile {
+                                font-size: 12px;
+                                padding: 12px;
                             }
                         }
     
@@ -343,6 +355,7 @@
 
                             @include mobile {
                                 margin-top: 5px;
+                                gap: 10px;
                             }
     
                             img {
@@ -357,6 +370,10 @@
                             opacity: .8;
                             font-size: small;
                             margin-top: 6px;
+                            
+                            @include mobile {
+                                font-size: 10px;
+                            }
                         }
                     }
                     &-sender {
@@ -379,7 +396,6 @@
                                 padding-top: 10px;
                             }
 
-
                             button {
                                 border: none;
                                 height: 40px;
@@ -389,8 +405,8 @@
                                 transition: .15s background-color;
 
                                 @include mobile {
-                                    width: 30px;
-                                    height: 30px;
+                                    width: 32px;
+                                    height: 32px;
                                 }
 
                                 svg {
@@ -400,7 +416,7 @@
                                     height: auto;
                                     
                                     @include mobile {
-                                        width: .9rem;
+                                        width: 1rem;
                                     }
                                 }
 
@@ -429,6 +445,7 @@
                         }
                         .image {
                             margin-left: auto;
+                            justify-content: flex-end;
                         }
                     }
                     .profile {

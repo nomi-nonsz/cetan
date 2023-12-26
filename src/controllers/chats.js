@@ -67,7 +67,7 @@ export async function updateContactMessage (replier, sender, msg, chatId) {
  * 
  * @param {*} contact_patch 
  * @param {string} msg 
- * @param {File[]} files
+ * @param {FileList | File[]} files
  */
 export async function sendMessage (contact_patch, msg, files) {
     const { replier, sender, chatId } = contact_patch;

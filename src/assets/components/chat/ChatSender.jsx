@@ -22,11 +22,11 @@ function ChatSender({ profile, username, msg, img, date, id, deleteChat }) {
             <div className="chatbox-wrapper">
                 {msg.length > 0 && (
                     <div className="chat-content">
-                        <div className="chat-option">
+                        {!img && <div className="chat-option">
                             <button className="danger" onClick={handleDelete}>
                                 <Trash />
                             </button>
-                        </div>  
+                        </div>  }
                         <div className="msgbox">
                             <div className="username">{username}</div>
                             <div className="msg">{msg}</div>
@@ -35,13 +35,11 @@ function ChatSender({ profile, username, msg, img, date, id, deleteChat }) {
                 )}
                 {img && (
                     <div className="image">
-                        {msg.length < 1 && (
-                            <div className="chat-option">
-                                <button className="danger" onClick={handleDelete}>
-                                    <Trash />
-                                </button>
-                            </div>
-                        )}
+                        <div className="chat-option">
+                            <button className="danger" onClick={handleDelete}>
+                                <Trash />
+                            </button>
+                        </div>
                         <img src={img} alt="" />
                     </div>
                 )}

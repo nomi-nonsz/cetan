@@ -1,7 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 
-import { ReactComponent as LeftArrow } from "../svg/left-arrow.svg";
-
 import ChatSender from "./chat/ChatSender";
 import ChatReceiver from "./chat/ChatReceiver";
 import LoadingAnim from "./LoadingAnim";
@@ -13,7 +11,7 @@ import { ModalContext } from "../../contexts/ModalContext";
 import { deleteMessage } from "../../controllers/chats";
 import moment from "moment";
 
-function ChatsBody ({ triggerChange }) {
+function ChatsBody () {
     const [messages, setMessages] = useState(null);
     const [replier, setReplier] = useState({});
     const [sender, setSender] = useState({});
@@ -59,9 +57,6 @@ function ChatsBody ({ triggerChange }) {
 
     return (
         <div className="chats-body">
-            <button className="back-btn" onClick={() => { triggerChange(false) }}>
-                <LeftArrow />
-            </button>
             {messages ? (
                 messages.length < 1 ? (
                     <div className="no-msg">Start the conversation by saying hi to <b>{replier.username}</b></div>

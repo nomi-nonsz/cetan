@@ -137,8 +137,8 @@ function Chats() {
                                 />
                             ) : (state.chatId && state.replier && state.sender ? (
                                 <>
-                                    <ChatTop />
-                                    <ChatsBody triggerChange={setStateChat} />
+                                    <ChatTop triggerChange={setStateChat} />
+                                    <ChatsBody />
                                     <MsgInput />
                                 </>
                             ) : (

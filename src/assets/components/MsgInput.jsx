@@ -57,16 +57,30 @@ function MsgInput () {
             urls.push(url);
         }
 
+        console.log(urls);
+
         setImg(urls);
     }
 
     const cancelImage = (e) => {
+        if (!e.target.attributes.itemID) return;
         const target = Number(e.target.attributes.itemID.value);
-
         if (isNaN(target)) return;
 
-        const newUrls = [...imgUrl].filter((val, i) => i != target);
+        const { files } = imgRef.current;
         
+        /* since FileList in javacript is readonly i used DataTransfer class to manipulate
+        the file values in the input so that it can be converted into a FileList. */
+        const newData = new DataTransfer();
+        const newUrls = [...imgUrl].filter((val, i) => i != target);
+
+        for (let i = 0; i < files.length; i++) {
+            if (i != target) {
+                newData.items.add(files[i]);
+            }
+        }
+
+        imgRef.current.files = newData.files;
         setImg(newUrls);
     }
 
