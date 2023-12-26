@@ -4,7 +4,7 @@
     right: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: rgba(0, 0, 0, 0.5);
     z-index: 10;
 }
 
@@ -109,6 +109,53 @@
     button {
         flex: 1;
     }
+}
+
+.modal-image-viewer {
+    position: absolute;
+    margin: auto;
+    inset: 0;
+    width: fit-content;
+    height: fit-content;
+    text-align: center;
+
+    img {
+        height: 75vh;
+        width: auto;
+        border-radius: 8px;
+        display: block;
+
+        @include mobile {
+            height: auto;
+            width: 80vw;
+        }
+    }
+    .show-more {
+        margin-top: 18px;
+        border: none;
+        padding: 14px 24px;
+        border-radius: 99px;
+        background-color: var(--secondary);
+        color: white;
+        &:hover {
+            background-color: var(--secondary-darken);
+        }
+    }
+
+    
+    .btn-close {
+        position: absolute;
+        top: -40px;
+        right: -40px;
+    }
+}
+
+.close-panel {
+    position: absolute;
+    left: 0; top: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
 }
 
 .btn-close {

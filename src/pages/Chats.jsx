@@ -16,6 +16,7 @@ import ChatIntro from "../assets/components/ChatIntro";
 import Contacts from "../assets/components/Contacts";
 import UserSettings from "../assets/components/settings/UserSettings";
 import Confirmation from "../assets/components/modal/Confirmation";
+import ImageViewer from "../assets/components/modal/ImageViewer";
 
 function Chats() {
     // contexts
@@ -26,7 +27,8 @@ function Chats() {
     const {
         deleteContact, setDeleteContact,
         deleteChat, setDeleteChat,
-        blockChat, setBlockChat
+        blockChat, setBlockChat,
+        viewImage, setView
     } = useContext(ModalContext);
 
     const { isMobile } = useContext(ViewportContext);
@@ -39,7 +41,6 @@ function Chats() {
 
     // the user data from database
     const [contacts, setContacts] = useState([]); 
-    const [users, setUsers] = useState([]);
 
     // toggle modal
     const [showAdd, setShowAdd] = useState(false);
@@ -90,6 +91,15 @@ function Chats() {
                         payload: () => {}
                     });
                 }}
+            />}
+            {viewImage.state && <ImageViewer
+                setState={(state) => {
+                    setView({
+                        state,
+                        url: viewImage.url
+                    })
+                }}
+                src={viewImage.url}
             />}
             <div className="chats">
                 <div

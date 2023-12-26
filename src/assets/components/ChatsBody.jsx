@@ -17,7 +17,7 @@ function ChatsBody () {
     const [sender, setSender] = useState({});
 
     const { state } = useContext(ChatContext);
-    const { setDeleteChat } = useContext(ModalContext);
+    const { setDeleteChat, setView } = useContext(ModalContext);
 
     const deleteChat = async (id) => {
         deleteMessage(state.chatId, id).then(() => {
@@ -33,6 +33,15 @@ function ChatsBody () {
             state: true,
             payload: () => deleteChat(id)
         });
+    }
+
+    const handleViewImage = (e) => {
+        if (!e.target.attributes.src && e.target.attributes.src.length < 1) return;
+        
+        setView({
+            state: true,
+            url: e.target.attributes.src.value
+        })
     }
 
     useEffect(() => {
@@ -83,6 +92,7 @@ function ChatsBody () {
                                     key={id || key}
                                     id={id}
                                     deleteChat={handleDelete}
+                                    handleView={handleViewImage}
                                 />
                             );
                         case state.replier.uid:
@@ -93,6 +103,7 @@ function ChatsBody () {
                                     msg={message}
                                     img={imgURL}
                                     date={date}
+                                    handleView={handleViewImage}
                                     key={id || key}
                                 />
                             )

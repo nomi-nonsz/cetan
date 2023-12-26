@@ -1,13 +1,15 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 
 import { readBlobUrl } from "../../lib/naFile";
 import { ChatContext } from "../../contexts/ChatContext";
+import { ModalContext } from "../../contexts/ModalContext";
 
 import LoadingAnim from "./LoadingAnim";
 
 import { ReactComponent as SendIcon } from "../svg/send.svg";
 import { ReactComponent as ImgIcon } from "../svg/image2.svg";
 import { ReactComponent as XIcon } from "../svg/x.svg";
+import { ReactComponent as ExpandIcon } from "../svg/expand.svg";
 import { sendMessage } from "../../controllers/chats";
 
 function MsgInput () {
@@ -18,6 +20,7 @@ function MsgInput () {
     const [imgUrl, setImg] = useState([]);
 
     const { state } = useContext(ChatContext);
+    const { setView } = useContext(ModalContext);
     
     const handleSend = async (e) => {
         e.preventDefault();
@@ -95,6 +98,16 @@ function MsgInput () {
         updateImage(files);
     }
 
+    const expandImage = (e) => {
+        if (!e.target.attributes.itemID) return;
+        const target = Number(e.target.attributes.itemID.value);
+        
+        setView({
+            state: true,
+            url: imgUrl[target]
+        })
+    }
+
     return (
         <div className="msg-input">
             {state.status !== "BLOCKED" ? (<>
@@ -102,9 +115,14 @@ function MsgInput () {
                     {imgUrl.map((data, i) => (
                         <div className="img-item" key={i}>
                             <img src={data} alt="" />
-                            <button className="cancel" itemID={i} onClick={cancelImage}>
-                                <XIcon itemID={i} />
-                            </button>
+                            <div className="option">
+                                <button className="expand" itemID={i} onClick={expandImage}>
+                                    <ExpandIcon itemID={i} />
+                                </button>
+                                <button className="cancel" itemID={i} onClick={cancelImage}>
+                                    <XIcon itemID={i} />
+                                </button>
+                            </div>
                         </div>
                     ))}
                 </div>}

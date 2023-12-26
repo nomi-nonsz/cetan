@@ -363,6 +363,7 @@
                                 height: auto;
                                 border-radius: 8px;
                                 display: block;
+                                cursor: pointer;
                             }
                         }
 
@@ -492,22 +493,33 @@
                             opacity: .7;
                         }
 
-                        .cancel {
-                            background-color: transparent;
-                            margin-bottom: auto;
-                            border: none;
+                        .option {
                             position: absolute;
                             right: 8px;
                             top: 8px;
                             opacity: 0;
+                            display: flex;
                             transition: .2s opacity;
+
                             svg {
                                 width: 2rem;
                                 height: auto;
                             }
+
+                            button {
+                                background-color: transparent;
+                                border: none;
+                            }
+
+                            .expand {
+                                svg {
+                                    width: 1rem;
+                                    margin: auto;
+                                }
+                            }
                         }
 
-                        &:hover .cancel {
+                        &:hover .option {
                             opacity: 1;
                         }
                     }

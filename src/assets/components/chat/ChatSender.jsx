@@ -3,7 +3,16 @@ import React, { useEffect, useRef, useState } from "react";
 import { ReactComponent as Trash } from "../../svg/trash.svg";
 import moment from "moment";
 
-function ChatSender({ profile, username, msg, img, date, id, deleteChat }) {
+function ChatSender({
+    profile,
+    username,
+    msg,
+    img,
+    date,
+    id,
+    deleteChat,
+    handleView
+}) {
     const chatRef = useRef(null);
     const [dateNow, setDateNow] = useState("");
 
@@ -40,7 +49,7 @@ function ChatSender({ profile, username, msg, img, date, id, deleteChat }) {
                                 <Trash />
                             </button>
                         </div>
-                        <img src={img} alt="" />
+                        <img src={img} alt="" onClick={handleView} />
                     </div>
                 )}
                 <div className="date">{date === dateNow ? "Just now" : date}</div>
