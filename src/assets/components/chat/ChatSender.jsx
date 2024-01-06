@@ -17,7 +17,7 @@ function ChatSender({
     const [dateNow, setDateNow] = useState("");
 
     useEffect(() => {
-        const now = moment(new Date(Date.now())).format("hh:mm");
+        const now = moment(new Date(Date.now())).format("LT");
         setDateNow(now);
         chatRef.current?.scrollIntoView({ behavior: "smooth" });
     }, [msg]);

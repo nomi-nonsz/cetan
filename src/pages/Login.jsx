@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import AuthWith from "../assets/components/AuthWith";
@@ -7,8 +7,7 @@ import { ReactComponent as Flies } from "../assets/svg/flies.svg";
 import FacebookIcon from "../assets/img/facebook.png";
 import SideNotif from "../assets/components/modal/SideNotif";
 import Submit from "../assets/components/button/Submit";
-import { signInWithEmailAndPassword } from "@firebase/auth";
-import { auth } from "../firebase";
+import Input from "../assets/components/form/Input";
 import { Login } from "../helper/authentication";
 
 function LoginPage() {
@@ -84,24 +83,22 @@ function LoginPage() {
                     <div className="form-wrapper">
                         <form>
                             <div className="form-control">
-                                <div className="form-item" aria-required>
-                                    <label htmlFor="email">Email</label>
-                                    <input
-                                        type="email"
-                                        ref={emailRef}
-                                        placeholder="Enter your email"
-                                        id="email"
-                                    />
-                                </div>
-                                <div className="form-item" aria-required>
-                                    <label htmlFor="password">Password</label>
-                                    <input
-                                        type="password"
-                                        ref={passwordRef}
-                                        placeholder="At least 8 characters"
-                                        id="password"
-                                    />
-                                </div>
+                                <Input
+                                    name={"email"}
+                                    text={"Email"}
+                                    placeholder={"Enter your email"}
+                                    refr={emailRef}
+                                    type={"email"}
+                                    required={true}
+                                />
+                                <Input
+                                    name={"pw"}
+                                    text={"Password"}
+                                    placeholder={"Enter your password"}
+                                    refr={passwordRef}
+                                    type={"password"}
+                                    required={true}
+                                />
                                 <div className="form-error">{errorMsg}</div>
                                 <div className="form-item" aria-required>
                                     <Submit

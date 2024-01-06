@@ -1,14 +1,30 @@
 import React, { useEffect, useState } from "react";
 import { ReactComponent as ImageIcon } from "../..//svg/image.svg";
+import { validateMaxFile } from "../../../lib/naFile";
 
 function FileImage ({ refFile, src, onChange }) {
     const [imgUrl, setUrl] = useState(src);
+    const [currentFile, setFile] = useState(null);
+    const [error, setError] = useState("");
+
+    const info = "Maximum avatar image file size is 2MB, it's recommended that it has been cropped in a 1:1 ratio.";
+    const errorMsg = "Mate, the file size is too big! try another one";
 
     const changed = (e) => {
         if (onChange) onChange(e);
 
         const file = refFile.current.files[0];
+
         if (!file) return;
+
+        if (!validateMaxFile(file, 2)) {
+            setError(errorMsg);
+            refFile.current.files[0] = currentFile;
+            return;
+        }
+
+        setFile(file);
+        setError(null);
 
         const reader = new FileReader();
         reader.onload = (e) => { return setUrl(e.target.result) };
@@ -25,7 +41,11 @@ function FileImage ({ refFile, src, onChange }) {
                 </div>}
                 <div className="desc">Profile image</div>
             </label>
-            <div className="info">Avatar image will be publicly visible, maximum avatar image file size is 2MB, it is recommended that it has been manually cropped in a 1:1 box.</div>
+            {error ? (
+                <div className="text-danger">{error}</div>
+            ) : (
+                <div className="info">{info}</div>
+            )}
             <input type="file" ref={refFile} id="uplod" accept="image/*" onChange={changed}  />
         </div>
     )

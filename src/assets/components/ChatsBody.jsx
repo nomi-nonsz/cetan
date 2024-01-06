@@ -72,7 +72,7 @@ function ChatsBody () {
                 ) : (messages.map(({ message, uid, imgURL, datetime, id }, key) => {
                     const isSelected = state.sender && state.replier && state.chatId;
 
-                    const date = moment(datetime.toDate()).format("hh:mm");
+                    const date = moment(datetime.toDate()).format("MMM DD • LT");
     
                     if (!isSelected) {
                         return (

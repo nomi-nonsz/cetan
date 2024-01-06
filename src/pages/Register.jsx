@@ -11,6 +11,7 @@ import FacebookIcon from "../assets/img/facebook.png";
 import Submit from "../assets/components/button/Submit";
 import FileImage from "../assets/components/form/FileImage";
 import { validateMaxFile } from "../lib/naFile";
+import Input from "../assets/components/form/Input";
 
 function RegisterPage() {
     const navigate = useNavigate();
@@ -99,33 +100,30 @@ function RegisterPage() {
                             refFile={file}
                         />
                         <div className="form-control">
-                            <div className="form-item" aria-required>
-                                <label htmlFor="name">Your Name</label>
-                                <input
-                                    type="text"
-                                    ref={username}
-                                    placeholder="Enter your name"
-                                    id="name"
-                                />
-                            </div>
-                            <div className="form-item" aria-required>
-                                <label htmlFor="email">Email</label>
-                                <input
-                                    type="email"
-                                    ref={email}
-                                    placeholder="Enter your email"
-                                    id="email"
-                                />
-                            </div>
-                            <div className="form-item" aria-required>
-                                <label htmlFor="password">Password</label>
-                                <input
-                                    type="password"
-                                    ref={password}
-                                    placeholder="At least 8 characters"
-                                    id="password"
-                                />
-                            </div>
+                            <Input
+                                name={"name"}
+                                text={"Your Name"}
+                                placeholder={"Enter your name"}
+                                refr={username}
+                                type={"text"}
+                                required={true}
+                            />
+                            <Input
+                                name={"email"}
+                                text={"Email"}
+                                placeholder={"Enter your email"}
+                                refr={email}
+                                type={"email"}
+                                required={true}
+                            />
+                            <Input
+                                name={"pw"}
+                                text={"Password"}
+                                placeholder={"At least 8 characters"}
+                                refr={password}
+                                type={"password"}
+                                required={true}
+                            />
                             <div className="form-error">{errormsg}</div>
                             <div className="form-item" aria-required>
                                 <Submit onClick={handleSubmit} state={btnState}>
