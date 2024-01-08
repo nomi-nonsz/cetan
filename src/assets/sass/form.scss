@@ -10,6 +10,55 @@
         padding-top: 90px;
     }
 
+    .form-control {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+        width: 100%;
+
+        .form-item {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+
+            .multi-label {
+                display: flex;
+                font-size: 14px;
+                gap: 8px;
+            }
+
+            label {
+                font-size: 14px;
+                display: block;
+            }
+            input {
+                background-color: var(--secondary-darken);
+                font-family: var(--font-noto-sans);
+                border: 1px solid var(--primary-doomer);
+                color: white;
+
+                &::placeholder {
+                    font-size: 14px;
+                }
+            }
+            input, button {
+                border-radius: 6px;
+                font-size: 16px;
+                padding: 15px;
+            }
+
+            &[aria-required] {
+                label::after {
+                    content: " *";
+                    color: red;
+                }
+            }
+        }
+        .form-error {
+            color: var(--red);
+        }
+    }
+
     .form-container {
         padding: 30px;
         border-radius: 12px;
@@ -132,49 +181,6 @@
                         display: none;
                     }
                 }
-    
-                .form-control {
-                    display: flex;
-                    flex-direction: column;
-                    gap: 18px;
-                    width: 100%;
-    
-                    .form-item {
-                        display: flex;
-                        flex-direction: column;
-                        gap: 8px;
-    
-                        label {
-                            font-size: 14px;
-                            display: block;
-                        }
-                        input {
-                            background-color: var(--secondary-darken);
-                            font-family: var(--font-noto-sans);
-                            border: 1px solid var(--primary-doomer);
-                            color: white;
-    
-                            &::placeholder {
-                                font-size: 14px;
-                            }
-                        }
-                        input, button {
-                            border-radius: 6px;
-                            font-size: 16px;
-                            padding: 15px;
-                        }
-
-                        &[aria-required] {
-                            label::after {
-                                content: " *";
-                                color: red;
-                            }
-                        }
-                    }
-                    .form-error {
-                        color: var(--red);
-                    }
-                }
             }
         }
 
@@ -200,6 +206,17 @@
                 &-smol { width: 100%; }
             }
             &__h-auto { height: 100%; }
+        }
+    }
+
+    .form-n-container {
+        margin: auto;
+
+        .form-n-wrapper {
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            background-color: var(--secondary);
         }
     }
 }

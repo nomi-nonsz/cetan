@@ -20,14 +20,14 @@ function LoginPage() {
     const [errorMsg, setError] = useState("");
     const [btnState, setBtnState] = useState("idle");
 
-    const emailRef = useRef(null);
     const passwordRef = useRef(null);
+
+    const [email, setEmail] = useState("")
 
     const handleSubmit = (e) => {
         e.preventDefault();
         setError("");
 
-        const email = emailRef.current.value;
         const password = passwordRef.current.value;
 
         if (email.length < 1 || password.length < 1) {
@@ -87,13 +87,17 @@ function LoginPage() {
                                     name={"email"}
                                     text={"Email"}
                                     placeholder={"Enter your email"}
-                                    refr={emailRef}
                                     type={"email"}
+                                    value={email}
+                                    onChange={(e) => {
+                                        setEmail(e.target.value)
+                                    }}
                                     required={true}
                                 />
                                 <Input
                                     name={"pw"}
-                                    text={"Password"}
+                                    text={<>Password. <Link to={"/send-email?email=" + email}>Forgot password</Link>
+                                        </>}
                                     placeholder={"Enter your password"}
                                     refr={passwordRef}
                                     type={"password"}
