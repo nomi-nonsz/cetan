@@ -1,3 +1,18 @@
+.container {
+    width: 1280px;
+    margin: 0 auto;
+
+    @include laptop { width: 768px; }
+    @include tablet { width: 560px; }
+    @include mobile {
+        width: auto;
+        margin: 0 40px;
+    }
+
+    &-fo-nav {
+        padding-top: 100px;
+    }
+}
 
 .home {
     &-body {
@@ -7,18 +22,6 @@
             text-decoration: underline;
             * {
                 text-decoration: none;
-            }
-        }
-
-        .container {
-            width: 1280px;
-            margin: 0 auto;
-
-            @include laptop { width: 768px; }
-            @include tablet { width: 560px; }
-            @include mobile {
-                width: auto;
-                margin: 0 40px;
             }
         }
 
@@ -41,6 +44,39 @@
             color: var(--primary);
             &:hover {
                 background-color: var(--secondary-darken);
+            }
+        }
+
+        iframe {
+            border-radius: 8px;
+        }
+
+        img {
+            @include tablet {
+                width: 100% !important;
+            }
+        }
+
+        h1, h2, h3, h4 {
+            letter-spacing: .02rem;
+            font-family: Poppins;
+        }
+
+        article {
+            width: 80%;
+            margin: 40px auto;
+            letter-spacing: .02rem;
+            
+            @include mobile {
+                width: auto;
+            }
+
+            p, li {
+                font-size: large;
+                line-height: 2rem;
+                @include mobile {
+                    font-size: normal;
+                }
             }
         }
     }
@@ -242,33 +278,33 @@
                 .in2 { width: 20rem; }
             }
         }
-        
-        .end {
-            background: var(--background);
-            box-sizing: content-box;
-            padding: 60px 0;
-            .name {
-                display: flex;
-                align-items: center;
-                gap: 18px;
-                h2 {
-                    font-family: Poppins;
-                }
-            }
-            .desc {
-                margin-top: 14px;
-                width: 452px;
-                font-family: Roboto;
-                line-height: 153.7%;
+    }
+}
 
-                @include mobile {
-                    width: auto;
-                }
-            }
-            .copy {
-                margin-top: 28px;
-                font-size: 14px;
-            }
+.end {
+    background: var(--background);
+    box-sizing: content-box;
+    padding: 60px 0;
+    .name {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        h2 {
+            font-family: Poppins;
         }
+    }
+    .desc {
+        margin-top: 14px;
+        width: 452px;
+        font-family: Roboto;
+        line-height: 153.7%;
+
+        @include mobile {
+            width: auto;
+        }
+    }
+    .copy {
+        margin-top: 28px;
+        font-size: 14px;
     }
 }

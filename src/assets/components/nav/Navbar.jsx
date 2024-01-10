@@ -25,7 +25,7 @@ function Navbar () {
             <div className="navs" onClick={toggleNavMobile}>
                 <Link to={"/"}>Home</Link>
                 <Link to={"/about/"}>About</Link>
-                <Link href={"/#sync-chat"}>Features</Link>
+                <Link to={"/#sync-chat"}>Features</Link>
             </div>
             <div className="auth-btn" onClick={toggleNavMobile}>
                 {!currentUser ? <>
@@ -47,7 +47,7 @@ function Navbar () {
                 <ul className="desktop-nav">
                     <li><Link to={"/"}>Home</Link></li>
                     <li><Link to={"/about/"}>About</Link></li>
-                    <li><Link href={"/#sync-chat"}>Features</Link></li>
+                    <li><Link to={"/#sync-chat"}>Features</Link></li>
                     <li className="auth-btn">
                         {!currentUser ? <>
                             <button className="btn btn-login" onClick={() => navigate("/login")}>Login</button>

@@ -8,8 +8,6 @@ import AIAssistant from "../assets/svg/homepage/ai-assistant.svg";
 import { ReactComponent as Interconnected1 } from "../assets/svg/homepage/interconnected-1.svg";
 import { ReactComponent as Interconnected2 } from "../assets/svg/homepage/interconnected-2.svg";
 
-import { ReactComponent as Logo } from "@/public/cetan.svg";
-
 import Lain from "../assets/img/lain-iwakura.jpg";
 
 import { Link } from "react-router-dom";
@@ -118,20 +116,6 @@ function Home() {
                     <Interconnected1 />
                     <Interconnected2 />
                 </section>
-                <footer className="end">
-                    <div className="container">
-                        <header className="name">
-                            <Logo />
-                            <h2>Cetan</h2>
-                        </header>
-                        <div className="desc">
-                            A open-source real-time private chat app for study case, made with React and Firebase. <a href="https://github.com/norman-andrians/cetan.git" target="_blank">See source code</a>
-                        </div>
-                        <div className="copy">
-                            Copyright © 2023 Norman Andrians
-                        </div>
-                    </div>
-                </footer>
             </main>
         </main>
     );
