@@ -15,7 +15,9 @@ function UserList ({ contacts, triggerChange }) {
     const [contactsDisplay, setDisplay] = useState(null);
 
     useEffect(() => {
-        if (contactsDisplay == null) setDisplay(contacts);
+        insertUnreadCountToContacts(currentUser, contacts).then((newContacts) => {
+            setDisplay(newContacts);
+        })
     }, [contacts]);
 
     const handleClickChat = async (e) => {

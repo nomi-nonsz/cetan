@@ -22,59 +22,50 @@ import { auth, storage, db } from "../firebase";
  * @param {React.SetStateAction<string>} btnState
  * @param {React.SetStateAction<string>} errorState
  */
-export function Register (username, email, password, img) {
-    // Nested hell? well i don't care
-    return createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-            return new Promise((resolve, reject) => {
-                // Signed in
-                const { user } = userCredential;
-                if (user) {
-                    const extension = img.name.split(".").pop();
-                    const storageRef = ref(storage, `profiles/user-${user.uid}.${extension}`);
-                    const uploadTask = uploadBytesResumable(storageRef, img);
 
-                    uploadTask.on(
-                        (error) => {
-                            setError("Something went wrong when uploading image");
-                            reject(error);
-                        },
-                        () => {
-                            getDownloadURL(uploadTask.snapshot.ref).then(
-                                async (downloadURL) => {
-                                    try {
-                                        await updateProfile(user, {
-                                            displayName: username,
-                                            photoURL: downloadURL
-                                        })
-                                        await setDoc(doc(db, "users", user.uid), {
-                                            uid: user.uid,
-                                            username: user.displayName,
-                                            email: user.email,
-                                            photoURL: downloadURL
-                                        })
-                                        await setDoc(doc(db, "userChats", user.uid), {});
+function uploadProfile (user, img) {
+    return new Promise((resolve, reject) => {
+        const extension = img.name.split(".").pop();
+        const storageRef = ref(storage, `profiles/user-${user.uid}.${extension}`);
+        const uploadTask = uploadBytesResumable(storageRef, img);
 
-                                        await signOut(auth);
-                                        resolve();
-                                    }
-                                    catch (error) {
-                                        reject(error);
-                                    }
-                                }
-                            );
-                        }
-                    );
-                }
-                else {
-                    reject(new Error("User is not found"));
-                }
+        uploadTask.on(
+            (error) => {
+                reject(error);
+            }, () => {
+                getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+                    resolve(url);
+                })
             })
-        })
-        .catch((error) => {
-            console.error(error);
-            throw error;
-        })
+    })
+}
+
+export async function Register (username, email, password, img) {
+    try {
+        const { user } = await createUserWithEmailAndPassword(auth, email, password);
+
+        const downloadURL = img ? await uploadProfile(user, img) : null;
+
+        await updateProfile(user, {
+            displayName: username,
+            photoURL: downloadURL
+        });
+
+        await setDoc(doc(db, "users", user.uid), {
+            uid: user.uid,
+            username: user.displayName,
+            email: user.email,
+            photoURL: downloadURL
+        });
+
+        await setDoc(doc(db, "userChats", user.uid), {});
+
+        await signOut(auth);
+    }
+    catch (error) {
+        console.error(error);
+        throw error;
+    }
 }
 
 /**
