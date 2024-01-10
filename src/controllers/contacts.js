@@ -101,6 +101,44 @@ export async function insertUserToContacts (contacts) {
     }
 }
 
+export async function insertUnreadCountToContacts (currentUser, contacts) {
+    if (contacts.length < 1)
+        return contacts;
+
+    try {
+        const newContacts = [];
+        
+        for (let i = 0; i < contacts.length; i++) {
+            const contact = contacts[i];
+    
+            const chatRef = doc(db, "chats", contact.chatId)
+            const chatDoc = await getDoc(chatRef);
+            const { conversation } = chatDoc.data();
+    
+            let read = 0;
+    
+            for (let i = 0; i < conversation.length; i++) {
+                const { uid, readed } = conversation[i];
+    
+                if (uid != currentUser.uid && readed == false) {
+                    read++;
+                }
+            }
+    
+            newContacts.push({
+                ...contact,
+                readed: read
+            })
+        }
+    
+        return newContacts;
+    }
+    catch (err) {
+        console.error(err);
+        throw err;
+    }
+}
+
 /**
  * 
  * @param {*} currentUser 
@@ -126,8 +164,13 @@ export function getContacts (currentUser, cb) {
                     return dateB - dateA;
                 }) : [];
 
-            cb(convertedDate);
-        });
+            return convertedDate;
+            // cb(convertedDate);
+        }).then((data) => {
+            return insertUnreadCountToContacts(currentUser, data);
+        }).then((data) => {
+            cb(data);
+        })
     })
 }
 

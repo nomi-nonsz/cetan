@@ -682,6 +682,20 @@ button.user-item {
             }
         }
     }
+
+    .count {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 99px;
+        background-color: var(--primary);
+        color: var(--secondary-darken);
+        font-weight: bold;
+        font-size: 10px;
+        width: 24px;
+        height: 24px;
+    }
+
     cursor: pointer;
     &:hover {
         background-color: var(--secondary-darken);

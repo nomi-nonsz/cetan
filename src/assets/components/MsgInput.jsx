@@ -4,13 +4,14 @@ import { readBlobUrl } from "../../lib/naFile";
 import { ChatContext } from "../../contexts/ChatContext";
 import { ModalContext } from "../../contexts/ModalContext";
 
+import { sendMessage } from "../../controllers/chats";
+
 import LoadingAnim from "./LoadingAnim";
 
 import { ReactComponent as SendIcon } from "../svg/send.svg";
 import { ReactComponent as ImgIcon } from "../svg/image2.svg";
 import { ReactComponent as XIcon } from "../svg/x.svg";
 import { ReactComponent as ExpandIcon } from "../svg/expand.svg";
-import { sendMessage } from "../../controllers/chats";
 
 function MsgInput () {
     const message = useRef(null);

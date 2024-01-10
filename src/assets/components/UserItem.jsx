@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import LoadingAnim from "./LoadingAnim";
 import { ReactComponent as PlusIcon } from "../svg/plus.svg";
 
-function UserItem ({ img, username, chat, onClick, addBtnClick, uid }) {
+function UserItem ({ img, username, chat, onClick, addBtnClick, uid, count }) {
     const [addBtnState, setBtnState] = useState(false);
     
     const handleAdd = () => {
@@ -32,6 +32,7 @@ function UserItem ({ img, username, chat, onClick, addBtnClick, uid }) {
                     ) : <PlusIcon />}
                 </button>}
             </div>
+            {count != null && count > 1 && <div className="count">{count}</div>}
         </button>
     )
 }

@@ -9,6 +9,30 @@ export function ChatConsole (chats) {
     })
 }
 
+export async function readAllMessage (currentUser, chatId) {
+    try {
+        const chatRef = doc(db, "chats", chatId);
+        const chatDoc = await getDoc(chatRef);
+
+        const newChat = chatDoc.data();
+        const { conversation } = chatDoc.data();
+
+        newChat.conversation = conversation.map((chat) => {
+            const { uid, readed } = chat;
+            if (uid != currentUser.uid && readed == false) {
+                chat.readed = true;
+            }
+            return chat;
+        })
+
+        await updateDoc(chatRef, newChat);
+    }
+    catch (err) {
+        console.error(err);
+        throw err;
+    }
+}
+
 /**
  * 
  * @param {File} file 
@@ -81,7 +105,8 @@ export async function sendMessage (contact_patch, msg, files) {
             id: "",
             uid: sender.uid,
             message: msg,
-            datetime: new Date(Date.now())
+            datetime: new Date(Date.now()),
+            readed: false
         };
 
         // upload first image

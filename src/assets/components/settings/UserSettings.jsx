@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { doc, updateDoc } from "firebase/firestore";
 import { db, storage } from "../../../firebase";
 import { updateProfile } from "firebase/auth";
-import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { deleteObject, getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 
 import { ViewportContext } from "../../../contexts/ViewportContext";
 import { AuthContext } from "../../../contexts/AuthContext";
@@ -59,13 +59,16 @@ function UserSettings({ triggerBack }) {
         }
     }
 
-    const updateProfileImage = () => {
+    const updateProfileImage = async () => {
         const file = refProfile.current.files[0];
         if (!file) return;
 
+        const extension = file.name.split(".").pop();
+        const storageRef = ref(storage, `profiles/user-${currentUser.uid}.${extension}`);
+
+        await deleteObject(storageRef);
+
         return new Promise((resolve, reject) => {
-            const extension = file.name.split(".").pop();
-            const storageRef = ref(storage, `profiles/user-${currentUser.uid}.${extension}`);
             const uploadTask = uploadBytesResumable(storageRef, file);
 
             uploadTask.on((error) => {
@@ -108,7 +111,10 @@ function UserSettings({ triggerBack }) {
 
                 newData.photoURL = savedURL;
                 newProfile.photoURL = savedURL;
+
+                console.log(savedURL);
             }
+
 
             await updateDoc(docRef, newData);
             await updateProfile(currentUser, newProfile);
@@ -122,6 +128,21 @@ function UserSettings({ triggerBack }) {
 
         setBtn("idle");
     }
+
+    useEffect(() => {
+        const handleBeforeUnload = (e) => {
+            if (isChanged) {
+                const msg = "Changes have not been saved, do you want to exit this page session? This action cannot be undone.";
+                e.returnValue = msg;
+            }
+        }
+
+        window.addEventListener('beforeunload', handleBeforeUnload);
+
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+        }
+    }, [isChanged])
 
     return (
         <div className="settings user-settings" onSubmit={handleSave}>
