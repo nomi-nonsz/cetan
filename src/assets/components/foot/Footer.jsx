@@ -1,4 +1,4 @@
-import { ReactComponent as Logo } from "@/public/cetan.svg";
+import { ReactComponent as Logo } from "../../../../public/cetan.svg";
 
 function Footer () {
     return (

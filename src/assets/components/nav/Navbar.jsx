@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../contexts/AuthContext";
 
-import { ReactComponent as Logo } from "@/public/cetan.svg";
+import { ReactComponent as Logo } from "../../../../public/cetan.svg";
 
 import "~/assets/sass/components/navbar.scss";
 

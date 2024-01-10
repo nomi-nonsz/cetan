@@ -4,8 +4,9 @@
   "version": "0.8.0",
   "type": "module",
   "scripts": {
+    "generate-config": "node ./lib/config-maker/",
     "dev": "vite",
-    "build": "vite build",
+    "build": "node ./lib/config-maker/ &&vite build",
     "test": "node --experimental-vm-modules ./node_modules/.bin/jest",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
