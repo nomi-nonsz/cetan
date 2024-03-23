@@ -8,16 +8,6 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage"
 import { doc, setDoc } from "firebase/firestore"
 import { auth, storage, db } from "../firebase"
 
-/**
- * Create account authentication
- * @param {string} username
- * @param {string} email
- * @param {string} password
- * @param {File} img
- * @param {React.SetStateAction<string>} btnState
- * @param {React.SetStateAction<string>} errorState
- */
-
 function uploadProfile(user, img) {
   return new Promise((resolve, reject) => {
     const extension = img.name.split(".").pop()
@@ -36,6 +26,14 @@ function uploadProfile(user, img) {
     )
   })
 }
+
+/**
+ * Create account authentication
+ * @param {string} username
+ * @param {string} email
+ * @param {string} password
+ * @param {File} img
+ */
 
 export async function Register(username, email, password, img) {
   try {

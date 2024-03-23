@@ -26,7 +26,8 @@ export function AuthContextProvider({ children }) {
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       setUser(user)
-      console.log(user)
+      // oh god
+      // console.log(user)
     })
   }, [count])
 

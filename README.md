@@ -39,32 +39,20 @@ This project has several main dependencies including:
 
 2. Install depedencies by using `npm i` for npm, `yarn` for yarn, and `pnpm` for pnpm
 
-3. Create a `config.js` file for Firebase configuration in [src/firebase](./src/firebase), for the example:
+3. Create a `.env` file for Firebase configuration in root project directory, for the example:
 
-    ```javascript
-    // Firebase Configuration
-    export const firebaseConfig = {
-        apiKey: "YOUR_API_KEY",
-        authDomain: "YOUR_AUTH_DOMAIN",
-        projectId: "YOUR_PROJECT_ID",
-        storageBucket: "YOUR_STORAGE_BUCKET",
-        messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-        appId: "YOUR_APP_ID",
-    }
+    ```dotenv
+    # Firebase Configuration
+    VITE_FB_API_KEY=YOUR_API_KEY
+    VITE_FB_AUTH_DOMAIN=YOUR_AUTH_DOMAIN
+    VITE_FB_PROJECT_ID=YOUR_PROJECT_ID
+    VITE_FB_STORAGE_BUCKET=YOUR_STORAGE_BUCKET
+    VITE_FB_MESSAGING_SENDERID=YOUR_MESSAGING_SENDERID
+    VITE_FB_APP_ID=YOUR_APP_ID
+    VITE_FB_MEASUREMENT_ID=YOUR_MEASUREMENT_ID
     ```
 
-    Make sure you have created an app in your Firebase. Otherwise you don't know where your app configuration, [here's the guide](./src/firebase/README.md)
-
-4. Run the project
-    ```bash
-    npm dev
-    ```
-    ```bash
-    yarn dev
-    ```
-    ```bash
-    pnpm dev
-    ```
+4. Run the project by executing `npm run dev` or `yarn dev`
 
 # Special thanks
 

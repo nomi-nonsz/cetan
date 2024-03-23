@@ -9,7 +9,7 @@ import { ReactComponent as Flies } from "../assets/svg/flies.svg"
 import FacebookIcon from "../assets/img/facebook.png"
 import Submit from "../assets/components/button/Submit"
 import FileImage from "../assets/components/form/FileImage"
-import { validateMaxFile } from "../lib/naFile"
+import { validateMaxFile } from "../utils/naFile"
 import Input from "../assets/components/form/Input"
 
 function RegisterPage() {

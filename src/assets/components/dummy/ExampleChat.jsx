@@ -1,4 +1,6 @@
 import DummyPfp from "../img/person.png"
+import ChatSender from "../chat/ChatSender"
+import ChatReceiver from "../chat/ChatReceiver"
 
 function ExampleChat() {
   return (

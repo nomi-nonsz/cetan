@@ -1,6 +1,6 @@
 import { useContext, useRef, useState } from "react"
 
-import { readBlobUrl } from "../../lib/naFile"
+import { readBlobUrl } from "../../utils/naFile"
 import { ChatContext } from "../../contexts/ChatContext"
 import { ModalContext } from "../../contexts/ModalContext"
 

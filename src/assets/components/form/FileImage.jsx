@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { ReactComponent as ImageIcon } from "../..//svg/image.svg"
-import { validateMaxFile } from "../../../lib/naFile"
+import { validateMaxFile } from "../../../utils/naFile"
 
 function FileImage({ refFile, src, onChange }) {
   const [imgUrl, setUrl] = useState(src)
