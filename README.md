@@ -8,13 +8,13 @@ My first firebase chat app :D Yayy! i was a little worried that this project wou
 
 Cetan is a realtime chat app built with **React** and **Firebase**, it includes features such as:
 
-- Mobile Responsive design
-- Realtime Chat
-- Send images and files included
-- Themes (coming soon)
-- Group Chat (coming soon)
-- Sound Recording (coming soon)
-- GPT-3.5 Chatbot (coming soon)
+-   Mobile Responsive design
+-   Realtime Chat
+-   Send images and files included
+-   Themes (coming soon)
+-   Group Chat (coming soon)
+-   Sound Recording (coming soon)
+-   GPT-3.5 Chatbot (coming soon)
 
 This will be a Whatsapp clone 🔥️🔥️🗣️🗣️
 
@@ -24,10 +24,10 @@ This will be a Whatsapp clone 🔥️🔥️🗣️🗣️
 
 This project has several main dependencies including:
 
-- React
-- Vite
-- Sass
-- Firebase SDK
+-   React
+-   Vite
+-   Sass
+-   Firebase SDK
 
 ### Usage
 
@@ -40,6 +40,7 @@ This project has several main dependencies including:
 2. Install depedencies by using `npm i` for npm, `yarn` for yarn, and `pnpm` for pnpm
 
 3. Create a `config.js` file for Firebase configuration in [src/firebase](./src/firebase), for the example:
+
     ```javascript
     // Firebase Configuration
     export const firebaseConfig = {
@@ -48,9 +49,10 @@ This project has several main dependencies including:
         projectId: "YOUR_PROJECT_ID",
         storageBucket: "YOUR_STORAGE_BUCKET",
         messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-        appId: "YOUR_APP_ID"
-    };
+        appId: "YOUR_APP_ID",
+    }
     ```
+
     Make sure you have created an app in your Firebase. Otherwise you don't know where your app configuration, [here's the guide](./src/firebase/README.md)
 
 4. Run the project

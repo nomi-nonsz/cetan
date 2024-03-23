@@ -1,8 +1,8 @@
 {
-    "userid": {
-        "uid": "string",
-        "username": "string",
-        "email": "string",
-        "photoURL": "string"
-    }
+  "userid": {
+    "uid": "string",
+    "username": "string",
+    "email": "string",
+    "photoURL": "string"
+  }
 }

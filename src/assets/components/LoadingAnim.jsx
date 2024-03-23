@@ -1,12 +1,11 @@
-import React from "react";
-import { ReactComponent as LoadingIcon } from "../svg/loading.svg";
+import { ReactComponent as LoadingIcon } from "../svg/loading.svg"
 
-function LoadingAnim ({}) {
-    return (
-        <div className="loading-component">
-            <LoadingIcon />
-        </div>
-    )
+function LoadingAnim({}) {
+  return (
+    <div className="loading-component">
+      <LoadingIcon />
+    </div>
+  )
 }
 
-export default LoadingAnim;
+export default LoadingAnim

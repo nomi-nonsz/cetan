@@ -1,10 +1,10 @@
 {
-    "userid": {
-        "contactId": {
-            "uid": "string",
-            "status": ["clear", "added", "blocked"],
-            "date": "TimeStamp",
-            "chatId": "string"
-        }
+  "userid": {
+    "contactId": {
+      "uid": "string",
+      "status": ["clear", "added", "blocked"],
+      "date": "TimeStamp",
+      "chatId": "string"
     }
+  }
 }

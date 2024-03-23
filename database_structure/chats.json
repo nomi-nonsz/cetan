@@ -1,22 +1,21 @@
 {
-    "chatId": 
-        {
-            "conversation": [
-                {
-                    "uid": "string",
-                    "username": "string",
-                    "email": "string",
-                    "message": "string",
-                    "datetime": "TimeStamp"
-                },
-                {
-                    "uid": "string",
-                    "username": "string",
-                    "email": "string",
-                    "message": "string",
-                    "datetime": "TimeStamp"
-                }
-            ],
-            "users": []
-        }
+  "chatId": {
+    "conversation": [
+      {
+        "uid": "string",
+        "username": "string",
+        "email": "string",
+        "message": "string",
+        "datetime": "TimeStamp"
+      },
+      {
+        "uid": "string",
+        "username": "string",
+        "email": "string",
+        "message": "string",
+        "datetime": "TimeStamp"
+      }
+    ],
+    "users": []
+  }
 }

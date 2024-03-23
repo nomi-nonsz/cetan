@@ -1,5 +1,7 @@
 # Config Maker
+
 ### It's just convert the config enviroment variable to javascript code and then injects it into the fire directory.
+
 Since we host on vercel, it can only use sources from github. Configurations that contain
 sensitive tokens are ignored on github. The only way to pass config to the app to be deployed
 is to use enviroment variables in vercel.
